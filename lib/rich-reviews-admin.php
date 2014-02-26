@@ -190,6 +190,7 @@ class RichReviewsAdmin {
 				</div>
 			</div>
 		';
+		$output .= $this->insert_credit_permission_checkbox();
 		echo $output;
 	}
 	
@@ -217,6 +218,82 @@ class RichReviewsAdmin {
 		echo '<form id="form" method="POST">';
 		$rich_review_admin_table->display();
 		echo '</form>';
+	}
+
+	function insert_credit_permission_checkbox() {
+
+		$this->update_credit_permission();
+		$permission = get_option($this->parent->credit_permission_option);
+		$permission_val = ''; if ($permission['permission_value'] == 'checked') { $permission_val = 'checked'; }
+
+		$output = '<form action="" method="post">';
+		$output .= '<input type="hidden" name="update_permission" value="permission update" />';
+		$output .= '<input type="checkbox" name="credit_permission_option" value="checked"' .  $permission_val . '" />';
+		$output .= '<label>We thank you for choosing to use our plugin! We would also appreciate it if you allowed us to put our name on the plugin we worked so hard to build. If you are okay with us having a credit line on the calendar, then please check this box and change your permission settings.</label>';
+		$output .= '<br />';
+		$output .= '<input type="submit" value="Change Permission Setting" form_id="credit_permission_option" />';
+		$output .= '</form>';
+
+		return $output;
+	}
+
+	function update_credit_permission() {
+		
+		if (isset($_POST['update_permission']) && $_POST['update_permission'] == 'permission update') {
+			$current_permission = get_option($this->parent->credit_permission_option);
+			if (!isset($_POST['credit_permission_option'])) {
+				$permission = FALSE;
+			}
+			else {
+				$permission = 'checked';
+			}
+			$update_permission = array(
+				'permission_value' => $permission,
+				);
+			update_option($this->parent->credit_permission_option, $update_permission);
+			$_POST['update_permission'] = NULL;
+		}
+	}
+
+	function get_option($opt_name = '') {
+		$options = get_option($this->parent->fp_admin_options);
+
+		// maybe return the whole options array?
+		if ($opt_name == '') {
+			return $options;
+		}
+
+		// are the options already set at all?
+		if ($options == FALSE) {
+			return $options;
+		}
+
+		// the options are set, let's see if the specific one exists
+		if (! isset($options[$opt_name])) {
+			return FALSE;
+		}
+
+		// the options are set, that specific option exists. return it
+		return $options[$opt_name];
+	}
+
+	function update_option($opt_name, $opt_val = '') {
+		// allow a function override where we just use a key/val array
+		if (is_array($opt_name) && $opt_val == '') {
+			foreach ($opt_name as $real_opt_name => $real_opt_value) {
+				$this->update_option($real_opt_name, $real_opt_value);
+			}
+		} else {
+			$current_options = $this->get_option();
+
+			// make sure we at least start with blank options
+			if ($current_options == FALSE) {
+				$current_options = array();
+			}
+
+			$new_option = array($opt_name => $opt_val);
+			update_option($this->parent->fp_admin_options, array_merge($current_options, $new_option));
+		}
 	}
 
 }

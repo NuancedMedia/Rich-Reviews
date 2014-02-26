@@ -28,7 +28,8 @@ Copyright 2013  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 class RichReviews {
 
 	var $sqltable = 'richreviews';
-	var $fp_admin_options = 'rr_admin_options';
+	var $fp_admin_options = 'rr_admin_optionssssssss_DELETE_ME_AS_WELL';
+	var $credit_permission_option = 'rr_credit_permission';
 
 	var $admin;
 	var $db;
@@ -82,7 +83,7 @@ class RichReviews {
 			$wpdb->query("ALTER TABLE " . $this->db->sqltable . " CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
 		}
 		if ($current_version == '1.0' || $current_version == '1.1' || $current_version == '1.2') {
-			$this->update_database();
+			$this->db->create_update_database();
 		}
 
 		// New checks. perhaps inefficient but more future-proof
@@ -257,6 +258,7 @@ class RichReviews {
 			$output .= '	</table>';
 			$output .= '</form>';
 		}
+		$output .= $this->print_credit();
 		return $output;
 	}
 	
@@ -306,6 +308,7 @@ class RichReviews {
 			}
 			$output .= '</div><div class="clear"></div>';
 		}
+		$output .= $this->print_credit();
 
 		return $output;
 	}
@@ -470,6 +473,18 @@ class RichReviews {
 			}
 			$input  = $this->clean_input($input);
 			$output = mysql_real_escape_string($input);
+		}
+		return $output;
+	}
+
+	function print_credit() {
+		$permission = get_option($this->credit_permission_option);
+		$output = "";
+		if ($permission['permission_value']==='checked') {
+			$output = '<div class="credit-line">Supported By: <a href="http://www.nuancedmedia.com">';
+			$output .= '<img alt="Nuanced Media" src="' . plugins_url() . '/rich-reviews/images/nuanced_media.png">';
+			$output .= '</a></div>' . PHP_EOL;
+			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
 		return $output;
 	}
