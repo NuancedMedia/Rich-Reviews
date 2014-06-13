@@ -148,7 +148,7 @@ class NMDB {
 			$result = $wpdb->update($this->sqltable, $data, array('id' => $id));
 		} else {
 			// insert new row
-			$result = $wpdb->insert($this->sqltable, $id);
+			$result = $wpdb->insert($this->sqltable, $data);
 		}
 		return $result;
 	}

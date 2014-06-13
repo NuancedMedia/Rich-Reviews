@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Rich Reviews
-Plugin URI: http://www.foxytechnology.com/rich-reviews-wordpress-plugin/
+Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.5.0
+Version: 1.5.4
 Author: Foxy Technology
-Author URI: http://www.foxytechnology.com
+Author URI: http://nuancedmedia.com/
 License: GPL2
 
 
 Copyright 2013  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 
 	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as 
+	it under the terms of the GNU General Public License, version 2, as
 	published by the Free Software Foundation.
 
 	This program is distributed in the hope that it will be useful,
@@ -25,10 +25,11 @@ Copyright 2013  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 class RichReviews {
 
 	var $sqltable = 'richreviews';
-	var $fp_admin_options = 'rr_admin_optionssssssss_DELETE_ME_AS_WELL';
+	var $fp_admin_options = 'rr_admin_options';
 	var $credit_permission_option = 'rr_credit_permission';
 
 	var $admin;
@@ -39,7 +40,7 @@ class RichReviews {
 
 	var $logo_url;
 	var $logo_small_url;
-	
+
 	function __construct() {
 		global $wpdb;
 		$this->sqltable = $wpdb->prefix . $this->sqltable;
@@ -61,7 +62,7 @@ class RichReviews {
 
 		add_filter('widget_text', 'do_shortcode');
 	}
-	
+
 	function init() {
 		$this->process_plugin_updates();
 	}
@@ -100,13 +101,13 @@ class RichReviews {
 			// Okay let's start the version comparing
 			$curr_version = str_replace('.', '', $current_version);
 			$new_version = str_replace('.', '', $newest_version);
-			
+
 			if (($new_version != $curr_version) || ($newest_version == '1.0')) {
-				update_option($this->fp_admin_options, array('version' => $newest_version));
+				$this->admin->update_option(array('version' => $newest_version));
 			}
 		}
 	}
-	
+
 	function load_scripts_styles() {
 		$pluginDirectory = trailingslashit(plugins_url(basename(dirname(__FILE__))));
 		wp_register_script('rich-reviews', $pluginDirectory . 'js/rich-reviews.js', array('jquery'));
@@ -137,7 +138,7 @@ class RichReviews {
 		}
 		return $output;
 	}
-	
+
 	function star_rating_input() {
 		$output = '<div class="rr_stars_container">
 			<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_1"></span>
@@ -148,7 +149,7 @@ class RichReviews {
 		</div>';
 		return $output;
 	}
-	
+
 	function shortcode_reviews_form($atts) {
 		global $wpdb;
 		global $post;
@@ -175,7 +176,7 @@ class RichReviews {
 				$rIP       = $_SERVER['REMOTE_ADDR'];
 				$rPostID   = $post->ID;
 				$rCategory = $this->fp_sanitize($category);
-				
+
 				$newdata = array(
 						'date_time'       => $rDateTime,
 						'reviewer_name'   => $rName,
@@ -258,13 +259,14 @@ class RichReviews {
 			$output .= '	</table>';
 			$output .= '</form>';
 		}
-		$output .= $this->print_credit();
+		dump(esc_html($output));
 		return $output;
 	}
-	
+
 	function shortcode_reviews_show($atts) {
 		global $wpdb;
 		global $post;
+		//dump($atts);
 		$output = '';
 		extract(shortcode_atts(
 			array(
@@ -289,34 +291,44 @@ class RichReviews {
 		// Show the reviews
 		$results = $this->db->get();
 		if (count($results)) {
-			$ii = 0;
+			$review_count = 0;
 			$output .= '<div class="testimonial_group">';
 			foreach($results as $review) {
 				$output .= $this->display_review($review);
-				$ii += 1;
-				if (($ii % 3) == 0) {
+				$review_count += 1;
+				if ($review_count == 3) {
 					// end the testimonial_group
 					$output .= '</div>';
 
 					// clear the floats
 					$output .= '<div class="clear"></div>';
-				}
-				if ($ii % 3 == 0 && $ii != count($results)) {
-					// start a new testimonial group
-					$output .= '<div class="testimonial_group">';
+
+                    // do we have more reviews to show?
+                    if ($review_count < count($results)) {
+                        $output .= '<div class="testimonial_group">';
+                    }
+
+                    // reset the counter
+                    $review_count = 0;
 				}
 			}
-			$output .= '</div><div class="clear"></div>';
-		}
-		$output .= $this->print_credit();
+            // do we need to close a testimonial_group?
+            if ($review_count != 0) {
+                $output .= '</div>';
+                $output .= '<div class="clear"></div>';
+            }
 
+		}
+		dump(esc_html($output));
+		$output .= $this->print_credit();
+		//dump(esc_html($output));
 		return $output;
 	}
-	
+
 	function shortcode_reviews_show_all() {
 		return $this->shortcode_reviews_show(array('num'=>'all'));
 	}
-	
+
 	function shortcode_reviews_snippets($atts) {
 		global $wpdb, $post;
 		$output = '';
@@ -332,7 +344,7 @@ class RichReviews {
 		} else {
 			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
 		}
-		
+
 		$approvedReviewsCount = $wpdb->get_var("SELECT COUNT(*) FROM $this->sqltable " . $whereStatement);
 		$averageRating = 0;
 		if ($approvedReviewsCount != 0) {
@@ -418,7 +430,7 @@ class RichReviews {
 		for ($i=$rRatingVal+1; $i<=5; $i++) {
 			$rRating .= '&#9734'; // white star
 		}
-		
+
 		$output = '<div class="testimonial">
 			<h3 class="rr_title">' . $rTitle . '</h3>
 			<div class="clear"></div>
@@ -430,7 +442,7 @@ class RichReviews {
 		$output .= '</div>';
 		return $output;
 	}
-	
+
 	function nice_output($input, $keep_breaks = TRUE) {
 		//echo '<pre>' . $input . '</pre>';
 		//return str_replace(array('\\', '/'), '', $input);
@@ -449,7 +461,7 @@ class RichReviews {
 
 		return $input;
 	}
-	
+
 	function clean_input($input) {
 		$search = array(
 			'@<script[^>]*?>.*?</script>@si',   // strip out javascript
@@ -478,12 +490,11 @@ class RichReviews {
 	}
 
 	function print_credit() {
-		$permission = get_option($this->credit_permission_option);
+		$permission = $this->admin->get_option('permission');
 		$output = "";
-		if ($permission['permission_value']==='checked') {
-			$output = '<div class="credit-line">Supported By: <a href="http://www.nuancedmedia.com">';
-			$output .= '<img alt="Nuanced Media" src="' . plugins_url() . '/rich-reviews/images/nuanced_media.png">';
-			$output .= '</a></div>' . PHP_EOL;
+		if ($permission === 'checked') {
+			$output = '<div class="credit-line">Supported By: <a href="http://nuancedmedia.com/" rel="nofollow"> Nuanced Media</a>';
+			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
 		return $output;
@@ -492,46 +503,20 @@ class RichReviews {
 
 
 
-/**
- * Dump helper. Functions to dump variables to the screen, in a nicley formatted manner.
- * @author Joost van Veen
- * @version 1.0
- */
-if (!function_exists('dump')) {
-	function dump ($var, $label = 'Dump', $echo = TRUE)
-	{
-		// Store dump in variable
-		ob_start();
-		var_dump($var);
-		$output = ob_get_clean();
 
-		// Add formatting
-		$output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
-		$output = '<pre style="background: #FFFEEF; color: #000; border: 1px dotted #000; padding: 10px; margin: 10px 0; text-align: left;">' . $label . ' => ' . $output . '</pre>';
+// Define the "dump" function, a debug helper.
+if (!function_exists('dump')) {function dump ($var, $label = 'Dump', $echo = TRUE){ob_start();var_dump($var);$output = ob_get_clean();$output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);$output = '<pre style="background: #FFFEEF; color: #000; border: 1px dotted #000; padding: 10px; margin: 10px 0; text-align: left;">' . $label . ' => ' . $output . '</pre>';if ($echo == TRUE) {echo $output;}else {return $output;}}}
+if (!function_exists('dump_exit')) {function dump_exit($var, $label = 'Dump', $echo = TRUE) {dump ($var, $label, $echo);exit;}}
 
-		// Output
-		if ($echo == TRUE) {
-			echo $output;
-		}
-		else {
-			return $output;
-		}
-	}
+
+
+if (!class_exists('NMRichReviewsAdminHelper')) {
+    require_once('views/view-helper/admin-view-helper-functions.php');
 }
 
-
-if (!function_exists('dump_exit')) {
-	function dump_exit($var, $label = 'Dump', $echo = TRUE) {
-		dump ($var, $label, $echo);
-		exit;
-	}
+if (!class_exists('NMDB')) {
+    require_once('lib/nmdb.php');
 }
-
-
-
-
-
-require_once('lib/nmdb.php');
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
 
