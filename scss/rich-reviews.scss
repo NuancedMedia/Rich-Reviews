@@ -166,7 +166,7 @@
 .rr_shortcode_container {
 	//background-color: #e0e0e0;
 	color: #000000;
-	padding: 20px; 
+	padding: 20px;
 	//border-radius: 15px;
 	//margin-bottom: 10px;
 }
@@ -198,7 +198,7 @@
 	background-color: #049477;
 	color: #dadada;
 	border-radius: 5px;
-	padding: 10px; 
+	padding: 10px;
 	font-size: 90%;
 	margin: 7px 14px;
 }
@@ -212,7 +212,7 @@
 	margin-bottom: 4px;
 }
 ul.rr_admin_sidebar_list {
-	padding: 0px 0px 0px 20px; 
+	padding: 0px 0px 0px 20px;
 	margin: 0px;
 	list-style-type: square;
 	font-family: Consolas, Monaco, monospace;
@@ -249,7 +249,7 @@ td.rr_admin_review_content_container {
 }
 
 .rr_admin_review_action {
-	
+
 }
 .rr_admin_review_stars {
 	color: #ffaf00;
@@ -367,6 +367,6 @@ $star_empty_color: black;
 
 .credit-line {
 	float: right;
-	font-size: 8%;
+	font-size: 8px;
+	font-size: 0.8rem;
 }
-
