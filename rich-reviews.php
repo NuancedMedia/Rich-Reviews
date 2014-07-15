@@ -359,7 +359,26 @@ class RichReviews {
 			$averageRating = floor(10*floatval($averageRating))/10;
 		}
 
-		$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
+		if ($this->options->get_option('snippet_stars')) {
+			$stars = '';
+			$star_count = 0;
+			//dump($averageRating, 'AVE:');
+			while($averageRating >= 1) {
+				$stars = $stars . '&#9733';
+				$star_count++;
+				$averageRating--;
+				//dump($averageRating, 'AVE in WHILE:');
+				//dump($star_count, 'STAR COUNT:');
+			}
+			while ($star_count < 5) {
+				$stars = $stars . '&#9734';
+				$star_count++;
+				//dump($star_count, 'STAR COUNT:');
+			}
+			$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $stars . '</span> based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
+		}
+		else {$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';}
+
 		return $output;
 	}
 
