@@ -385,20 +385,21 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
+		dump($_POST);
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
 
-			<input type="checkbox" name"snippet_stars" value="checked" <?php echo $options['snippet_stars'] ?> />
+			<input type="checkbox" name="snippet_stars" value="checked" <?php echo $options['snippet_stars'] ?> />
 			<label for"snippet_stars">Star Snippets - this will change the averge rating displayed in the snippet shortcodeto be stars instead of numerical values.</label>
 			<br />
-			<input type="checkbox" name"show_form_post_title" value="checked" <?php echo $options['show_form_post_title'] ?> />
+			<input type="checkbox" name="show_form_post_title" value="checked" <?php echo $options['show_form_post_title'] ?> />
 			<label for"show_form_post_title">Include Post Titles - this will include the title and a link to the form page for every reviews.</label>
 			<br />
-			<input type="checkbox" name"credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
+			<input type="checkbox" name="credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
 			<label for"credit_permission">Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media's website to the bottom of your reviews page</label>
 			<br />
-			<input type="checkbox" name"require_approval" value="checked" <?php echo $options['require_approval'] ?> />
+			<input type="checkbox" name="require_approval" value="checked" <?php echo $options['require_approval'] ?> />
 			<label for"require_approval">Require Approval - this sends all new reviews to the pending review page. Unchecking this will automatically publish all reviews as they are submitted.</label>
 			<br />
 			<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
