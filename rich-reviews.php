@@ -171,6 +171,7 @@ class RichReviews {
 		$rEmail = '';
 		$rTitle = '';
 		$rText  = '';
+		$options = $this->options->get_option();
 		$displayForm = true;
 		if (isset($_POST['submitted'])) {
 			if ($_POST['submitted'] == 'Y') {
@@ -249,7 +250,7 @@ class RichReviews {
 			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
 			$output .= '		</tr>';
 			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">Review Title</td>';
+			$output .= '			<td class="rr_form_heading rr_required">' . ucwords(strtolower($options['review_title'])) . '</td>';
 			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
 			$output .= '		</tr>';
 			$output .= '		<tr class="rr_form_row">';
@@ -267,6 +268,7 @@ class RichReviews {
 			$output .= '	</table>';
 			$output .= '</form>';
 		}
+		$this->render_custom_styles();
 		return $output;
 	}
 
