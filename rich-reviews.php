@@ -35,6 +35,11 @@ class RichReviews {
 	var $admin;
 	var $db;
 
+	/**
+	 * @var RROptions
+	 */
+	var $options;
+
 	var $plugin_url;
 	var $plugin_path;
 
@@ -48,6 +53,8 @@ class RichReviews {
 		$this->path = trailingslashit(plugins_url(basename(dirname(__FILE__))));
 		$this->logo_url = $this->path . 'images/fox_logo_32x32.png';
 		$this->logo_small_url = $this->path . 'images/fox_logo_16x16.png';
+		$this->options_name = 'rr_options';
+		$this->options= new RROptions($this);
 		$this->db = new RichReviewsDB($this);
 		$this->admin = new RichReviewsAdmin($this);
 		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
@@ -65,6 +72,7 @@ class RichReviews {
 
 	function init() {
 		$this->process_plugin_updates();
+		$this->options->update_options();
 	}
 
 	function process_plugin_updates() {
@@ -318,6 +326,7 @@ class RichReviews {
 
 		}
 		$output .= $this->print_credit();
+		$this->render_custom_styles();
 		return $output;
 	}
 
@@ -485,6 +494,17 @@ class RichReviews {
 		return $output;
 	}
 
+	function render_custom_styles() {
+		$options = $this->options->get_option();
+		?>
+<style>
+.stars, .rr_star {
+	color: <?php echo $options['star_color']?>;
+}
+</style>
+		<?php
+	}
+
 	function print_credit() {
 		$permission = $this->admin->get_option('permission');
 		$output = "";
@@ -512,6 +532,9 @@ if (!class_exists('NMRichReviewsAdminHelper')) {
 
 if (!class_exists('NMDB')) {
     require_once('lib/nmdb.php');
+}
+if (!class_exists('RROptions')) {
+	require_once('lib/rich-reviews-options.php');
 }
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');

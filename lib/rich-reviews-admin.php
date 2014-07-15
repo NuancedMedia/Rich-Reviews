@@ -59,6 +59,14 @@ class RichReviewsAdmin {
 			'fp_admin_approved_reviews_page',
 			array(&$this, 'render_approved_reviews_page')
 		);
+		add_submenu_page(
+			'rich_reviews_settings_main',
+			'Rich Reviews - Options',
+			'Options',
+			'administrator',
+			'fp_admin_options_page',
+			array(&$this, 'render_options_page')
+		);
 	}
 
 	function load_admin_scripts_styles() {
@@ -92,6 +100,11 @@ class RichReviewsAdmin {
             echo $this->render_approved_reviews_page(TRUE);
             NMRichReviewsAdminHelper::render_postbox_close();
         }
+		if ($page == 'options') {
+			NMRichReviewsAdminHelper::render_postbox_open('Options');
+			echo $this->render_options_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
         NMRichReviewsAdminHelper::render_container_close();
         NMRichReviewsAdminHelper::render_container_open('two-fifths');
         $permission = $this->get_option('permission');
@@ -361,6 +374,65 @@ class RichReviewsAdmin {
 		echo '<form id="form" method="POST">';
 		$rich_review_admin_table->display();
 		echo '</form>';
+	}
+
+	function render_options_page($wrapped) {
+		$options = $this->parent->options->get_option();
+		if (!$wrapped) {
+			$this->wrap_admin_page('options');
+			return;
+		}
+		if (!current_user_can('manage_options')) {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		}
+		?>
+		<form id="rr-admin-options-form" action="" method="post">
+			<input type="hidden" name="update" value="rr-update-options">
+
+			<input type="checkbox" name"snippet_stars" value="checked" <?php echo $options['snippet_stars'] ?> />
+			<label for"snippet_stars">Star Snippets - this will change the averge rating displayed in the snippet shortcodeto be stars instead of numerical values.</label>
+			<br />
+			<input type="checkbox" name"show_form_post_title" value="checked" <?php echo $options['show_form_post_title'] ?> />
+			<label for"show_form_post_title">Include Post Titles - this will include the title and a link to the form page for every reviews.</label>
+			<br />
+			<input type="checkbox" name"credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
+			<label for"credit_permission">Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media's website to the bottom of your reviews page</label>
+			<br />
+			<input type="checkbox" name"require_approval" value="checked" <?php echo $options['require_approval'] ?> />
+			<label for"require_approval">Require Approval - this sends all new reviews to the pending review page. Unchecking this will automatically publish all reviews as they are submitted.</label>
+			<br />
+			<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
+			<label>Star Color - the color of the stars on reviews</label>
+			<br />
+
+			<select name="reviews_order" value="<?php echo $options['reviews_order'] ?>">
+				<?php
+				if ($options['reviews_order']==="ascending"){ ?><option value="ascending" selected="selected">Oldest First</option><?php }else {?><option value="ascending" >Oldest First</option><?php }
+				if ($options['reviews_order']==="descending"){ ?><option value="descending" selected="selected">Newest First</option><?php }else {?><option value="descending" >Newest First</option><?php }
+				if ($options['reviews_order']==="random"){ ?><option value="random" selected="selected">Randomize</option><?php }else {?><option value="random" >Randomize</option><?php }
+				?>
+			</select>
+			<label for="reviews_order"> Review Display Order</label>
+			<br />
+			<select name="approve_authority">
+				<?php
+				if ($options['approve_authority']==="administrator"){ ?><option value="administrator" selected="selected">Admin</option><?php }else {?><option value="administrator" >Admin</option><?php }
+				if ($options['approve_authority']==="editor"){ ?><option value="editor" selected="selected">Editor</option><?php }else {?><option value="editor" >Editor</option><?php }
+				if ($options['approve_authority']==="author"){ ?><option value="author" selected="selected">author</option><?php }else {?><option value="author" >author</option><?php }
+				if ($options['approve_authority']==="contributor"){ ?><option value="contributor" selected="selected">Contributor</option><?php }else {?><option value="contributor" >Contributor</option><?php }
+				if ($options['approve_authority']==="subcsriber"){ ?><option value="subcsriber" selected="selected">Subscriber</option><?php }else {?><option value="subcsriber" >Subscriber</option><?php }
+				?>
+			</select>
+			<label for="approve_authority"> Authority level required to Approve Pending Posts</label>
+			<br />
+			<input type="text" name="review_title" value="<?php echo $options['review_title'] ?>">
+			<label>Review Title Text - Upon user request, the ability to change the text on the form from "Review Title" to whatever you would like.</label>
+			<br />
+			<br />
+			<input type="submit" class="button" value="Save Options">
+		</form>
+		<?php
+
 	}
 
 	function insert_credit_permission_checkbox() {
