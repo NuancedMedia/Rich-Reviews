@@ -547,9 +547,9 @@ class RichReviews {
 	}
 
 	function print_credit() {
-		$permission = $this->admin->get_option('permission');
+		$permission = $this->rr_options['credit_permission'];
 		$output = "";
-		if ($permission === 'checked') {
+		if ($permission) {
 			$output = '<div class="credit-line">Supported By: <a href="http://nuancedmedia.com/" rel="nofollow"> Nuanced Media</a>';
 			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
