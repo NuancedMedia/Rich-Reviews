@@ -41,10 +41,11 @@ Visit the <a href="http://nuancedmedia.com/wordpress-rich-reviews-plugin/">Rich 
 == Screenshots ==
 
 1. Show any number of reviews for your whole site, for a specific page or post, or for any custom category. Display these reviews in any post, page, sidebar, or widget!
-2. A simple shortcode allows you to post an aggregate review score on any page, which means that Google will display a star-rating whenever your page comes up in a search.
+2. A simple shortcode allows you to post an aggregate review score on any page.
 3. A simple and clean review submission form can be placed anywhere on your site, and will not bog down your site.
 4. Admin menus allow you to approve the submitted reviews, so YOU control what reviews are real, and which reviews are unwarranted (or even spam). You can also view every review you have already approved, and choose to push it back to a "pending" status, or even delete it.
-5. Detailed explanations and examples ensure that you will never be confused as to how to use the plugin!
+5. Added options allow for you to customize the star color to match our site.
+6. One user shows the versatility of Rich Reviews by placing our shortcodes into various tabs on one of his pages.
 
 == Changelog ==
 
