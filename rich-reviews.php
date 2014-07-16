@@ -464,6 +464,7 @@ class RichReviews {
 		$rText      = $this->nice_output($review->review_text);
 		$rStatus    = $review->review_status;
 		$rIP        = $review->reviewer_ip;
+		$rPostId    = $review->post_id;
 		$rRating = '';
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
@@ -475,8 +476,11 @@ class RichReviews {
 
 		$output = '<div class="testimonial">
 			<h3 class="rr_title">' . $rTitle . '</h3>
-			<div class="clear"></div>
-			<div class="stars">' . $rRating . '</div>
+			<div class="clear"></div>';
+		if ($this->rr_options['show_form_post_title']) {
+			$output .= '<div class="rr_review_post_id"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+		}
+		$output .= '<div class="stars">' . $rRating . '</div>
 			<div class="clear"></div>';
 		$output .= '<div class="rr_review_text"><span class="drop_cap">“</span>' . $rText . '”</div>';
 		$output .= '<div class="rr_review_name"> - ' . $rName . '</div>
