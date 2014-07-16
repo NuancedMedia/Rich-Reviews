@@ -48,6 +48,15 @@ Visit the <a href="http://nuancedmedia.com/wordpress-rich-reviews-plugin/">Rich 
 
 == Changelog ==
 
+= 1.5.7 =
+* Added options admin page.
+* Option to edit the color of stars.
+* Option to edit form input title of previous "Review Title" input.
+* Option to allow various user roles to manage reviews.
+* Option to display stars in snippet instead of numerical value.
+* Option controlling th order in which reviews are displayed.
+* Option to skipthe pending process for reviews.
+
 = 1.5.6 =
 * Removing a debug dump function that was accidentally left it.
 

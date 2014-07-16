@@ -3,7 +3,7 @@
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.5.6
+Version: 1.5.7
 Author: Foxy Technology
 Author URI: http://nuancedmedia.com/
 License: GPL2
@@ -186,7 +186,7 @@ class RichReviews {
 				$rTitle    = $this->fp_sanitize($_POST['rTitle']);
 				$rRating   = $this->fp_sanitize($_POST['rRating']);
 				$rText     = $this->fp_sanitize($_POST['rText']);
-				$rStatus   = 0;
+				if ($this->rr_options['require_approval']) {$rStatus   = 0;} else {$rStatus   = 1;}
 				$rIP       = $_SERVER['REMOTE_ADDR'];
 				$rPostID   = $post->ID;
 				$rCategory = $this->fp_sanitize($category);
@@ -255,7 +255,7 @@ class RichReviews {
 			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
 			$output .= '		</tr>';
 			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">' . ucwords(strtolower($options['review_title'])) . '</td>';
+			$output .= '			<td class="rr_form_heading rr_required">' . ucwords(strtolower($this->rr_options['review_title'])) . '</td>';
 			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
 			$output .= '		</tr>';
 			$output .= '		<tr class="rr_form_row">';
