@@ -40,6 +40,11 @@ class RichReviews {
 	 */
 	var $options;
 
+	/**
+	 * The variable that stores all current options
+	 */
+	var $rr_options;
+
 	var $plugin_url;
 	var $plugin_path;
 
@@ -73,6 +78,7 @@ class RichReviews {
 	function init() {
 		$this->process_plugin_updates();
 		$this->options->update_options();
+		$this->rr_options = $this->options->get_option();
 	}
 
 	function process_plugin_updates() {
@@ -171,7 +177,6 @@ class RichReviews {
 		$rEmail = '';
 		$rTitle = '';
 		$rText  = '';
-		$options = $this->options->get_option();
 		$displayForm = true;
 		if (isset($_POST['submitted'])) {
 			if ($_POST['submitted'] == 'Y') {
@@ -284,6 +289,8 @@ class RichReviews {
 		, $atts));
 
 		// Set up the SQL query
+
+
 		$this->db->where('review_status', 1);
 		if (($category == 'post') || ($category == 'page')) {
 			$this->db->where('post_id', $post->ID);
@@ -294,6 +301,14 @@ class RichReviews {
 			$num = intval($num);
 			if ($num < 1) { $num = 1; }
 			$this->db->limit($num);
+		}
+
+		// Set up the Order BY
+		if ($this->rr_options['reviews_order'] === 'random') {
+			$this->db->order_by('rand()');
+		}
+		else {
+			$this->db->order_by('date_time', $this->rr_options['reviews_order']);
 		}
 
 		// Show the reviews
@@ -375,7 +390,8 @@ class RichReviews {
 				$star_count++;
 				//dump($star_count, 'STAR COUNT:');
 			}
-			$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $stars . '</span> based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
+			$output = '<div class="hreview-aggregate">Overall rating: <span class="stars">' . $stars . '</span> based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
+			$this->render_custom_styles();
 		}
 		else {$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';}
 

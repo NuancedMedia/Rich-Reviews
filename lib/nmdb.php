@@ -86,7 +86,11 @@ class NMDB {
 	}
 
 	function order_by($key, $sort = 'ASC') {
-		$this->order_by = ' ORDER BY `' . $key . '` ' . $sort;
+		if ($key == 'rand()') {
+			$this->order_by = ' ORDER BY ' . $key;
+		} else {
+			$this->order_by = ' ORDER BY `' . $key . '` ' . $sort;
+		}
 	}
 
 	function limit($row_count, $offset = NULL) {

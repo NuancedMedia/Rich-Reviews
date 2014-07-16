@@ -26,10 +26,11 @@ class RichReviewsAdmin {
 		if ($pendingReviewsCount != 0) {
 			$pendingReviewsText = ' (' . $pendingReviewsCount . ')';
 		}
+		$required_role = $this->parent->options->get_option('approve_authority');
 		add_menu_page(
 			'Rich Reviews Settings',
 			'Rich Reviews' . $pendingReviewsText,
-			'administrator',
+			$required_role,
 			'rich_reviews_settings_main',
 			array(&$this, 'render_settings_main_page'),
 			$this->parent->logo_small_url,
@@ -39,7 +40,7 @@ class RichReviewsAdmin {
 			'rich_reviews_settings_main', // ID of menu with which to register this submenu
 			'Rich Reviews - Instructions', //text to display in browser when selected
 			'Instructions', // the text for this item
-			'administrator', // which type of users can see this menu
+			$required_role, // which type of users can see this menu
 			'rich_reviews_settings_main', // unique ID (the slug) for this menu item
 			array(&$this, 'render_settings_main_page') // callback function
 		);
@@ -47,7 +48,7 @@ class RichReviewsAdmin {
 			'rich_reviews_settings_main',
 			'Rich Reviews - Pending Reviews',
 			'Pending Reviews' . $pendingReviewsText,
-			'administrator',
+			$required_role,
 			'fp_admin_pending_reviews_page',
 			array(&$this, 'render_pending_reviews_page')
 		);
@@ -55,7 +56,7 @@ class RichReviewsAdmin {
 			'rich_reviews_settings_main',
 			'Rich Reviews - Approved Reviews',
 			'Approved Reviews',
-			'administrator',
+			$required_role,
 			'fp_admin_approved_reviews_page',
 			array(&$this, 'render_approved_reviews_page')
 		);
@@ -63,7 +64,7 @@ class RichReviewsAdmin {
 			'rich_reviews_settings_main',
 			'Rich Reviews - Options',
 			'Options',
-			'administrator',
+			$required_role,
 			'fp_admin_options_page',
 			array(&$this, 'render_options_page')
 		);
@@ -349,9 +350,6 @@ class RichReviewsAdmin {
             $this->wrap_admin_page('pending');
             return;
         }
-		if (!current_user_can('manage_options')) {
-			wp_die( __('You do not have sufficient permissions to access this page.') );
-		}
 		require_once('rich-reviews-admin-tables.php');
 		$rich_review_admin_table = new Rich_Reviews_Table();
 		$rich_review_admin_table->prepare_items('pending');
@@ -365,9 +363,6 @@ class RichReviewsAdmin {
             $this->wrap_admin_page('approved');
             return;
         }
-		if (!current_user_can('manage_options')) {
-			wp_die( __('You do not have sufficient permissions to access this page.') );
-		}
 		require_once('rich-reviews-admin-tables.php');
 		$rich_review_admin_table = new Rich_Reviews_Table();
 		$rich_review_admin_table->prepare_items('approved');
@@ -407,8 +402,8 @@ class RichReviewsAdmin {
 
 			<select name="reviews_order" value="<?php echo $options['reviews_order'] ?>">
 				<?php
-				if ($options['reviews_order']==="ascending"){ ?><option value="ascending" selected="selected">Oldest First</option><?php }else {?><option value="ascending" >Oldest First</option><?php }
-				if ($options['reviews_order']==="descending"){ ?><option value="descending" selected="selected">Newest First</option><?php }else {?><option value="descending" >Newest First</option><?php }
+				if ($options['reviews_order']==="ASC"){ ?><option value="ASC" selected="selected">Oldest First</option><?php }else {?><option value="ASC" >Oldest First</option><?php }
+				if ($options['reviews_order']==="DESC"){ ?><option value="DESC" selected="selected">Newest First</option><?php }else {?><option value="DESC" >Newest First</option><?php }
 				if ($options['reviews_order']==="random"){ ?><option value="random" selected="selected">Randomize</option><?php }else {?><option value="random" >Randomize</option><?php }
 				?>
 			</select>
@@ -416,11 +411,11 @@ class RichReviewsAdmin {
 			<br />
 			<select name="approve_authority">
 				<?php
-				if ($options['approve_authority']==="administrator"){ ?><option value="administrator" selected="selected">Admin</option><?php }else {?><option value="administrator" >Admin</option><?php }
-				if ($options['approve_authority']==="editor"){ ?><option value="editor" selected="selected">Editor</option><?php }else {?><option value="editor" >Editor</option><?php }
-				if ($options['approve_authority']==="author"){ ?><option value="author" selected="selected">author</option><?php }else {?><option value="author" >author</option><?php }
-				if ($options['approve_authority']==="contributor"){ ?><option value="contributor" selected="selected">Contributor</option><?php }else {?><option value="contributor" >Contributor</option><?php }
-				if ($options['approve_authority']==="subcsriber"){ ?><option value="subcsriber" selected="selected">Subscriber</option><?php }else {?><option value="subcsriber" >Subscriber</option><?php }
+				if ($options['approve_authority']==="manage_options"){ ?><option value="manage_options" selected="selected">Admin</option><?php }else {?><option value="manage_options" >Admin</option><?php }
+				if ($options['approve_authority']==="moderate_comments"){ ?><option value="moderate_comments" selected="selected">Editor</option><?php }else {?><option value="moderate_comments" >Editor</option><?php }
+				if ($options['approve_authority']==="edit_published_posts"){ ?><option value="edit_published_posts" selected="selected">author</option><?php }else {?><option value="edit_published_posts" >Author</option><?php }
+				if ($options['approve_authority']==="edit_posts"){ ?><option value="edit_posts" selected="selected">Contributor</option><?php }else {?><option value="edit_posts" >Contributor</option><?php }
+				if ($options['approve_authority']==="read"){ ?><option value="read" selected="selected">Subscriber</option><?php }else {?><option value="read" >Subscriber</option><?php }
 				?>
 			</select>
 			<label for="approve_authority"> Authority level required to Approve Pending Posts</label>
