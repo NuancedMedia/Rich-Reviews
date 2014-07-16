@@ -68,6 +68,14 @@ class RichReviewsAdmin {
 			'fp_admin_options_page',
 			array(&$this, 'render_options_page')
 		);
+		add_submenu_page(
+			'rich_reviews_settings_main',
+			'Rich Reviews - Add/Edit',
+			'Add New Review',
+			$required_role,
+			'fp_admin_add_edit',
+			array(&$this, 'render_add_edit_page')
+		);
 	}
 
 	function load_admin_scripts_styles() {
@@ -104,6 +112,11 @@ class RichReviewsAdmin {
 		if ($page == 'options') {
 			NMRichReviewsAdminHelper::render_postbox_open('Options');
 			echo $this->render_options_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
+		if ($page == 'add/edit') {
+			NMRichReviewsAdminHelper::render_postbox_open('Add/Edit');
+			echo $this->render_add_edit_page(TRUE);
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
         NMRichReviewsAdminHelper::render_container_close();
@@ -428,6 +441,18 @@ class RichReviewsAdmin {
 		</form>
 		<?php
 
+	}
+
+	function render_add_edit_page($wrapped) {
+		$options = $this->parent->options->get_option();
+		if (!$wrapped) {
+			$this->wrap_admin_page('add/edit');
+			return;
+		}
+		if (!current_user_can('manage_options')) {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		}
+		$view = new RRAdminAddEdit($this->parent);
 	}
 
 	function insert_credit_permission_checkbox() {

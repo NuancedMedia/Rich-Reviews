@@ -19,7 +19,7 @@ class Rich_Reviews_Table extends WP_List_Table {
 			'ajax'      => false
 		));
 	}
-	
+
 	function column_default($item, $column_name){
 		return print_r($item,true); //Show the whole array for troubleshooting purposes
 	}
@@ -66,6 +66,10 @@ class Rich_Reviews_Table extends WP_List_Table {
 		return sprintf('<input type="checkbox" name="review[]" value="%1$s" />',$item->id);
 	}
 
+	function column_edit($item){
+		return sprintf('<a href="/wp-admin/admin.php?page=fp_admin_add_edit&rr_id=' . $item->id . '"><span class="button rr-button">Edit</span></a>',$item->id);
+	}
+
 	function get_columns() {
 		return $columns = array(
 			'cb'        		  => '<input type="checkbox" />',
@@ -79,10 +83,11 @@ class Rich_Reviews_Table extends WP_List_Table {
 			//'review_status'   => 'Status',
 			//'reviewer_ip'     => 'IP',
 			'post_id'         => 'Page ID',
-			'review_category' => 'Category'
+			'review_category' => 'Category',
+			'edit'            => 'Edit',
 		);
 	}
-	
+
 	function get_sortable_columns() {
 		return $sortable = array(
 			//'id'              => array('id',false),
@@ -98,7 +103,7 @@ class Rich_Reviews_Table extends WP_List_Table {
 			'review_category' => array('review_category',false)
 		);
 	}
-	
+
 	function get_bulk_actions() {
 		$actions = array();
 		if ($this->flag == 'all' || $this->flag == 'approved') {
@@ -110,7 +115,7 @@ class Rich_Reviews_Table extends WP_List_Table {
 		$actions['delete'] = 'Delete';
 		return $actions;
 	}
-	
+
 	function process_bulk_action() {
 		global $wpdb, $richReviews;
 		$output = '';
@@ -151,7 +156,7 @@ class Rich_Reviews_Table extends WP_List_Table {
 			}
 		}
 	}
-	
+
 	function prepare_items($flag = 'pending') {
 		$this->flag = $flag;
 		global $wpdb, $richReviews;

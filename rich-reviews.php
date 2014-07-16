@@ -579,6 +579,7 @@ if (!class_exists('RROptions')) {
 }
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
+require_once("views/admin-add-edit-view.php");
 
 global $richReviews;
 $richReviews = new RichReviews();
