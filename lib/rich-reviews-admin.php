@@ -90,9 +90,9 @@ class RichReviewsAdmin {
 	}
 
     function wrap_admin_page($page = null) {
-        echo '<div class="wrap"><h2><img src="' . $this->parent->logo_url . '" /> Pending Reviews</h2></div>';
+        echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Pending Reviews</h2></div>';
         NMRichReviewsAdminHelper::render_tabs();
-        NMRichReviewsAdminHelper::render_container_open('three-fifths');
+        NMRichReviewsAdminHelper::render_container_open('content-container');
         if ($page == 'main') {
             NMRichReviewsAdminHelper::render_postbox_open('Instructions');
             echo $this->render_settings_main_page(TRUE);
@@ -120,7 +120,7 @@ class RichReviewsAdmin {
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
         NMRichReviewsAdminHelper::render_container_close();
-        NMRichReviewsAdminHelper::render_container_open('two-fifths');
+        NMRichReviewsAdminHelper::render_container_open('sidebar-container');
         $permission = $this->get_option('permission');
         $this->update_credit_permission();
         if (!$permission == 'checked') {

@@ -98,7 +98,7 @@ class RRAdminAddEdit {
 	function display_form($review = NULL) {
 		if ($this->rr_id && $review == NULL) {
 			$review =(array) $this->core->db->get($this->rr_id, TRUE);
-			dump($review, 'REVIEW');
+			//dump($review, 'REVIEW');
 			$this->display_form($review);
 			return;
 		}
