@@ -33,6 +33,7 @@ class RRAdminAddEdit {
 		//dump($_POST, 'POST');
 		if (isset($_POST['rr_save_review'])) {
 			if ($_POST['rr_save_review'] == 'admin-save-review') {
+				$this->date_time     = $this->core->fp_sanitize($_POST['date_time']);
 				$this->reviewer_name     = $this->core->fp_sanitize($_POST['reviewer_name']);
 				$this->reviewer_email    = $this->core->fp_sanitize($_POST['reviewer_email']);
 				$this->review_title    = $this->core->fp_sanitize($_POST['review_title']);
@@ -116,9 +117,13 @@ class RRAdminAddEdit {
 				'review_category' => NULL,
 			);
 		}
+		foreach ($review as $key=>$value) {
+			$review[$key] = $this->core->nice_output($value);
+		}
 		?>
 <form method="post" action="">
 	<input type="hidden" name="rr_save_review" value="admin-save-review" />
+	<input type="hidden" name="date_time" value="<?php echo $review['date_time']; ?>" />
 	<table class="form_table">
 		<tr class="rr_form_row">
 			<td class="rr_form_heading rr_required">Name</td>
