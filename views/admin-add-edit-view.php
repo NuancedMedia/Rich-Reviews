@@ -30,7 +30,6 @@ class RRAdminAddEdit {
 
 	function check_add_update() {
 		$output = '';
-		//dump($_POST, 'POST');
 		if (isset($_POST['rr_save_review'])) {
 			if ($_POST['rr_save_review'] == 'admin-save-review') {
 				$this->date_time     = $this->core->fp_sanitize($_POST['date_time']);
