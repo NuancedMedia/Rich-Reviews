@@ -131,6 +131,9 @@ class Rich_Reviews_Table extends WP_List_Table {
 			} else if ('delete' === $this->current_action()) {
 				$this_action = 'delete';
 				$action_alert_type = 'deleted';
+			} else if (false === $this->current_action()) {
+				$this_action = 'false';
+				$action_alert_type = 'false';
 			}
 			if (!empty($ids)) {
 				foreach ($ids as $id) {
@@ -151,6 +154,9 @@ class Rich_Reviews_Table extends WP_List_Table {
 					$action_alert = '1 review has been successfully ' . $action_alert_type . '.';
 				} else {
 					$action_alert = count($ids) . ' reviews have been successfully ' . $action_alert_type . '.';
+				}
+				if ($this_action === 'false') { 
+					$action_alert = 'You must select an action.';
 				}
 				echo '<div class="updated" style="padding: 10px;">' . $action_alert . '</div>';
 			}

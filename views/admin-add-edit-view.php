@@ -155,7 +155,7 @@ class RRAdminAddEdit {
 		</tr>
 		<tr class="rr_form_row">
 			<td></td>
-			<td class="rr_form_input rr_required"><input name="submitButton" type="submit" value="Submit Review" /></td>
+			<td class="rr_form_input"><input name="submitButton" type="submit" value="Submit Review" /></td>
 		</tr>
 	</table>
 </form>
