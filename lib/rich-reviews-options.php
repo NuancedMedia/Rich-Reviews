@@ -49,6 +49,7 @@ class RROptions {
 			'require_approval' => 'checked',
 			'show_form_post_title' => FALSE,
 			'credit_permission'=> FALSE,
+            'show_date' => FALSE,
           );
         if ($this->get_option() == FALSE) {
             $this->set_to_defaults();
@@ -68,6 +69,7 @@ class RROptions {
             if (!isset($_POST['require_approval'])) { $_POST['require_approval'] = NULL; }
             if (!isset($_POST['show_form_post_title'])) { $_POST['show_form_post_title'] = NULL; }
 			if (!isset($_POST['credit_permission'])) { $_POST['credit_permission'] = NULL; }
+            if (!isset($_POST['show_date'])) { $_POST['show_date'] = NULL; }
             $current_settings = $this->get_option();
             $clean_current_settings = array();
             foreach ($current_settings as $k=>$val) {

@@ -410,6 +410,9 @@ class RichReviewsAdmin {
 			<input type="checkbox" name="require_approval" value="checked" <?php echo $options['require_approval'] ?> />
 			<label for="require_approval">Require Approval - this sends all new reviews to the pending review page. Unchecking this will automatically publish all reviews as they are submitted.</label>
 			<br />
+			<input type="checkbox" name="show_date" value="checked" <?php echo $options['show_date'] ?> />
+			<label for="show_date">Display the date that the review was submitted inside the review.</label>
+			<br />
 			<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
 			<label>Star Color - the color of the stars on reviews</label>
 			<br />
