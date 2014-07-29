@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 .sass-cache
 config.codekit
 .DS_Store
+=======
+/scss/.sass-cache/
+
+/config.codekit
+>>>>>>> refs/heads/dev

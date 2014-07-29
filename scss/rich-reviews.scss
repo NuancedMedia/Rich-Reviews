@@ -1,4 +1,5 @@
 @import "../views/view-helper/scss/nm-dashboard-style.scss";
+@import "admin";
 
 /*.testimonial {
 	width:31%;
@@ -329,6 +330,7 @@ $star_empty_color: black;
 
 // Review display
 .testimonial_group {
+	overflow: hidden;
 	clear: both;
 	.testimonial {
 		-webkit-box-sizing: border-box;
@@ -367,6 +369,8 @@ $star_empty_color: black;
 
 .credit-line {
 	float: right;
-	font-size: 8px;
-	font-size: 0.8rem;
+	font-size: 10px;
+	font-size: 1.0rem;
 }
+
+@import "rr-widgets";

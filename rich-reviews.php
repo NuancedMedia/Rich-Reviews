@@ -3,9 +3,10 @@
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.5.7
+Version: 1.5.8
 Author: Foxy Technology
 Author URI: http://nuancedmedia.com/
+Text Domain: rich-reviews
 License: GPL2
 
 
@@ -64,6 +65,7 @@ class RichReviews {
 		$this->admin = new RichReviewsAdmin($this);
 		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
 
+		add_action('plugins_loaded', array(&$this, 'on_load'));
 		add_action('init', array(&$this, 'init'));
 		add_action('wp_enqueue_scripts', array(&$this, 'load_scripts_styles'), 100);
 
@@ -73,6 +75,8 @@ class RichReviews {
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets'));
 
 		add_filter('widget_text', 'do_shortcode');
+
+		add_action( 'widgets_init', array(&$this, 'register_rr_widget') );
 	}
 
 	function init() {
@@ -150,7 +154,7 @@ class RichReviews {
 				$wpdb->query("DELETE FROM $this->sqltable WHERE id=\"$idid\"");
 				break;
 		}
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function star_rating_input() {
@@ -161,7 +165,7 @@ class RichReviews {
 			<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_4"></span>
 			<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_5"></span>
 		</div>';
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function shortcode_reviews_form($atts) {
@@ -274,7 +278,7 @@ class RichReviews {
 			$output .= '</form>';
 		}
 		$this->render_custom_styles();
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function shortcode_reviews_show($atts) {
@@ -344,7 +348,7 @@ class RichReviews {
 		}
 		$output .= $this->print_credit();
 		$this->render_custom_styles();
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function shortcode_reviews_show_all() {
@@ -395,7 +399,7 @@ class RichReviews {
 		}
 		else {$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';}
 
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function display_admin_review($review, $status = 'limbo') {
@@ -451,7 +455,7 @@ class RichReviews {
 					<div class="rr_review_text">' . $rText . '</div>
 				</td>
 			</tr>';
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function display_review($review) {
@@ -464,6 +468,7 @@ class RichReviews {
 		$rText      = $this->nice_output($review->review_text);
 		$rStatus    = $review->review_status;
 		$rIP        = $review->reviewer_ip;
+		$rPostId    = $review->post_id;
 		$rRating = '';
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
@@ -475,20 +480,23 @@ class RichReviews {
 
 		$output = '<div class="testimonial">
 			<h3 class="rr_title">' . $rTitle . '</h3>
-			<div class="clear"></div>
-			<div class="stars">' . $rRating . '</div>
+			<div class="clear"></div>';
+		if ($this->rr_options['show_form_post_title']) {
+			$output .= '<div class="rr_review_post_id"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+		}
+		$output .= '<div class="stars">' . $rRating . '</div>
 			<div class="clear"></div>';
 		$output .= '<div class="rr_review_text"><span class="drop_cap">“</span>' . $rText . '”</div>';
 		$output .= '<div class="rr_review_name"> - ' . $rName . '</div>
 			<div class="clear"></div>';
 		$output .= '</div>';
-		return $output;
+		return __($output, 'rich-reviews');
 	}
 
 	function nice_output($input, $keep_breaks = TRUE) {
 		//echo '<pre>' . $input . '</pre>';
 		//return str_replace(array('\\', '/'), '', $input);
-		if (strpos($input, '\r\n')) {
+		/*if (strpos($input, '\r\n')) {
 			if ($keep_breaks) {
 				while (strpos($input, '\r\n\r\n\r\n')) {
 					// get rid of everything but single line breaks and pretend-paragraphs
@@ -499,19 +507,32 @@ class RichReviews {
 				$input = str_replace(array('\r\n'), '', $input);
 			}
 		}
-		$input = str_replace(array('\\', '/'), '', $input);
+		$input = str_replace(array('\\', '/'), '', $input);*/
+
+		//$input = $this->clean_input($input);
 
 		return $input;
 	}
 
 	function clean_input($input) {
-		$search = array(
+		/*$search = array(
 			'@<script[^>]*?>.*?</script>@si',   // strip out javascript
 			'@<[\/\!]*?[^<>]*?>@si',            // strip out HTML tags
 			'@<style[^>]*?>.*?</style>@siU',    // strip style tags properly
 			'@<![\s\S]*?--[ \t\n\r]*>@'         // strip multi-line comments
 		);
-		$output = preg_replace($search, '', $input);
+		$output = preg_replace($search, '', $input);*/
+		$handling = $input;
+
+		/*$handling = strip_tags($handling);
+		$handling = stripslashes($handling);
+		$handling = esc_html($handling);
+		$handling = mysql_real_escape_string($handling);*/
+
+		$handling = sanitize_text_field($handling);
+		$handling = stripslashes($handling);
+
+		$output = $handling;
 		return $output;
 	}
 
@@ -523,10 +544,11 @@ class RichReviews {
 		}
 		else {
 			if (get_magic_quotes_gpc()) {
-				$input = stripslashes($input);
+				//$input = stripslashes($input);
 			}
 			$input  = $this->clean_input($input);
-			$output = mysql_real_escape_string($input);
+			//$output = mysql_real_escape_string($input);
+			$output = $input;
 		}
 		return $output;
 	}
@@ -543,14 +565,23 @@ class RichReviews {
 	}
 
 	function print_credit() {
-		$permission = $this->admin->get_option('permission');
+		$permission = $this->rr_options['credit_permission'];
 		$output = "";
-		if ($permission === 'checked') {
+		if ($permission) {
 			$output = '<div class="credit-line">Supported By: <a href="http://nuancedmedia.com/" rel="nofollow"> Nuanced Media</a>';
 			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
-		return $output;
+		return __($output, 'rich-reviews');
+	}
+
+	function on_load() {
+		$plugin_dir = basename(dirname(__FILE__));
+		load_plugin_textdomain( 'rich-reviews', false, $plugin_dir );
+	}
+
+	function register_rr_widget() {
+		register_widget( 'RichReviewsShowWidget' );
 	}
 }
 
@@ -575,6 +606,8 @@ if (!class_exists('RROptions')) {
 }
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
+require_once('lib/rich-reviews-widget.php');
+require_once("views/admin-add-edit-view.php");
 
 global $richReviews;
 $richReviews = new RichReviews();
