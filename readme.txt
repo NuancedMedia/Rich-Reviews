@@ -49,8 +49,12 @@ Visit the <a href="http://nuancedmedia.com/wordpress-rich-reviews-plugin/">Rich 
 
 == Changelog ==
 
+= 1.5.10 =
+* Fixing issue with extra div creation.
+* Adding link to new plugins website on dashboard.
+
 = 1.5.9 =
-* Hot fix: Correcting the correspondence with Google Rich Snippets.  
+* Hot fix: Correcting the correspondence with Google Rich Snippets.
 
 = 1.5.8 =
 * Hotfix

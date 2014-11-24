@@ -3,7 +3,7 @@
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.5.9
+Version: 1.5.10
 Author: Foxy Technology
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
@@ -318,6 +318,7 @@ class RichReviews {
 		// Show the reviews
 		$results = $this->db->get();
 		if (count($results)) {
+			$total_count = count($results);
 			$review_count = 0;
 			$output .= '<div class="testimonial_group">';
 			foreach($results as $review) {
@@ -331,12 +332,13 @@ class RichReviews {
 					$output .= '<div class="clear"></div>';
 
 					// do we have more reviews to show?
-					if ($review_count < count($results)) {
+					if ($review_count < $total_count) {
 						$output .= '<div class="testimonial_group">';
 					}
 
 					// reset the counter
 					$review_count = 0;
+					$total_count = $total_count - 3;
 				}
 			}
 			// do we need to close a testimonial_group?
