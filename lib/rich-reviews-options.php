@@ -48,6 +48,7 @@ class RROptions {
 			'approve_authority' => 'manage_options',
 			'require_approval' => 'checked',
 			'show_form_post_title' => FALSE,
+      'display_full_width' => TRUE,
 			'credit_permission'=> FALSE,
             'show_date' => FALSE,
           );
@@ -68,6 +69,7 @@ class RROptions {
             if (!isset($_POST['snippet_stars'])) { $_POST['snippet_stars'] = NULL; }
             if (!isset($_POST['require_approval'])) { $_POST['require_approval'] = NULL; }
             if (!isset($_POST['show_form_post_title'])) { $_POST['show_form_post_title'] = NULL; }
+            if (!isset($_POST['display_full_width'])) { $_POST['display_full_width'] = NULL; }
 			if (!isset($_POST['credit_permission'])) { $_POST['credit_permission'] = NULL; }
             if (!isset($_POST['show_date'])) { $_POST['show_date'] = NULL; }
             $current_settings = $this->get_option();

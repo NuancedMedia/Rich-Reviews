@@ -396,18 +396,18 @@ class RichReviews {
 			// ----- Old Star handling that broke Google Snippets because
 			// ----- $average rating was being altered.
 
-			while($averageRating >= 1) {
-				$stars = $stars . '&#9733';
-				$star_count++;
-				$averageRating--;
-				//dump($averageRating, 'AVE in WHILE:');
-				//dump($star_count, 'STAR COUNT:');
-			}
-			while ($star_count < 5) {
-				$stars = $stars . '&#9734';
-				$star_count++;
-				//dump($star_count, 'STAR COUNT:');
-			}
+			// while($averageRating >= 1) {
+			// 	$stars = $stars . '&#9733';
+			// 	$star_count++;
+			// 	$averageRating--;
+			// 	//dump($averageRating, 'AVE in WHILE:');
+			// 	//dump($star_count, 'STAR COUNT:');
+			// }
+			// while ($star_count < 5) {
+			// 	$stars = $stars . '&#9734';
+			// 	$star_count++;
+			// 	//dump($star_count, 'STAR COUNT:');
+			// }
 
 		// 	$output = '<div class="hreview-aggregate">Overall rating: <span class="stars">' . $stars . '</span> <span class="rating" style="display: none !important;">' . $averageRating . '</span> based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
 		// 	$this->render_custom_styles();
@@ -419,14 +419,16 @@ class RichReviews {
 			$output .= '<span class="stars">' . $stars . '</span>';
 			$output .= '<span class="rating" itemprop="rating" style="display: none !important;">' . $averageRating . '</span></span>';
 			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
-			$output .= 'reviews</div>';
+			$output .= ' reviews</div>';
+			// $output .= '<div style="display:none; itemprop="url">' . get_site_url() . '</div>';
 			$this->render_custom_styles();
 		} else {
 			$output = '<div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">';
 			$output .= 'Overall rating: <span itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating">';
-			$output .= '<span class="rating" itemprop="rating">' . $averageRating . '</span> out of 5';
+			$output .= '<span class="rating" itemprop="rating"><strong>' . $averageRating . '</strong></span> out of <strong>5</strong> ';
 			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
 			$output .= ' reviews</div>';
+			// $output .= '<div style="display:none; itemprop="url">' . get_site_url() . '</div>';
 		}
 
 		return __($output, 'rich-reviews');
@@ -521,25 +523,26 @@ class RichReviews {
 		// 	<div class="clear"></div>';
 		// $output .= '</div>';
 
-
-		$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">
+		if($this->rr_options['display_full_width'] != NULL) {
+			$output = '<div class="full-testimonial" itemscope itemtype="data-vocabulary.org/Review">
 			<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>
 			<div class="clear"></div>';
-		// if ($this->rr_options['show_form_post_title']) {
+		} else {
+			$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">
+				<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>
+				<div class="clear"></div>';
+		}
+		if ($this->rr_options['show_form_post_title']) {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
-		// }
+		} else {
+			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+		}
 		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="rating">' . $rRatingVal . '</div>';
 		$output .= '<div class="clear"></div>';
 		$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
 		$output .= '<div class="rr_review_name" itemprop="reviewer"> - ' . $rName . '</div>
 			<div class="clear"></div>';
 		$output .= '</div>';
-
-
-
-
-
-
 
 		return __($output, 'rich-reviews');
 

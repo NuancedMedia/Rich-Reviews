@@ -365,6 +365,39 @@ $star_empty_color: black;
 			font-style: italic;
 		}
 	}
+	.full-testimaonial {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		float: left;
+		width: 100%;
+		padding: 20px;
+		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
+		.rr_title {
+			margin-bottom: 5px;
+		}
+		.stars {
+
+		}
+		.rr_review_text {
+			position: relative;
+			.drop_cap {
+				position: absolute;
+				font-size: 100px;
+				top: -5px;
+				left: -20px;
+				line-height: 100px;
+				zoom: 1;
+				filter: alpha(opacity=25);
+				opacity: 0.25;
+			}
+		}
+		.rr_review_name {
+			text-align: right;
+			padding-right: 10%;
+			font-style: italic;
+		}
+	}
 }
 
 .credit-line {
