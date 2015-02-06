@@ -493,6 +493,12 @@ class RichReviews {
 	function display_review($review) {
 		$rID        = $review->id;
 		$rDateTime  = $review->date_time;
+		$date 		= strtotime($rDateTime);
+		$rDay		= date("j", $date);
+		$rMonth		= date("F", $date);
+		$rSuffix	= date("S", $date);
+		$rYear		= date("Y", $date);
+		$rDate 		= $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear;
 		$rName      = $this->nice_output($review->reviewer_name, FALSE);
 		$rEmail     = $this->nice_output($review->reviewer_email, FALSE);
 		$rTitle     = $this->nice_output($review->review_title, FALSE);
@@ -537,7 +543,11 @@ class RichReviews {
 		} else {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
+		if ($this->rr_options['show_date']) {
+			$output .= 'Submitted: <time itemprop="startDate" datetime="' . $rDate . '">' . $rDate . '</time>';
+		}
 		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="rating">' . $rRatingVal . '</div>';
+
 		$output .= '<div class="clear"></div>';
 		$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
 		$output .= '<div class="rr_review_name" itemprop="reviewer"> - ' . $rName . '</div>
