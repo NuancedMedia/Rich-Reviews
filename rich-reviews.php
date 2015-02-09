@@ -3,14 +3,14 @@
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.5.12
+Version: 1.6.0
 Author: Foxy Technology
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
 License: GPL2
 
 
-Copyright 2013  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
+Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -418,17 +418,14 @@ class RichReviews {
 			$output .= 'Overall rating: <span itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating">';
 			$output .= '<span class="stars">' . $stars . '</span>';
 			$output .= '<span class="rating" itemprop="rating" style="display: none !important;">' . $averageRating . '</span></span>';
-			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
+			$output .= ' based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
 			$output .= ' reviews</div>';
-			// $output .= '<div style="display:none; itemprop="url">' . get_site_url() . '</div>';
 			$this->render_custom_styles();
 		} else {
 			$output = '<div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">';
 			$output .= 'Overall rating: <span itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating">';
-			$output .= '<span class="rating" itemprop="rating"><strong>' . $averageRating . '</strong></span> out of <strong>5</strong> ';
-			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
-			$output .= ' reviews</div>';
-			// $output .= '<div style="display:none; itemprop="url">' . get_site_url() . '</div>';
+			$output .= '<strong><span class="rating" itemprop="rating">' . $averageRating . '</span></strong> out of <strong>5</strong> ';
+			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span> reviews</div>';
 		}
 
 		return __($output, 'rich-reviews');
@@ -550,7 +547,7 @@ class RichReviews {
 
 		$output .= '<div class="clear"></div>';
 		$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
-		$output .= '<div class="rr_review_name" itemprop="reviewer"> - ' . $rName . '</div>
+		$output .= '<div class="rr_review_name"> - <span itemprop="reviewer">' . $rName . '</span></div>
 			<div class="clear"></div>';
 		$output .= '</div>';
 
