@@ -185,11 +185,19 @@ class RichReviews {
 		if (isset($_POST['submitted'])) {
 			if ($_POST['submitted'] == 'Y') {
 				$rDateTime = date('Y-m-d H:i:s');
-				$rName     = $this->fp_sanitize($_POST['rName']);
-				$rEmail    = $this->fp_sanitize($_POST['rEmail']);
-				$rTitle    = $this->fp_sanitize($_POST['rTitle']);
+				if ($this->rr_options['form-name-display']) {
+					$rName     = $this->fp_sanitize($_POST['rName']);
+				}
+				if ($this->rr_options['form-email-display']) {
+					$rEmail    = $this->fp_sanitize($_POST['rEmail']);
+				}
+				if ($this->rr_options['form-title-display']) {
+					$rTitle    = $this->fp_sanitize($_POST['rTitle']);
+				}
 				$rRating   = $this->fp_sanitize($_POST['rRating']);
-				$rText     = $this->fp_sanitize($_POST['rText']);
+				if ($this->rr_options['form-content-display']) {
+					$rText     = $this->fp_sanitize($_POST['rText']);
+				}
 				if ($this->rr_options['require_approval']) {$rStatus   = 0;} else {$rStatus   = 1;}
 				$rIP       = $_SERVER['REMOTE_ADDR'];
 				$rPostID   = $post->ID;
@@ -208,19 +216,36 @@ class RichReviews {
 						'review_category' => $rCategory
 				);
 				$validData = true;
-				if ($rName == '') {
-					$output .= 'You must include your name.';
-					$validData = false;
-				} else if ($rTitle == '') {
-					$output .= 'You must include a title for your review.';
-					$validData = false;
-				} else if ($rText == '') {
-					$output .= 'You must write some text in your review.';
-					$validData = false;
-				} else if ($rRating == 0) {
+				if($this->rr_options['form-name-display']) {
+					if($this->rr_options['form-name-require']) {
+						if ($rName == '') {
+						$output .= 'You must include your name.';
+						$validData = false;
+						}
+					}
+				}
+				if($this->rr_options['form-title-display']) {
+					if($this->rr_options['form-title-require']) {
+						if ($rTitle == '') {
+							$output .= 'You must include a title for your review.';
+							$validData = false;
+						}
+					}
+				}
+				if($this->rr_options['form-content-display']) {
+					if($this->rr_options['form-content-require']) {
+						if ($rText == '') {
+							$output .= 'You must write some text in your review.';
+							$validData = false;
+						}
+					}
+				}
+
+				if ($rRating == 0) {
 					$output .= 'Please give a rating between 1 and 5 stars.';
 					$validData = false;
-				} else if ($rEmail != '') {
+				}
+				if ($rEmail != '') {
 					$firstAtPos = strpos($rEmail,'@');
 					$periodPos  = strpos($rEmail,'.');
 					$lastAtPos  = strrpos($rEmail,'@');
@@ -230,14 +255,20 @@ class RichReviews {
 					}
 				}
 				if ($validData) {
-					if ((strlen($rName) > 100)) {
-						$output .= 'The name you entered was too long, and has been shortened.<br />';
+					if($this->rr_options['form-name-display']) {
+						if ((strlen($rName) > 100)) {
+							$output .= 'The name you entered was too long, and has been shortened.<br />';
+						}
 					}
-					if ((strlen($rTitle) > 150)) {
-						$output .= 'The review title you entered was too long, and has been shortened.<br />';
+					if($this->rr_options['form-title-display']) {
+						if ((strlen($rTitle) > 150)) {
+							$output .= 'The review title you entered was too long, and has been shortened.<br />';
+						}
 					}
-					if ((strlen($rEmail) > 100)) {
-						$output .= 'The email you entered was too long, and has been shortened.<br />';
+					if($this->rr_options['form-email-display']) {
+						if ((strlen($rEmail) > 100)) {
+							$output .= 'The email you entered was too long, and has been shortened.<br />';
+						}
 					}
 					$wpdb->insert($this->sqltable, $newdata);
 					$output .= 'Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!<br />';
@@ -250,26 +281,54 @@ class RichReviews {
 			$output .= '	<input type="hidden" name="submitted" value="Y" />';
 			$output .= '	<input type="hidden" name="rRating" id="rRating" value="0" />';
 			$output .= '	<table class="form_table">';
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">Name</td>';
-			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
-			$output .= '		</tr>';
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading">Email</td>';
-			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
-			$output .= '		</tr>';
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">' . ucwords(strtolower($this->rr_options['review_title'])) . '</td>';
-			$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
-			$output .= '		</tr>';
+			if($this->rr_options['form-name-display']) {
+				$output .= '		<tr class="rr_form_row">';
+				$output .= '			<td class="rr_form_heading';
+				if($this->rr_options['form-name-require']){
+					$output .= ' rr_required';
+				}
+				$output .= '">'.$this->rr_options['form-name-label'].'</td>';
+				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
+				$output .= '		</tr>';
+			}
+			if($this->rr_options['form-email-display']) {
+				$output .= '		<tr class="rr_form_row">';
+				$output .= '			<td class="rr_form_heading';
+				if($this->rr_options['form-email-require']){
+					$output .= ' rr_required';
+				}
+				$output .= '">'.$this->rr_options['form-email-label'].'</td>';
+				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
+				$output .= '		</tr>';
+			}
+
+			if($this->rr_options['form-title-display']) {
+				$output .= '		<tr class="rr_form_row">';
+				$output .= '			<td class="rr_form_heading';
+				if($this->rr_options['form-title-require']){
+					$output .= ' rr_required';
+				}
+				$output .= '">'.$this->rr_options['form-title-label'].'</td>';
+				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
+				$output .= '		</tr>';
+			}
+
 			$output .= '		<tr class="rr_form_row">';
 			$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
 			$output .= '			<td class="rr_form_input">' . $this->star_rating_input() . '</td>';
 			$output .= '		</tr>';
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">Review Content</td>';
-			$output .= '			<td class="rr_form_input"><textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
-			$output .= '		</tr>';
+
+			if($this->rr_options['form-content-display']) {
+				$output .= '		<tr class="rr_form_row">';
+				$output .= '			<td class="rr_form_heading';
+				if($this->rr_options['form-content-require']){
+					$output .= ' rr_required';
+				}
+				$output .= '">'.$this->rr_options['form-content-label'].'</td>';
+				$output .= '			<td class="rr_form_input"><textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
+				$output .= '		</tr>';
+			}
+
 			$output .= '		<tr class="rr_form_row">';
 			$output .= '			<td></td>';
 			$output .= '			<td class="rr_form_input rr_required"><input name="submitButton" type="submit" value="Submit Review" /></td>';
@@ -488,6 +547,8 @@ class RichReviews {
 	}
 
 	function display_review($review) {
+		dump($review);
+
 		$rID        = $review->id;
 		$rDateTime  = $review->date_time;
 		$date 		= strtotime($rDateTime);
@@ -527,18 +588,26 @@ class RichReviews {
 		// $output .= '</div>';
 
 		if($this->rr_options['display_full_width'] != NULL) {
-			$output = '<div class="full-testimonial" itemscope itemtype="data-vocabulary.org/Review">
-			<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>
-			<div class="clear"></div>';
+			$output = '<div class="full-testimonial" itemscope itemtype="data-vocabulary.org/Review">';
+			if( $rTitle != '') {
+				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
+			} else {
+				$output .= '<h3 class="rr_title" itemprop="summary" style="display:none">' . $rTitle . '</h3>';
+			}
+			$output .= '<div class="clear"></div>';
 		} else {
-			$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">
-				<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>
-				<div class="clear"></div>';
+			$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">';
+			if( $rTitle != '') {
+				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
+			} else {
+				$output .= '<h3 class="rr_title" itemprop="summary" style="display:none">' . $rTitle . '</h3>';
+			}
+			$output .= '<div class="clear"></div>';
 		}
 		if ($this->rr_options['show_form_post_title']) {
-			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		} else {
-			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
 		if ($this->rr_options['show_date']) {
 			$output .= 'Submitted: <time itemprop="startDate" datetime="' . $rDate . '">' . $rDate . '</time>';
@@ -546,11 +615,14 @@ class RichReviews {
 		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="rating">' . $rRatingVal . '</div>';
 
 		$output .= '<div class="clear"></div>';
-		$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
-		$output .= '<div class="rr_review_name"> - <span itemprop="reviewer">' . $rName . '</span></div>
-			<div class="clear"></div>';
+		if($rText != '') {
+			$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
+		}
+		if( $rName !='' ) {
+			$output .= '<div class="rr_review_name"> - <span itemprop="reviewer">' . $rName . '</span></div>';
+		}
+		$output .=	'<div class="clear"></div>';
 		$output .= '</div>';
-
 		return __($output, 'rich-reviews');
 
 
