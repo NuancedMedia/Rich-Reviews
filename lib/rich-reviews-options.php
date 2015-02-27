@@ -101,8 +101,7 @@ class RROptions {
                     $clean_current_settings[$k] = $val;
                 }
             }
-            // dump($clean_current_settings);
-            // dump($this->defaults);
+
             $this->defaults = array_merge($this->defaults, $clean_current_settings);
             $update = array_merge($this->defaults, $_POST);
             $data = array();

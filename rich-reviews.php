@@ -577,7 +577,6 @@ class RichReviews {
 		$rIP        = $review->reviewer_ip;
 		$rPostId    = $review->post_id;
 		$rRating = '';
-		dump($rDateTime);
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
 			$rRating .= '&#9733;'; // orange star

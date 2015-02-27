@@ -488,7 +488,6 @@ class RichReviewsAdmin {
 			<input type="submit" class="button" value="Save Options">
 		</form>
 		<?php
-		dump($this->parent->options->get_option());
 
 	}
 
