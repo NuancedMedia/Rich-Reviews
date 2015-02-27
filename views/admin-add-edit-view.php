@@ -104,7 +104,7 @@ class RRAdminAddEdit {
 				}
 			}
 		}
-		echo $output;
+		$data['output'] = $output;
 		$data['name_err'] = $form_name;
 		$data['title_err'] = $form_title;
 		$data['text_err'] = $form_text;
@@ -138,15 +138,18 @@ class RRAdminAddEdit {
 			$review[$key] = $this->core->nice_output($value);
 		}
 		if( $data != NULL) {
-			dump($data);
 			extract($data);
 		} else {
 			$name_err = '';
 			$title_err = '';
 			$text_err = '';
 			$rating_err = '';
+			$output = '';
 		}
+echo $output;
 		?>
+		<br/>
+<div class="clear"></div>
 <form method="post" action="">
 	<input type="hidden" name="rr_save_review" value="admin-save-review" />
 

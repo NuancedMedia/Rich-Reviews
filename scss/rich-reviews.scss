@@ -298,6 +298,13 @@ $star_empty_color: black;
 	font-size:0.8em;
 	line-height: 0.6em;
 }
+.message {
+	padding:5px;
+	margin:5px 5px;
+	background: silver;
+	color: #049477;
+	border-left: solid #049477 3px;
+}
 
 .rr_review_form {
 	.form_table {
