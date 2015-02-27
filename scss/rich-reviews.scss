@@ -295,7 +295,7 @@ $star_empty_color: black;
 .err {
 	color:red;
 	font-style:italic;
-	font-size:0.6em;
+	font-size:0.8em;
 	line-height: 0.6em;
 }
 
@@ -319,6 +319,9 @@ $star_empty_color: black;
 			.rr_form_input {
 				vertical-align: top;
 				padding-bottom: 10px;
+				.err {
+					font-size: 0.6em;
+				}
 				input[type="text"] {
 					width: $input_width;
 					@media only screen and (max-width: 767px) { width: 0.5 * $input_width; }
