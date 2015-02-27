@@ -405,6 +405,7 @@ class RichReviewsAdmin {
 
 			<div style="float:left;width:30%">
 				<h3><strong>Form Options</strong></h3>
+				<div style="border: solid 2px black"></div>
 				<h4>Name Field</h4>
 				<label for="form-name-label">Form Label: </label><input type="text" name="form-name-label" value="<?php echo $options['form-name-label']; ?>" /><br>
 				<label for="form-name-display">Display Field: <input type="checkbox" name="form-name-display" value="checked" <?php echo $options['form-name-display'] ?> /></label>
@@ -428,28 +429,34 @@ class RichReviewsAdmin {
 			</div>
 			<div style="float:right;width:65%">
 				<h3><strong>Review Display Options</strong></h3>
+				<div style="border: solid 2px black"></div>
+
+				<h4><strong>Title Options</strong></h4>
+				<input type="checkbox" name="show_form_post_title" value="checked" <?php echo $options['show_form_post_title'] ?> />
+				<label for="show_form_post_title">Include Post Titles - this will include the title and a link to the form page for every review.</label>
+				<br />
+
+				<h4><strong>Rating Options</strong></h4>
 				<input type="checkbox" name="snippet_stars" value="checked" <?php echo $options['snippet_stars'] ?> />
 				<label for="snippet_stars">Star Snippets - this will change the averge rating displayed in the snippet shortcodeto be stars instead of numerical values.</label>
 				<br />
-				<input type="checkbox" name="show_form_post_title" value="checked" <?php echo $options['show_form_post_title'] ?> />
-				<label for="show_form_post_title">Include Post Titles - this will include the title and a link to the form page for every reviews.</label>
+
+				<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
+				<label for="star_color">Star Color - the color of the stars on reviews</label>
 				<br />
+
+				<h4><strong>General Display Options</strong></h4>
 				<input type="checkbox" name="display_full_width" value="checked" <?php echo $options['display_full_width'] ?> />
 				<label for="display_full_width">Display Full width - This option will display the reviews in full width block format. Default will dsplay the reviews in blocks of three.</label>
-				<br />
-				<input type="checkbox" name="credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
-				<label for="credit_permission">Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media's website to the bottom of your reviews page</label>
-				<br />
-				<input type="checkbox" name="require_approval" value="checked" <?php echo $options['require_approval'] ?> />
-				<label for="require_approval">Require Approval - this sends all new reviews to the pending review page. Unchecking this will automatically publish all reviews as they are submitted.</label>
 				<br />
 				<input type="checkbox" name="show_date" value="checked" <?php echo $options['show_date'] ?> />
 				<label for="show_date">Display the date that the review was submitted inside the review.</label>
 				<br />
-				<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
-				<label>Star Color - the color of the stars on reviews</label>
+				<input type="checkbox" name="credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
+				<label for="credit_permission">Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media's website to the bottom of your reviews page</label>
 				<br />
-				<br />
+
+				<label for="reviews_order"><strong>Review Display Order: </strong></label>
 				<select name="reviews_order" value="<?php echo $options['reviews_order'] ?>">
 					<?php
 					if ($options['reviews_order']==="ASC"){ ?><option value="ASC" selected="selected">Oldest First</option><?php }else {?><option value="ASC" >Oldest First</option><?php }
@@ -457,7 +464,12 @@ class RichReviewsAdmin {
 					if ($options['reviews_order']==="random"){ ?><option value="random" selected="selected">Randomize</option><?php }else {?><option value="random" >Randomize</option><?php }
 					?>
 				</select>
-				<label for="reviews_order"> Review Display Order</label>
+				<br />
+				<h3><strong>Admin Options</strong></h3>
+				<div style="border: solid 2px black"></div>
+				<h4><strong>Approval Options</strong></h4>
+				<input type="checkbox" name="require_approval" value="checked" <?php echo $options['require_approval'] ?> />
+				<label for="require_approval">Require Approval - this sends all new reviews to the pending review page. Unchecking this will automatically publish all reviews as they are submitted.</label>
 				<br />
 				<select name="approve_authority">
 					<?php

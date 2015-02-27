@@ -181,6 +181,11 @@ class RichReviews {
 		$rEmail = '';
 		$rTitle = '';
 		$rText  = '';
+		$nameErr = '';
+		$emailErr = '';
+		$titleErr = '';
+		$reviewErr = '';
+		$textErr = '';
 		$displayForm = true;
 		if (isset($_POST['submitted'])) {
 			if ($_POST['submitted'] == 'Y') {
@@ -219,7 +224,7 @@ class RichReviews {
 				if($this->rr_options['form-name-display']) {
 					if($this->rr_options['form-name-require']) {
 						if ($rName == '') {
-						$output .= 'You must include your name.';
+						$nameErr = '<span class="err">You must include your name.</span><br>';
 						$validData = false;
 						}
 					}
@@ -227,7 +232,7 @@ class RichReviews {
 				if($this->rr_options['form-title-display']) {
 					if($this->rr_options['form-title-require']) {
 						if ($rTitle == '') {
-							$output .= 'You must include a title for your review.';
+							$titleErr= '<span class="err">You must include a title for your review.</span><br>';
 							$validData = false;
 						}
 					}
@@ -235,23 +240,30 @@ class RichReviews {
 				if($this->rr_options['form-content-display']) {
 					if($this->rr_options['form-content-require']) {
 						if ($rText == '') {
-							$output .= 'You must write some text in your review.';
+							$textErr = '<span class="err">You must write some text in your review.</span><br>';
 							$validData = false;
 						}
 					}
 				}
 
 				if ($rRating == 0) {
-					$output .= 'Please give a rating between 1 and 5 stars.';
+					$reviewErr = '<span class="err">Please give a rating between 1 and 5 stars.</span><br>';
 					$validData = false;
 				}
-				if ($rEmail != '') {
-					$firstAtPos = strpos($rEmail,'@');
-					$periodPos  = strpos($rEmail,'.');
-					$lastAtPos  = strrpos($rEmail,'@');
-					if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-						$output .= 'You must provide a valid email address.';
-						$validData = false;
+				if($this->rr_options['form-email-display']) {
+					if($this->rr_options['form-email-require']) {
+						if($rEmail == '') {
+							$emailErr = '<span class="err">Please provide email.</span><br>';
+						}
+					}
+					if ($rEmail != '') {
+						$firstAtPos = strpos($rEmail,'@');
+						$periodPos  = strpos($rEmail,'.');
+						$lastAtPos  = strrpos($rEmail,'@');
+						if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
+							$output .= 'You must provide a valid email address.';
+							$validData = false;
+						}
 					}
 				}
 				if ($validData) {
@@ -288,7 +300,7 @@ class RichReviews {
 					$output .= ' rr_required';
 				}
 				$output .= '">'.$this->rr_options['form-name-label'].'</td>';
-				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
+				$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
 				$output .= '		</tr>';
 			}
 			if($this->rr_options['form-email-display']) {
@@ -298,7 +310,7 @@ class RichReviews {
 					$output .= ' rr_required';
 				}
 				$output .= '">'.$this->rr_options['form-email-label'].'</td>';
-				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
+				$output .= '			<td class="rr_form_input">'.$emailErr.'<input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
 				$output .= '		</tr>';
 			}
 
@@ -309,13 +321,13 @@ class RichReviews {
 					$output .= ' rr_required';
 				}
 				$output .= '">'.$this->rr_options['form-title-label'].'</td>';
-				$output .= '			<td class="rr_form_input"><input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
+				$output .= '			<td class="rr_form_input">'.$titleErr.'<input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
 				$output .= '		</tr>';
 			}
 
 			$output .= '		<tr class="rr_form_row">';
 			$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
-			$output .= '			<td class="rr_form_input">' . $this->star_rating_input() . '</td>';
+			$output .= '			<td class="rr_form_input">'.$reviewErr . $this->star_rating_input() . '</td>';
 			$output .= '		</tr>';
 
 			if($this->rr_options['form-content-display']) {
@@ -325,7 +337,7 @@ class RichReviews {
 					$output .= ' rr_required';
 				}
 				$output .= '">'.$this->rr_options['form-content-label'].'</td>';
-				$output .= '			<td class="rr_form_input"><textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
+				$output .= '			<td class="rr_form_input">'.$textErr.'<textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
 				$output .= '		</tr>';
 			}
 
@@ -547,7 +559,6 @@ class RichReviews {
 	}
 
 	function display_review($review) {
-		dump($review);
 
 		$rID        = $review->id;
 		$rDateTime  = $review->date_time;
@@ -566,6 +577,7 @@ class RichReviews {
 		$rIP        = $review->reviewer_ip;
 		$rPostId    = $review->post_id;
 		$rRating = '';
+		dump($rDateTime);
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
 			$rRating .= '&#9733;'; // orange star
@@ -610,7 +622,13 @@ class RichReviews {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
 		if ($this->rr_options['show_date']) {
-			$output .= 'Submitted: <time itemprop="startDate" datetime="' . $rDate . '">' . $rDate . '</time>';
+			if($rDateTime != "0000-00-00 00:00:00") {
+				$output .= '<span class="rr_date">Submitted: <time itemprop="startDate" datetime="' . $rDate . '">' . $rDate . '</time></span>';
+			} else {
+				if(current_user_can('edit_posts')) {
+				$output .= '<span class="err">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
+				}
+			}
 		}
 		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="rating">' . $rRatingVal . '</div>';
 

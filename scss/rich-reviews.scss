@@ -292,6 +292,13 @@ $star_color: blue;
 $star_empty_color: black;
 
 // Review submission form
+.err {
+	color:red;
+	font-style:italic;
+	font-size:0.6em;
+	line-height: 0.6em;
+}
+
 .rr_review_form {
 	.form_table {
 		.rr_form_row {
@@ -345,6 +352,10 @@ $star_empty_color: black;
 		}
 		.stars {
 
+		}
+		.rr_date {
+			font-size: 0.6em;
+			font-style: italic;
 		}
 		.rr_review_text {
 			position: relative;
