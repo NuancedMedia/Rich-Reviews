@@ -297,6 +297,9 @@ $star_empty_color: black;
 	font-style:italic;
 	font-size:0.8em;
 	line-height: 0.6em;
+	a {
+		color:red !important;
+	}
 }
 .message {
 	padding:5px;

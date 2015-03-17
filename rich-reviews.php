@@ -283,7 +283,7 @@ class RichReviews {
 						}
 					}
 					$wpdb->insert($this->sqltable, $newdata);
-					$output .= 'Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!<br />';
+					$output .= '<span class="successful">Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!</span><br />';
 					$displayForm = false;
 				}
 			}
@@ -343,7 +343,7 @@ class RichReviews {
 
 			$output .= '		<tr class="rr_form_row">';
 			$output .= '			<td></td>';
-			$output .= '			<td class="rr_form_input rr_required"><input name="submitButton" type="submit" value="Submit Review" /></td>';
+			$output .= '			<td class="rr_form_input"><input name="submitButton" type="submit" value="Submit Review"/></td>';
 			$output .= '		</tr>';
 			$output .= '	</table>';
 			$output .= '</form>';
@@ -450,13 +450,19 @@ class RichReviews {
 			$averageRating = $wpdb->get_var("SELECT AVG(review_rating) FROM $this->sqltable " . $whereStatement);
 			$averageRating = floor(10*floatval($averageRating))/10;
 		}
+		$decimal = $averageRating - floor($averageRating);
+		if($decimal >= 0.5) {
+			$roundedAverage = floor($averageRating) + 1;
+		} else {
+			$roundedAverage = floor($averageRating);
+		}
 
 		if ($this->options->get_option('snippet_stars')) {
 			$stars = '';
 			$star_count = 0;
 			//dump($averageRating, 'AVE:');
 			for ($i=1; $i<=5; $i++) {
-				if ($i <= $averageRating) {
+				if ($i <= $roundedAverage) {
 					$stars = $stars . '&#9733;';
 				}
 				else {
@@ -625,7 +631,7 @@ class RichReviews {
 				$output .= '<span class="rr_date">Submitted: <time itemprop="startDate" datetime="' . $rDate . '">' . $rDate . '</time></span>';
 			} else {
 				if(current_user_can('edit_posts')) {
-				$output .= '<span class="err">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
+				$output .= '<span class="err rr_date">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
 				}
 			}
 		}
