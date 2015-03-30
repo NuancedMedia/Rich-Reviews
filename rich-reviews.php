@@ -261,7 +261,7 @@ class RichReviews {
 						$periodPos  = strpos($rEmail,'.');
 						$lastAtPos  = strrpos($rEmail,'@');
 						if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-							$emailErr .= 'You must provide a valid email address.';
+							$emailErr .= '<span class="form-err">You must provide a valid email address.</span><br>';
 							$validData = false;
 						}
 					}
@@ -284,7 +284,7 @@ class RichReviews {
 					}
 					$wpdb->insert($this->sqltable, $newdata);
 					$output .= '<span id="state"></span>';
-					$output .= '<span class="successful"><strong>Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!</strong></span><br />';
+					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!</strong></center><div class="clear"></div></div>';
 					$displayForm = false;
 				} else {
 					//$output .= '<span id="target"></span>';

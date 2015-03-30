@@ -311,9 +311,20 @@ $star_empty_color: black;
 }
 .succcessful {
 	font-size: 1.3em;
+	text-align: center;
 	&.form-err {
 		color: green;
 	}
+	.big-star {
+		vertical-align: middle;
+		margin: 8px;
+	}
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
 }
 
 .rr_review_form {

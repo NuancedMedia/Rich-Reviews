@@ -399,7 +399,6 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
-		dump($options);
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
@@ -442,7 +441,7 @@ class RichReviewsAdmin {
 
 				<h4><strong>Rating Options</strong></h4>
 				<input type="checkbox" name="snippet_stars" value="checked" <?php echo $options['snippet_stars'] ?> />
-				<label for="snippet_stars">Star Snippets - this will change the averge rating displayed in the snippet shortcodeto be stars instead of numerical values.</label>
+				<label for="snippet_stars">Star Snippets - this will change the averge rating displayed in the snippet shortcode to be stars instead of numerical values.</label>
 				<br />
 
 				<input type="color" name="star_color" value="<?php echo $options['star_color'] ?>">
