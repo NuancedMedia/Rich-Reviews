@@ -399,6 +399,7 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
+		dump($options);
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
@@ -408,23 +409,26 @@ class RichReviewsAdmin {
 				<div style="border: solid 2px black"></div>
 				<h4>Name Field</h4>
 				<label for="form-name-label">Form Label: </label><input type="text" name="form-name-label" value="<?php echo $options['form-name-label']; ?>" /><br>
-				<label for="form-name-display">Display Field: <input type="checkbox" name="form-name-display" value="checked" <?php echo $options['form-name-display'] ?> /></label>
-				<label for="form-name-require">Require Field: <input type="checkbox" name="form-name-require" value="checked" <?php echo $options['form-name-require'] ?> /></label>
+				<label for="form-name-display">Display Field: </label><input type="checkbox" name="form-name-display" value="checked" <?php echo $options['form-name-display'] ?> /><br/>
+				<label for="form-name-require">Require Field: </label><input type="checkbox" name="form-name-require" value="checked" <?php echo $options['form-name-require'] ?> />
 				<br>
 				<h4>Email Field</h4>
 				<label for="email-label">Form Label: </label><input type="text" name="form-email-label" value="<?php echo $options['form-email-label']; ?>" /><br>
-				<label for="form-email-display">Display Field: </label><input type="checkbox" name="form-email-display" value="checked" <?php echo $options['form-email-display'] ?> />
+				<label for="form-email-display">Display Field: </label><input type="checkbox" name="form-email-display" value="checked" <?php echo $options['form-email-display'] ?> /><br/>
 				<label for="form-email-require">Require Field: </label><input type="checkbox" name="form-email-require" value="checked" <?php echo $options['form-email-require'] ?> />
 				<br>
 				<h4>Title Field</h4>
 				<label for="form-title-label">Form Label: </label><input type="text" name="form-title-label" value="<?php echo $options['form-title-label']; ?>" /><br>
-				<label for="form-title-display">Display Field: </label><input type="checkbox" name="form-title-display" value="checked" <?php echo $options['form-title-display'] ?> />
+				<label for="form-title-display">Display Field: </label><input type="checkbox" name="form-title-display" value="checked" <?php echo $options['form-title-display'] ?> /><br/>
 				<label for="form-title-require">Require Field: </label><input type="checkbox" name="form-title-require" value="checked" <?php echo $options['form-title-require'] ?> />
 				<br>
 				<h4>Content Field</h4>
 				<label for="form-content-label">Form Label: </label><input type="text" name="form-content-label" value="<?php echo $options['form-content-label']; ?>" /><br>
-				<label for="form-content-display">Display Field: </label><input type="checkbox" name="form-content-display" value="checked" <?php echo $options['form-content-display'] ?> />
+				<label for="form-content-display">Display Field: </label><input type="checkbox" name="form-content-display" value="checked" <?php echo $options['form-content-display'] ?> /><br/>
 				<label for="form-content-require">Require Field: </label><input type="checkbox" name="form-content-require" value="checked" <?php echo $options['form-content-require'] ?> />
+				<br>
+				<h4>Submit Button</h4>
+				<label for="form-submit-text">Submit Text: </label><input type="text" name="form-submit-text" value="<?php echo $options['form-submit-text']; ?>" /><br>
 				<br>
 			</div>
 			<div style="float:right;width:65%">
@@ -454,6 +458,9 @@ class RichReviewsAdmin {
 				<br />
 				<input type="checkbox" name="credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
 				<label for="credit_permission">Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media's website to the bottom of your reviews page</label>
+				<br />
+				<input type="checkbox" name="return-to-form" value="checked" <?php echo $options['return-to-form'] ?> />
+				<label for="return-form">Upon submission of the review form, the page will automatically scroll back to the location of the form.</label>
 				<br />
 
 				<label for="reviews_order"><strong>Review Display Order: </strong></label>
