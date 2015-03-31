@@ -431,6 +431,9 @@ class RichReviews {
 		$this->db->where('review_status', 1);
 		if (($category == 'post') || ($category == 'page')) {
 			$this->db->where('post_id', $post->ID);
+		} else if ($category == 'none') {
+			$this->db->where('review_category', 'none');
+			$this->db->or_where('review_category', '');
 		} else {
 			$this->db->where('review_category', $category);
 		}
