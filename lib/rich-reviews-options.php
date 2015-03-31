@@ -63,7 +63,9 @@ class RROptions {
       'form-content-display' => 'checked',
       'form-content-require' => 'checked',
       'form-submit-text' => 'Submit',
-      'return-to-form' => false
+      'return-to-form' => false,
+      'send-email-notifications' => false,
+      'admin-email' => ''
 
           );
         if ($this->get_option() == FALSE) {
@@ -96,6 +98,7 @@ class RROptions {
              if (!isset($_POST['form-content-display'])) { $_POST['form-content-display'] = false; }
              if (!isset($_POST['form-content-require'])) { $_POST['form-content-require'] = false; }
              if (!isset($_POST['return-to-form'])) { $_POST['return-to-form'] = false; }
+             if (!isset($_POST['send-email-notifications'])) { $_POST['send-email-notifications'] = false; }
 
 
             $current_settings = $this->get_option();

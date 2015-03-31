@@ -399,6 +399,7 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
+		dump($options);
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
@@ -487,6 +488,13 @@ class RichReviewsAdmin {
 					?>
 				</select>
 				<label for="approve_authority"> Authority level required to Approve Pending Posts</label>
+				<br />
+				<input type="checkbox" name="send-email-notifications" value="checked" <?php echo $options['send-email-notifications'] ?> />
+				<label for="require_approval">Send Notification Emails - This will send an automatic email to the admin every time a new pending review is submitted.</label>
+				<br />
+				<br />
+				<label for "admin-email">Admin Email - The email to which notifications are sent.</label>
+				<input type="text" name="admin-email" style="width:100%;" value="<?php echo $options['admin-email'] ?>" />
 				<br />
 			</div>
 			<div class="clear"></div>

@@ -282,6 +282,9 @@ class RichReviews {
 							$output .= 'The email you entered was too long, and has been shortened.<br />';
 						}
 					}
+					if( $this->rr_options['send-email-notifications']) {
+						$this->sendEmail($newdata);
+					}
 					$wpdb->insert($this->sqltable, $newdata);
 					$output .= '<span id="state"></span>';
 					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>Your review has been recorded and submitted for approval, ' . $this->nice_output($rName) . '. Thanks!</strong></center><div class="clear"></div></div>';
@@ -374,6 +377,41 @@ class RichReviews {
 							</script>';
 		}
 		return __($output, 'rich-reviews');
+	}
+
+	function sendEmail($data) {
+		dump($data);
+		extract($data);
+		$message = "";
+		$message .= "RichReviews User,\r\n";
+		$message .= "\r\n";
+		$message .= "You have received a new review which is now pending your approval. The information from the review is listed below.\r\n";
+		$message .= "\r\n";
+		$message .= "Review Date: ".$date_time."\r\n";
+		if( $reviewer_name != "" ) {
+			$message .= $this->rr_options["form-name-label"].": ".$reviewer_name."\r\n";
+		}
+		if( $reviewer_email != "" ) {
+			$message .= $this->rr_options["form-email-label"].": ".$reviewer_email."\r\n";
+		}
+		if( $review_title != "" ) {
+			$message .= $this->rr_options["form-title-label"].": ".$review_title."\r\n";
+		}
+		$message .= "Review Rating: ". $review_rating ."\r\n";
+		if ($review_text != "" ) {
+			$message .= $this->rr_options["form-content-label"].": ".$review_text."\r\n";
+		}
+		$message .= "Review Category: ". $review_category ."\r\n\r\n";
+
+		$message .= "Click the link below to review and approve your new review.\r\n";
+		$message .= admin_url()."admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
+		$message .= "Thanks for choosing Rich Reviews,\r\n";
+		$message .= "The Nuanced Media Team";
+
+		dump($message);
+
+		mail($this->rr_options['admin-email'], 'New Pending Review', $message);
+
 	}
 
 	function shortcode_reviews_show($atts) {
