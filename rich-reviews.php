@@ -431,7 +431,7 @@ class RichReviews {
 		} else if ($category == 'none') {
 			$this->db->where('review_category', 'none');
 			$this->db->or_where('review_category', '');
-		} else {
+		} else if($category != 'all') {
 			$this->db->where('review_category', $category);
 		}
 		if ($num != 'all') {
