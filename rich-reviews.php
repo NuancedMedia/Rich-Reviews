@@ -442,7 +442,7 @@ class RichReviews {
 
 		// Set up the Order BY
 		if ($this->rr_options['reviews_order'] === 'random') {
-			$this->db->order_by('rand()');
+			$this->db->order_by('random');
 		}
 		else {
 			$this->db->order_by('date_time', $this->rr_options['reviews_order']);

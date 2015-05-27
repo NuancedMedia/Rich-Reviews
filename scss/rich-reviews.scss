@@ -366,7 +366,7 @@ $star_empty_color: black;
 	}
 }
 
-// Review display
+//Review display
 .testimonial_group {
 	overflow: hidden;
 	clear: both;
@@ -376,7 +376,7 @@ $star_empty_color: black;
 		box-sizing: border-box;
 		float: left;
 		width: 33.333%;
-		padding: 20px;
+		padding: 8px 20px;
 		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
 		.rr_title {
 			margin: 5px;
@@ -417,13 +417,13 @@ $star_empty_color: black;
 		}
 
 	}
-	.full-testimaonial {
+	.full-testimonial {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		float: left;
 		width: 100%;
-		padding: 20px;
+		padding: 8px 20px;
 		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
 		.rr_title {
 			margin-bottom: 5px;
