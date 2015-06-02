@@ -22,14 +22,17 @@ class RichReviewsDB extends NMDB {
 
 	function create_update_database() {
 		global $wpdb;
+		dump("this ran");
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		$sql = "CREATE TABLE $this->sqltable (
 				 id int(11) NOT NULL AUTO_INCREMENT,
 				 date_time datetime NOT NULL,
 				 reviewer_name varchar(100) DEFAULT NULL,
+				 reviewer_image_id int(11) DEFAULT '0',
 				 reviewer_email varchar(150) DEFAULT NULL,
 				 review_title varchar(100) DEFAULT NULL,
-				 review_rating tinyint(2) DEFAULT '0',
+				 review_rating tinyint(2) DEFAULT '0', 
+				 review_image_id int (11) DEFAULT '0',
 				 review_text text,
 				 review_status tinyint(1) DEFAULT '0',
 				 reviewer_ip varchar(15) DEFAULT NULL,

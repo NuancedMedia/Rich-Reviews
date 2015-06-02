@@ -402,7 +402,7 @@ $star_empty_color: black;
 			.drop_cap {
 				position: absolute;
 				font-size: 100px;
-				top: -5px;
+				top: -15px;
 				left: -20px;
 				line-height: 100px;
 				zoom: 1;
@@ -423,7 +423,7 @@ $star_empty_color: black;
 		box-sizing: border-box;
 		float: left;
 		width: 100%;
-		padding: 8px 20px;
+		padding: 8px 0 8px 28px;
 		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
 		.rr_title {
 			margin-bottom: 5px;
@@ -436,7 +436,7 @@ $star_empty_color: black;
 			.drop_cap {
 				position: absolute;
 				font-size: 100px;
-				top: -5px;
+				top: -13px;
 				left: -20px;
 				line-height: 100px;
 				zoom: 1;
@@ -462,5 +462,18 @@ $star_empty_color: black;
 				font-size: 12px;
 				font-style: itlaic;
 			}
+
+.review-head {
+	display: flex;
+	margin-bottom: 13px;
+	.user-image {
+		padding: 8px;
+		padding-left: 0;
+	}
+	.review-info {
+		padding: 8px;
+		padding-left: 0;
+	}
+}
 
 @import "rr-widgets";
