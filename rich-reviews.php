@@ -747,7 +747,7 @@ class RichReviews {
 		} else {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
-		#TODO: Double check to ensure dat eformatting is correct
+		#TODO: Double check to ensure date formatting is correct
 		if ($this->rr_options['show_date']) {
 			if($rDateTime != "0000-00-00 00:00:00") {
 				$output .= '<span class="rr_date"><meta itemprop="datePublished" content="'.$rDateTime.'"><time datetime="' . $rDate . '">' . $rDate . '</time></span>';
