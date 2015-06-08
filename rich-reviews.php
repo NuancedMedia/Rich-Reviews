@@ -142,9 +142,10 @@ class RichReviews {
 		$idid = $result['idid'];
 		$rName = $result['reviewername'];
 		$rIP = $result['reviewerip'];
-		$output = 'Something went wrong! Please report this error.';
+		$output = __('Something went wrong! Please report this error.', 'rich-reviews');
 		switch ($status) {
 			case 'approve':
+				//TODO: come back to this for formatting for i18n
 				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $this->nice_output($rName) . ', whose IP is ' . $rIP . ' has been approved.<br>';
 				$wpdb->update($this->sqltable, array('review_status' => '1'), array('id' => $idid));
 				break;
@@ -243,7 +244,7 @@ class RichReviews {
 				if($this->rr_options['form-name-display']) {
 					if($this->rr_options['form-name-require']) {
 						if ($rName == '') {
-						$nameErr = '<span class="form-err">You must include your name.</span><br>';
+						$nameErr = '<span class="form-err">' . __('You must include your name.', 'rich-reviews') . '</span><br>';
 						$validData = false;
 						}
 					}
@@ -251,7 +252,7 @@ class RichReviews {
 				if($this->rr_options['form-title-display']) {
 					if($this->rr_options['form-title-require']) {
 						if ($rTitle == '') {
-							$titleErr= '<span class="form-err">You must include a title for your review.</span><br>';
+							$titleErr= '<span class="form-err">' . __('You must include a title for your review.', 'rich-reviews') . '</span><br>';
 							$validData = false;
 						}
 					}
@@ -259,20 +260,20 @@ class RichReviews {
 				if($this->rr_options['form-content-display']) {
 					if($this->rr_options['form-content-require']) {
 						if ($rText == '') {
-							$textErr = '<span class="form-err">You must write some text in your review.</span><br>';
+							$textErr = '<span class="form-err">' . __('You must write some text in your review.', 'rich-reviews') . '</span><br>';
 							$validData = false;
 						}
 					}
 				}
 
 				if ($rRating == 0) {
-					$reviewErr = '<span class="form-err">Please give a rating between 1 and 5 stars.</span><br>';
+					$reviewErr = '<span class="form-err">' . __('Please give a rating between 1 and 5 stars.', 'rich-reviews') . '</span><br>';
 					$validData = false;
 				}
 				if($this->rr_options['form-email-display']) {
 					if($this->rr_options['form-email-require']) {
 						if($rEmail == '') {
-							$emailErr = '<span class="form-err">Please provide email.</span><br>';
+							$emailErr = '<span class="form-err">' . __('Please provide email.', 'rich-reviews') . '</span><br>';
 						}
 					}
 					if ($rEmail != '') {
@@ -280,7 +281,7 @@ class RichReviews {
 						$periodPos  = strpos($rEmail,'.');
 						$lastAtPos  = strrpos($rEmail,'@');
 						if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-							$emailErr .= '<span class="form-err">You must provide a valid email address.</span><br>';
+							$emailErr .= '<span class="form-err">' . __('You must provide a valid email address.', 'rich-reviews') . '</span><br>';
 							$validData = false;
 						}
 					}
@@ -288,17 +289,17 @@ class RichReviews {
 				if ($validData) {
 					if($this->rr_options['form-name-display']) {
 						if ((strlen($rName) > 100)) {
-							$output .= 'The name you entered was too long, and has been shortened.<br />';
+							$output .= __('The name you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
 						}
 					}
 					if($this->rr_options['form-title-display']) {
 						if ((strlen($rTitle) > 150)) {
-							$output .= 'The review title you entered was too long, and has been shortened.<br />';
+							$output .= __('The review title you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
 						}
 					}
 					if($this->rr_options['form-email-display']) {
 						if ((strlen($rEmail) > 100)) {
-							$output .= 'The email you entered was too long, and has been shortened.<br />';
+							$output .= __('The email you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
 						}
 					}
 					if( $this->rr_options['send-email-notifications']) {
@@ -306,7 +307,8 @@ class RichReviews {
 					}
 					$wpdb->insert($this->sqltable, $newdata);
 					$output .= '<span id="state"></span>';
-					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $this->nice_output($rName) . ', your review has been recorded and submitted for approval. Thanks!</strong></center><div class="clear"></div></div>';
+					//TODOL format for i18n
+					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $this->nice_output($rName) . ', your review has been recorded. Thanks!</strong></center><div class="clear"></div></div>';
 					$displayForm = false;
 				} else {
 					//$output .= '<span id="target"></span>';
@@ -430,9 +432,9 @@ class RichReviews {
 		$message = "";
 		$message .= "RichReviews User,\r\n";
 		$message .= "\r\n";
-		$message .= "You have received a new review which is now pending your approval. The information from the review is listed below.\r\n";
+		$message .= __("You have received a new review which is now pending your approval. The information from the review is listed below.", 'rich-reviews') . "\r\n";
 		$message .= "\r\n";
-		$message .= "Review Date: ".$date_time."\r\n";
+		$message .= __("Review Date: ", 'rich-reviews') .$date_time."\r\n";
 		if( $reviewer_name != "" ) {
 			$message .= $this->rr_options["form-name-label"].": ".$reviewer_name."\r\n";
 		}
@@ -442,18 +444,20 @@ class RichReviews {
 		if( $review_title != "" ) {
 			$message .= $this->rr_options["form-title-label"].": ".$review_title."\r\n";
 		}
-		$message .= "Review Rating: ". $review_rating ."\r\n";
+		$message .= __("Review Rating: ", 'rich-reviews'). $review_rating ."\r\n";
 		if ($review_text != "" ) {
 			$message .= $this->rr_options["form-content-label"].": ".$review_text."\r\n";
 		}
-		$message .= "Review Category: ". $review_category ."\r\n\r\n";
+		$message .= __("Review Category: ", 'rich-reviews'). $review_category ."\r\n\r\n";
 
-		$message .= "Click the link below to review and approve your new review.\r\n";
+		$message .= __("Click the link below to review and approve your new review.", 'rich-reviews'). "\r\n";
 		$message .= admin_url()."admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
-		$message .= "Thanks for choosing Rich Reviews,\r\n";
-		$message .= "The Nuanced Media Team";
+		$message .= __("Thanks for choosing Rich Reviews,", 'rich-reviews'). "\r\n";
+		$message .= __("The Nuanced Media Team", 'rich-reviews');
 
-		mail($this->rr_options['admin-email'], 'New Pending Review', $message);
+		$mail_subject = __('New Pending Review', 'rich-reviews');
+
+		mail($this->rr_options['admin-email'], $mail_subject, $message);
 
 	}
 
@@ -753,7 +757,7 @@ class RichReviews {
 				$output .= '<span class="rr_date"><meta itemprop="datePublished" content="'.$rDateTime.'"><time datetime="' . $rDate . '">' . $rDate . '</time></span>';
 			} else {
 				if(current_user_can('edit_posts')) {
-				$output .= '<span class="date-err rr_date">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
+				$output .= '<span class="date-err rr_date">' . __('Date improperly formatted, correct in ', 'rich-reviews') . '<a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">' . __('Dashboard', 'rich-reviews') . '</a></span>';
 				}
 			}
 		}
@@ -762,7 +766,7 @@ class RichReviews {
 		$output .= '<div class="clear"></div>';
 		if($this->rr_options['display_full_width']) {
 			$output .= '</div></div>';
-		}		
+		}
 		if($rText != '') {
 			$output .= '<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody">' . $rText . '</span>”</div>';
 		}
@@ -851,7 +855,7 @@ class RichReviews {
 		$permission = $this->rr_options['credit_permission'];
 		$output = "";
 		if ($permission) {
-			$output = '<div class="credit-line">Supported By: <a href="http://nuancedmedia.com/" rel="nofollow"> Nuanced Media</a>';
+			$output = '<div class="credit-line">' . __('Supported By: ', 'rich-reviews') . '<a href="http://nuancedmedia.com/" rel="nofollow">' . __('Nuanced Media', 'rich-reviews') . '</a>';
 			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
