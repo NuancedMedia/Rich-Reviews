@@ -392,6 +392,7 @@ class RichReviewsAdmin {
 
 	function render_options_page($wrapped) {
 		$options = $this->parent->options->get_option();
+		dump($options);
 		if (!$wrapped) {
 			$this->wrap_admin_page('options');
 			return;
@@ -411,6 +412,11 @@ class RichReviewsAdmin {
 				<label for="form-name-display">Display Field: </label><input type="checkbox" name="form-name-display" value="checked" <?php echo $options['form-name-display'] ?> /><br/>
 				<label for="form-name-require">Require Field: </label><input type="checkbox" name="form-name-require" value="checked" <?php echo $options['form-name-require'] ?> />
 				<br>
+				<h4>Reviewer Image Field</h4>
+				<label for="form-reviewer-image-label">Form Label: </label><input type="text" name="form-reviewer-image-label" value="<?php echo $options['form-reviewer-image-label']; ?>" /><br>
+				<label for="form-reviewer-image-display">Display Field: </label><input type="checkbox" name="form-reviewer-image-display" value="checked" <?php echo $options['form-reviewer-image-display'] ?> /><br/>
+				<label for="form-reviewer-image-require">Require Field: </label><input type="checkbox" name="form-reviewer-image-require" value="checked" <?php echo $options['form-reviewer-image-require'] ?> />
+				<br>
 				<h4>Email Field</h4>
 				<label for="email-label">Form Label: </label><input type="text" name="form-email-label" value="<?php echo $options['form-email-label']; ?>" /><br>
 				<label for="form-email-display">Display Field: </label><input type="checkbox" name="form-email-display" value="checked" <?php echo $options['form-email-display'] ?> /><br/>
@@ -425,6 +431,12 @@ class RichReviewsAdmin {
 				<label for="form-content-label">Form Label: </label><input type="text" name="form-content-label" value="<?php echo $options['form-content-label']; ?>" /><br>
 				<label for="form-content-display">Display Field: </label><input type="checkbox" name="form-content-display" value="checked" <?php echo $options['form-content-display'] ?> /><br/>
 				<label for="form-content-require">Require Field: </label><input type="checkbox" name="form-content-require" value="checked" <?php echo $options['form-content-require'] ?> />
+				<br>
+				<h4>Review Image Field</h4>
+				<!--TODO: Maybe make this an image array, and potentially allow video uploads -->
+				<label for="form-reviewed-image-label">Form Label: </label><input type="text" name="form-reviewed-image-label" value="<?php echo $options['form-reviewed-image-label']; ?>" /><br>
+				<label for="form-reviewed-image-display">Display Field: </label><input type="checkbox" name="form-reviewed-image-display" value="checked" <?php echo $options['form-reviewed-image-display'] ?> /><br/>
+				<label for="form-reviewed-image-require">Require Field: </label><input type="checkbox" name="form-reviewed-image-require" value="checked" <?php echo $options['form-reviewed-image-require'] ?> />
 				<br>
 				<h4>Submit Button</h4>
 				<label for="form-submit-text">Submit Text: </label><input type="text" name="form-submit-text" value="<?php echo $options['form-submit-text']; ?>" /><br>

@@ -3,7 +3,7 @@
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
-Version: 1.6.2
+Version: 1.6.3
 Author: Foxy Technology
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
@@ -26,6 +26,9 @@ Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+include_once ABSPATH . 'wp-admin/includes/media.php';
+include_once ABSPATH . 'wp-admin/includes/file.php';
+include_once ABSPATH . 'wp-admin/includes/image.php';
 
 class RichReviews {
 
@@ -178,6 +181,7 @@ class RichReviews {
 		,$atts));
 		$output = '';
 		$rName  = '';
+
 		$rEmail = '';
 		$rTitle = '';
 		$rText  = '';
@@ -193,6 +197,11 @@ class RichReviews {
 				if ($this->rr_options['form-name-display']) {
 					$rName     = $this->fp_sanitize($_POST['rName']);
 				}
+				if ($this->rr_options['form-reviewer-image-display']) {
+					$imageId = media_handle_upload('rAuthorImage',0);
+					$rAuthorImage = $imageId;
+					dump($rAuthorImage);
+				}
 				if ($this->rr_options['form-email-display']) {
 					$rEmail    = $this->fp_sanitize($_POST['rEmail']);
 				}
@@ -200,6 +209,11 @@ class RichReviews {
 					$rTitle    = $this->fp_sanitize($_POST['rTitle']);
 				}
 				$rRating   = $this->fp_sanitize($_POST['rRating']);
+				if ($this->rr_options['form-reviewed-image-display']) {
+					$imageId = media_handle_upload('rImage',0);
+					$rImage = $imageId;
+					dump($rImage);
+				}
 				if ($this->rr_options['form-content-display']) {
 					$rText     = $this->fp_sanitize($_POST['rText']);
 				}
@@ -208,12 +222,17 @@ class RichReviews {
 				$rPostID   = $post->ID;
 				$rCategory = $this->fp_sanitize($category);
 
+				dump($rAuthorImage);
+				dump($rImage);
+
 				$newdata = array(
 						'date_time'       => $rDateTime,
 						'reviewer_name'   => $rName,
+						'reviewer_image_id' => $rAuthorImage,
 						'reviewer_email'  => $rEmail,
 						'review_title'    => $rTitle,
 						'review_rating'   => intval($rRating),
+						'review_image_id' => $rImage,
 						'review_text'     => $rText,
 						'review_status'   => $rStatus,
 						'reviewer_ip'     => $rIP,
@@ -297,7 +316,7 @@ class RichReviews {
 			$output .= '<span id="state"></span>';
 		}
 		if ($displayForm) {
-			$output .= '<form action="" method="post" class="rr_review_form" id="fprr_review_form">';
+			$output .= '<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">';
 			$output .= '	<input type="hidden" name="submitted" value="Y" />';
 			$output .= '	<input type="hidden" name="rRating" id="rRating" value="0" />';
 			$output .= '	<table class="form_table">';
@@ -311,6 +330,19 @@ class RichReviews {
 				$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
 				$output .= '		</tr>';
 			}
+			if($this->rr_options['form-reviewer-image-display']) {
+				$output .= '	 <tr class="rr_form_row">';
+				$output .= '		<td class="rr_form_heading';
+				if($this->rr_options['form-reviewer-image-require']) {
+					$output .= ' rr_required';
+				}
+				$output .= ' ">'.$this->rr_options['form-reviewer-image-label']. '</td>';
+				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
+				$output .= '		</tr>';
+
+
+			}
+
 			if($this->rr_options['form-email-display']) {
 				$output .= '		<tr class="rr_form_row">';
 				$output .= '			<td class="rr_form_heading';
@@ -338,10 +370,24 @@ class RichReviews {
 			$output .= '			<td class="rr_form_input">'.$reviewErr . $this->star_rating_input() . '</td>';
 			$output .= '		</tr>';
 
+			//TODO: Maybe immplement array of images
+			if($this->rr_options['form-reviewed-image-display']) {
+				$output .= '	 <tr class="rr_form_row">';
+				$output .= '		<td class="rr_form_heading';
+				if($this->rr_options['form-reviewed-image-require']) {
+					$output .= ' rr_required';
+				}
+				$output .= ' ">'.$this->rr_options['form-reviewed-image-label']. '</td>';
+				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
+				$output .= '		</tr>';
+
+
+			}
+
 			if($this->rr_options['form-content-display']) {
 				$output .= '		<tr class="rr_form_row">';
 				$output .= '			<td class="rr_form_heading';
-				if($this->rr_options['form-content-require']){
+				if($this->rr_options['form-content-require']) {
 					$output .= ' rr_required';
 				}
 				$output .= '">'.$this->rr_options['form-content-label'].'</td>';
@@ -431,7 +477,7 @@ class RichReviews {
 		} else if ($category == 'none') {
 			$this->db->where('review_category', 'none');
 			$this->db->or_where('review_category', '');
-		} else {
+		} else if($category != 'all') {
 			$this->db->where('review_category', $category);
 		}
 		if ($num != 'all') {
@@ -442,7 +488,7 @@ class RichReviews {
 
 		// Set up the Order BY
 		if ($this->rr_options['reviews_order'] === 'random') {
-			$this->db->order_by('rand()');
+			$this->db->order_by('random');
 		}
 		else {
 			$this->db->order_by('date_time', $this->rr_options['reviews_order']);
@@ -502,7 +548,7 @@ class RichReviews {
 			$whereStatement = "WHERE review_status=\"1\"";
 		} else if(($category == 'post') || ($category == 'page')) {
 			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
-		} else {
+		} else if ($category != 'all') {
 			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
 		}
 
@@ -553,18 +599,20 @@ class RichReviews {
 		// } else {
 		// 	$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
 		// }
-			$output = '<div itemscope itemtype="http://data-vocabulary.org/AggregateReview">';
-			$output .= 'Overall rating: <span itemprop="reviewRating" itemscope itemtype="http://data-vocabulary.org/Rating">';
+			$output = '<div itemscope itemtype="http://schema.org/Product">';
+			$output .= '<span itemprop="name">'. $category . '</span>';
+			$output .= 'Overall rating: <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
 			$output .= '<span class="stars">' . $stars . '</span>';
-			$output .= '<span class="rating" itemprop="value" style="display: none !important;">' . $averageRating . '</span></span>';
-			$output .= ' based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span>';
-			$output .= ' reviews</div>';
+			$output .= '<span class="rating" itemprop="ratingValue" style="display: none !important;">' . $averageRating . '</span>';
+			$output .= ' based on <span class="votes" itemprop="reviewCount">' . $approvedReviewsCount . '</span>';
+			$output .= ' reviews<div style="display:none"><span itemprop="bestRating">5</span><span itemprop="worstRating">1</span></div></div>';
 			$this->render_custom_styles();
 		} else {
-			$output = '<div itemscope itemtype="http://data-vocabulary.org/AggregateReview">';
-			$output .= 'Overall rating: <span itemprop="reviewRating" itemscope itemtype="http://data-vocabulary.org/Rating">';
-			$output .= '<strong><span class="value" itemprop="rating">' . $averageRating . '</span></strong> out of <strong>5</strong> ';
-			$output .= 'based on <span class="votes" itemprop="votes">' . $approvedReviewsCount . '</span> reviews</div>';
+			$output = '<div itemscope itemtype="http://schema.org/Product">';
+			$output .= '<span itemprop="name">'. $category . '</span>';
+			$output .= 'Overall rating: <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
+			$output .= '<strong><span class="value" itemprop="ratingValue">' . $averageRating . '</span></strong> out of <strong><span itemprop="bestRating">5</span></strong> ';
+			$output .= 'based on <span class="votes" itemprop="reviewCount">' . $approvedReviewsCount . '</span> reviews</div>';
 		}
 
 		return __($output, 'rich-reviews');
@@ -633,9 +681,10 @@ class RichReviews {
 		$date 		= strtotime($rDateTime);
 		$rDay		= date("j", $date);
 		$rMonth		= date("F", $date);
-		$rSuffix	= date("S", $date);
+		$rWday		= date("l", $date);
 		$rYear		= date("Y", $date);
-		$rDate 		= $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear;
+		$rDate 		= $rWday . ', ' . $rMonth . ' ' . $rDay . ', ' . $rYear;
+		// $rDate 		= $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear;
 		$rName      = $this->nice_output($review->reviewer_name, FALSE);
 		$rEmail     = $this->nice_output($review->reviewer_email, FALSE);
 		$rTitle     = $this->nice_output($review->review_title, FALSE);
@@ -645,6 +694,7 @@ class RichReviews {
 		$rIP        = $review->reviewer_ip;
 		$rPostId    = $review->post_id;
 		$rRating = '';
+		$rAuthorImage = $review->reviewer_image_id;
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
 			$rRating .= '&#9733;'; // orange star
@@ -666,45 +716,58 @@ class RichReviews {
 		// 	<div class="clear"></div>';
 		// $output .= '</div>';
 
+		#TODO: Rework output for rich data, image, and up/down vote
 		if($this->rr_options['display_full_width'] != NULL) {
-			$output = '<div class="full-testimonial" itemscope itemtype="data-vocabulary.org/Review">';
+			$output = '<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">';
+			$output .= '<div class="review-head" style="border: red solid 2px;">';
+			if($rAuthorImage) {
+				dump($rAuthorImage);
+				$output .= '<div class="user-image">';
+				$output .= wp_get_attachment_image( $rAuthorImage, [70, 70]);
+				$output .= '</div>';
+			}
+			$output .= '<div class="review-info">';
 			if( $rTitle != '') {
-				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
+				$output .= '<h3 class="rr_title">' . $rTitle . '</h3>';
 			} else {
-				$output .= '<h3 class="rr_title" itemprop="summary" style="display:none">' . $rTitle . '</h3>';
+				$output .= '<h3 class="rr_title" style="display:none">' . $rTitle . '</h3>';
 			}
 			$output .= '<div class="clear"></div>';
 		} else {
-			$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">';
+			$output = '<div class="testimonial" itemscope itemtype="http://schema.org/Review">';
 			if( $rTitle != '') {
-				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
+				$output .= '<h3 class="rr_title" itemprop="name">' . $rTitle . '</h3>';
 			} else {
-				$output .= '<h3 class="rr_title" itemprop="summary" style="display:none">' . $rTitle . '</h3>';
+				$output .= '<h3 class="rr_title" style="display:none">'.$rTitle . '</h3>';
 			}
 			$output .= '<div class="clear"></div>';
 		}
 		if ($this->rr_options['show_form_post_title']) {
-			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
+			$output .= '<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product"><div class="rr_review_post_id" itemprop="name"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div></span>';
 		} else {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
+		#TODO: Double check to ensure dat eformatting is correct
 		if ($this->rr_options['show_date']) {
 			if($rDateTime != "0000-00-00 00:00:00") {
-				$output .= '<span class="rr_date">Submitted: <time datetime="' . $rDate . '">' . $rDate . '</time></span>';
+				$output .= '<span class="rr_date"><meta itemprop="datePublished" content="'.$rDateTime.'"><time datetime="' . $rDate . '">' . $rDate . '</time></span>';
 			} else {
 				if(current_user_can('edit_posts')) {
 				$output .= '<span class="date-err rr_date">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
 				}
 			}
 		}
-		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="rating">' . $rRatingVal . '</div>';
+		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating"><span itemprop="ratingValue">' . $rRatingVal . '</span><span itemprop="bestRating">5</span><span itemprop="worstRating">1</span></div>';
 
 		$output .= '<div class="clear"></div>';
+		if($this->rr_options['display_full_width']) {
+			$output .= '</div></div>';
+		}
 		if($rText != '') {
-			$output .= '<div class="rr_review_text" itemprop="description"><span class="drop_cap">“</span>' . $rText . '”</div>';
+			$output .= '<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody">' . $rText . '</span>”</div>';
 		}
 		if( $rName !='' ) {
-			$output .= '<div class="rr_review_name"> - <span itemprop="reviewer">' . $rName . '</span></div>';
+			$output .= '<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">' . $rName . '</span></div>';
 		}
 		$output .=	'<div class="clear"></div>';
 		$output .= '</div>';
@@ -831,3 +894,4 @@ require_once("views/admin-add-edit-view.php");
 
 global $richReviews;
 $richReviews = new RichReviews();
+
