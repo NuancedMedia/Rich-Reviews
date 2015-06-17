@@ -1,17 +1,16 @@
-
 <?php
 /*
 Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
 Version: 1.6.3
-Author: Foxy Technology
+Author: Nuanced Media
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
 License: GPL2
 
 
-Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
+Copyright 2015  Nuanced Media  (email : plugins@nuancedmedia.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -667,7 +666,7 @@ class RichReviews {
 		// 	<div class="clear"></div>';
 		// $output .= '</div>';
 
-		if($this->rr_options['display_full_width'] != NULL) {
+		if ($this->rr_options['display_full_width'] != NULL) {
 			$output = '<div class="full-testimonial" itemscope itemtype="data-vocabulary.org/Review">';
 			if( $rTitle != '') {
 				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
@@ -677,7 +676,7 @@ class RichReviews {
 			$output .= '<div class="clear"></div>';
 		} else {
 			$output = '<div class="testimonial" itemscope itemtype="data-vocabulary.org/Review">';
-			if( $rTitle != '') {
+			if ($rTitle != '') {
 				$output .= '<h3 class="rr_title" itemprop="summary">' . $rTitle . '</h3>';
 			} else {
 				$output .= '<h3 class="rr_title" itemprop="summary" style="display:none">' . $rTitle . '</h3>';
@@ -690,10 +689,10 @@ class RichReviews {
 			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
 		}
 		if ($this->rr_options['show_date']) {
-			if($rDateTime != "0000-00-00 00:00:00") {
+			if ($rDateTime != "0000-00-00 00:00:00") {
 				$output .= '<span class="rr_date">Submitted: <time datetime="' . $rDate . '">' . $rDate . '</time></span>';
 			} else {
-				if(current_user_can('edit_posts')) {
+				if (current_user_can('edit_posts')) {
 				$output .= '<span class="date-err rr_date">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
 				}
 			}
