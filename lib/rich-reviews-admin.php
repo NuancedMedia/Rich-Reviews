@@ -149,44 +149,48 @@ class RichReviewsAdmin {
             $this->wrap_admin_page('main');
             return;
         }
-		$output = '';
-		$output .= '<div class="wrap">
-			</div>
+        $supportNM = $this->insert_credit_permission_checkbox();
+
+        include '/../views/admin/dashboard/instructions.php';
+		// $output = '';
+		// $output .= '<div class="wrap">
+		// 	</div>
 
 
-			<div class="rr_admin_sidebar">
-			<div class="rr_admin_sidebar_title">' . __('Shortcode Cheat Sheet', 'rich-reviews') . '</div>
-			<div class="rr_admin_sidebar_text">' . __('Make sure you read the detailed descriptions of how these work below, in ', 'rich-reviews') . '<span style="font-weight: 600;">' . __('Shortcode Usage', 'rich-reviews') . '</span>!</div>
-			<ul class="rr_admin_sidebar_list">
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW num="9"]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW num="all"]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW category="foo"]</li>
-			<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 0px;">[RICH_REVIEWS_SHOW category="page" num="5"]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_FORM]</li>
-			<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 0px;">[RICH_REVIEWS_FORM category="foo"]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SNIPPET]</li>
-			<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SNIPPET category="foo"]</li>
-			</ul>
-			</div>';
-		$output .= '<div class="rr_admin_sidebar">';
-		$output .= '<div class="rr_admin_sidebar_title">' . __('Support the developers!', 'rich-reviews') . '</div>';
-		$output .= $this->insert_credit_permission_checkbox();
-		$output .= '</div>';
-        $output .= '<p>' . __('Thank you for using Rich Reviews by Foxy Technology and ', 'rich-reviews') . '<a href="http://nuancedmedia.com">Nuanced Media</a>!</p>';
-		$output .= '<p>'
-			. __('This plugin is based around shortcodes. We think that this is the best way to go, as then YOU control where reviews, forms, and snippets are shown - pages, posts, widgets... wherever!', 'rich-reviews') .
-			'</p>
-			<p style="font-size: 120%">
-			' . __('Please take a moment to <a href="http://wordpress.org/extend/plugins/rich-reviews/">rate and/or review</a> this plugin, and tell people about it - we love hearing feedback, and depend on you to spread the word!', 'rich-reviews')
-			 . '</p>';
-		$output .= '<p>' .
-			__('Some terminology so that we are all on the same page:', 'rich-reviews') .
-			'<ul style="">
-			<li>' . __('A <b>global review</b> is a review which applies or belongs to the entire Wordpress site, regardless of the current page or post. You might use global reviews if your users are submitting reviews for a business or entire website.', 'rich-reviews') . '</li>
-			<li>' . __('A <b>per-page review</b> is a review which applies to some specific page or post. You might use per-page reviews if, for example, your Wordpress site has various products with a dedicated page or post for each one. Note that reviews users submit will <i>always</i> record the post from which they were submitted, even if you will end up using global reviews! This is to simplify things, so that we don\'t have a bunch of different, confusing shortcodes.', 'rich-reviews') . '</li>
-			</ul>
-			</p>';
+		// 	<div class="rr_admin_sidebar">
+		// 	<div class="rr_admin_sidebar_title">' . __('Shortcode Cheat Sheet', 'rich-reviews') . '</div>
+		// 	<div class="rr_admin_sidebar_text">' . __('Make sure you read the detailed descriptions of how these work below, in ', 'rich-reviews') . '<span style="font-weight: 600;">' . __('Shortcode Usage', 'rich-reviews') . '</span>!</div>
+		// 	<ul class="rr_admin_sidebar_list">
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW num="9"]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW num="all"]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SHOW category="foo"]</li>
+		// 	<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 0px;">[RICH_REVIEWS_SHOW category="page" num="5"]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_FORM]</li>
+		// 	<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 0px;">[RICH_REVIEWS_FORM category="foo"]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SNIPPET]</li>
+		// 	<li class="rr_admin_sidebar_list_item">[RICH_REVIEWS_SNIPPET category="foo"]</li>
+		// 	</ul>
+		// 	</div>';
+		// $output .= '<div class="rr_admin_sidebar">';
+		// $output .= '<div class="rr_admin_sidebar_title">' . __('Support the developers!', 'rich-reviews') . '</div>';
+		// $output .= $this->insert_credit_permission_checkbox();
+		// $output .= '</div>';
+  //       $output .= '<p>' . __('Thank you for using Rich Reviews by Foxy Technology and ', 'rich-reviews') . '<a href="http://nuancedmedia.com">Nuanced Media</a>!</p>';
+		// $output .= '<p>'
+		// 	. __('This plugin is based around shortcodes. We think that this is the best way to go, as then YOU control where reviews, forms, and snippets are shown - pages, posts, widgets... wherever!', 'rich-reviews') .
+		// 	'</p>
+		// 	<p style="font-size: 120%">
+		// 	' . __('Please take a moment to <a href="http://wordpress.org/extend/plugins/rich-reviews/">rate and/or review</a> this plugin, and tell people about it - we love hearing feedback, and depend on you to spread the word!', 'rich-reviews')
+		// 	 . '</p>';
+		// $output .= '<p>' .
+		// 	__('Some terminology so that we are all on the same page:', 'rich-reviews') .
+		// 	'<ul style="">
+		// 	<li>' . __('A <b>global review</b> is a review which applies or belongs to the entire Wordpress site, regardless of the current page or post. You might use global reviews if your users are submitting reviews for a business or entire website.', 'rich-reviews') . '</li>
+		// 	<li>' . __('A <b>per-page review</b> is a review which applies to some specific page or post. You might use per-page reviews if, for example, your Wordpress site has various products with a dedicated page or post for each one. Note that reviews users submit will <i>always</i> record the post from which they were submitted, even if you will end up using global reviews! This is to simplify things, so that we don\'t have a bunch of different, confusing shortcodes.', 'rich-reviews') . '</li>
+		// 	</ul>
+		// 	</p>';
+		//---------------------------------------------------------
 		/*$output .= '<h2>Shortcode Usage</h2>
 			<div class="rr_shortcode_container">
 				<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
@@ -257,9 +261,10 @@ class RichReviewsAdmin {
 				</div>
 			</div>
 		';*/
+		//---------------------------------------------------------------------------
 
-		$output .= '<div class="clear"></div>';
-		echo $output;
+		// $output .= '<div class="clear"></div>';
+		// echo $output;
         //NMMeetupAdminHelper::render_postbox_close();
 
 
@@ -284,84 +289,91 @@ class RichReviewsAdmin {
     }
 
     function render_rr_show_content() {
-        $output = '<div class="rr_shortcode_container">
-				<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
-				<div class="rr_shortcode_description">
-					' . __('This is the main shortcode for this plugin. By default (if no options are given), it will show the first three global reviews which have been approved. Note that this shortcode on its own will NOT display an average/overall score nor any rich snippet markup. See the "snippet" shortcode for that. Here is the shortcode with all possible options, along with their defaults: ', 'rich-reviews') . '[RICH_REVIEWS_SHOW category="none" num="3"].' . __(' We will now show some examples of using these options.', 'rich-reviews') . '
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW num="8"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will show the first eight approved global reviews. Any integer greater than or equal to one may be used, and note that (given enough room) reviews are displayed in blocks of three.', 'rich-reviews') . '
-					</div>
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW num="all"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will show EVERY approved global review which has been posted to your site. This is the only non-integer value which works as the value for the "num" option.', 'rich-reviews') . '
-					</div>
-				</div>';
-		$output .= '<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="page"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will show the first three approved reviews for the page or post on which this shortcode appears. You can also use category="post" and achieve the same results (because sometimes you just can\'t remember if you\'re supposed to say post or page! :-) )', 'rich-reviews') . '
-					</div>
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="foo"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will show the first three approved reviews which have the category "foo" (you might also use categories of "games" or "iPhone" or "bears" (although everyone knows that the best kind of bear is grizzly) ). The categories here are determined by the categories you specify when presenting the review form to your users.', 'rich-reviews') . '
-					</div>
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="bar" num="6"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will show the first six approved reviews which have the category "bar". Again, you may use any category, and if you specify that category="page" then the first six approved reviews for that particular page/post will be displayed.', 'rich-reviews') . '
-					</div>
-				</div>
-			</div>';
-        echo $output;
+    	include '/../views/admin/dashboard/rr_show.php';
+  //       $output = '<div class="rr_shortcode_container">
+		// 		<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
+		// 		<div class="rr_shortcode_description">
+		// 			' . __('This is the main shortcode for this plugin. By default (if no options are given), it will show the first three global reviews which have been approved. Note that this shortcode on its own will NOT display an average/overall score nor any rich snippet markup. See the "snippet" shortcode for that. Here is the shortcode with all possible options, along with their defaults: ', 'rich-reviews') . '[RICH_REVIEWS_SHOW category="none" num="3"].' . __(' We will now show some examples of using these options.', 'rich-reviews') . '
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW num="8"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will show the first eight approved global reviews. Any integer greater than or equal to one may be used, and note that (given enough room) reviews are displayed in blocks of three.', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW num="all"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will show EVERY approved global review which has been posted to your site. This is the only non-integer value which works as the value for the "num" option.', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>';
+		// $output .= '<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="page"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will show the first three approved reviews for the page or post on which this shortcode appears. You can also use category="post" and achieve the same results (because sometimes you just can\'t remember if you\'re supposed to say post or page! :-) )', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="foo"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will show the first three approved reviews which have the category "foo" (you might also use categories of "games" or "iPhone" or "bears" (although everyone knows that the best kind of bear is grizzly) ). The categories here are determined by the categories you specify when presenting the review form to your users.', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="bar" num="6"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will show the first six approved reviews which have the category "bar". Again, you may use any category, and if you specify that category="page" then the first six approved reviews for that particular page/post will be displayed.', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 	</div>';
+  //       echo $output;
     }
 
     function render_rr_form_content() {
-        $output = '<div class="rr_shortcode_container">
-				<div class="rr_shortcode_name">[RICH_REVIEWS_FORM]</div>
-				<div class="rr_shortcode_description">
-					' . __('This shortcode will insert the form which your users fill out to submit their reviews to you. Note that javascript must be enabled (on both your site and on the user\'s computer) in order for this to work. There is one option, shown here with its default: [RICH_REVIEWS_FORM category="none"]. You do NOT need to specify a category of "page" if you want to use per-page reviews. By default, ALL reviews that users submit will record the page or post from which they were submitted.', 'rich-reviews') . '
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_FORM category="foo"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will create a form for users to submit reviews under the category of "foo". Users will not notice a difference, and the form itself does not change based on the category. Again note that if you wish to have per-page reviews, you do NOT need to specify a category of "page" as you do with the review showing shortcode.', 'rich-reviews') . '
-					</div>
-				</div>
-			</div>';
-        echo $output;
+
+    	include '/../views/admin/dashboard/rr_form.php';
+
+   //      $output = '<div class="rr_shortcode_container">
+			// 	<div class="rr_shortcode_name">[RICH_REVIEWS_FORM]</div>
+			// 	<div class="rr_shortcode_description">
+			// 		' . __('This shortcode will insert the form which your users fill out to submit their reviews to you. Note that javascript must be enabled (on both your site and on the user\'s computer) in order for this to work. There is one option, shown here with its default: [RICH_REVIEWS_FORM category="none"]. You do NOT need to specify a category of "page" if you want to use per-page reviews. By default, ALL reviews that users submit will record the page or post from which they were submitted.', 'rich-reviews') . '
+			// 	</div>
+			// 	<div class="rr_shortcode_option_container">
+			// 		<div class="rr_shortcode_option_name">[RICH_REVIEWS_FORM category="foo"]</div>
+			// 		<div class="rr_shortcode_option_text">
+			// 			' . __('This will create a form for users to submit reviews under the category of "foo". Users will not notice a difference, and the form itself does not change based on the category. Again note that if you wish to have per-page reviews, you do NOT need to specify a category of "page" as you do with the review showing shortcode.', 'rich-reviews') . '
+			// 		</div>
+			// 	</div>
+			// </div>';
+   //      echo $output;
     }
 
     function render_rr_snippet_content() {
-        $output = '<div class="rr_shortcode_container">
-				<div class="rr_shortcode_name">[RICH_REVIEWS_SNIPPET]</div>
-				<div class="rr_shortcode_description">
-					' . __('This shortcode will insert an aggregate (average) score based on all approved reviews. By default, this aggregate score is based on the global reviews (as you might guess, the shortcode with its one option and corresponding default is [RICH_REVIEWS_SNIPPET category="none"]). More importantly for webmasters and those concerned with SEO is that this shortcode tags the aggregate score with Rich Snippet markup so that Google (and other search engines) will see the average score on that page, and display stars next to that page when it shows up in search results.', 'rich-reviews') . '<br />
-					' . __('This is given as a seperate shortcode, rather than integrated into the "show" shortcode, so that you may place this in, say, your footer and be able to have Rich Snippets on every page and post, without also having reviews taking up space.', 'rich-reviews') . '<br />
-					' . __('You can test your page <a href="http://www.google.com/webmasters/tools/richsnippets">here</a>. Note that Google is vague with exactly how exactly they give search results. It might take some time for the stars to show up next to your page, and it might only show up with specific search terms. The best thing you can do is make sure that the Rich Snippets tool, above, recognizes the star rating on your page, and be patient. We are constantly working to make sure we keep up with Google to ensure these ratings are displayed.', 'rich-reviews') . '
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SNIPPET category="foo"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews with the category "foo".', 'rich-reviews') . '
-					</div>
-				</div>
-				<div class="rr_shortcode_option_container">
-					<div class="rr_shortcode_option_name">[RICH_REVIEWS_SNIPPET category="page"]</div>
-					<div class="rr_shortcode_option_text">
-						' . __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews for the current page/post (again, you may equivalently use category="post").', 'rich-reviews') . '
-					</div>
-				</div>
-			</div>
-		';
-        echo $output;
+
+    	  include '/../views/admin/dashboard/rr_snippet.php';
+
+  //       $output = '<div class="rr_shortcode_container">
+		// 		<div class="rr_shortcode_name">[RICH_REVIEWS_SNIPPET]</div>
+		// 		<div class="rr_shortcode_description">
+		// 			' . __('This shortcode will insert an aggregate (average) score based on all approved reviews. By default, this aggregate score is based on the global reviews (as you might guess, the shortcode with its one option and corresponding default is [RICH_REVIEWS_SNIPPET category="none"]). More importantly for webmasters and those concerned with SEO is that this shortcode tags the aggregate score with Rich Snippet markup so that Google (and other search engines) will see the average score on that page, and display stars next to that page when it shows up in search results.', 'rich-reviews') . '<br />
+		// 			' . __('This is given as a seperate shortcode, rather than integrated into the "show" shortcode, so that you may place this in, say, your footer and be able to have Rich Snippets on every page and post, without also having reviews taking up space.', 'rich-reviews') . '<br />
+		// 			' . __('You can test your page <a href="http://www.google.com/webmasters/tools/richsnippets">here</a>. Note that Google is vague with exactly how exactly they give search results. It might take some time for the stars to show up next to your page, and it might only show up with specific search terms. The best thing you can do is make sure that the Rich Snippets tool, above, recognizes the star rating on your page, and be patient. We are constantly working to make sure we keep up with Google to ensure these ratings are displayed.', 'rich-reviews') . '
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SNIPPET category="foo"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews with the category "foo".', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 		<div class="rr_shortcode_option_container">
+		// 			<div class="rr_shortcode_option_name">[RICH_REVIEWS_SNIPPET category="page"]</div>
+		// 			<div class="rr_shortcode_option_text">
+		// 				' . __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews for the current page/post (again, you may equivalently use category="post").', 'rich-reviews') . '
+		// 			</div>
+		// 		</div>
+		// 	</div>
+		// ';
+  //       echo $output;
     }
 
 	function render_pending_reviews_page($wrapped = null) {
@@ -392,7 +404,7 @@ class RichReviewsAdmin {
 
 	function render_options_page($wrapped) {
 		$options = $this->parent->options->get_option();
-		dump($options);
+		// dump($options);
 		if (!$wrapped) {
 			$this->wrap_admin_page('options');
 			return;
@@ -400,6 +412,8 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
+		include '/../views/admin/options/options-index.php';
+/*
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
@@ -513,6 +527,7 @@ class RichReviewsAdmin {
 			<input type="submit" class="button" value="<?php _e('Save Options', 'rich-reviews'); ?>">
 		</form>
 		<?php
+*/
 
 	}
 
@@ -536,20 +551,10 @@ class RichReviewsAdmin {
 		if ($permission == 'checked') {
 			$permission_val = ' checked';
 		}
-        $output = '<div class="nm-support-box">';
-		$output .= '<form action="" method="post" class="credit-option">';
-		$output .= '<input type="hidden" name="update_permission" value="rr-update-support" />';
-        $output .= '<div class="nm-support-staff-checkbox">';
-		$output .= '<input type="checkbox" name="credit_permission_option" value="checked"' .  $permission_val . ' />';
-        $output .= '</div>';
-        $output .= '<div class="nm-support-staff-label">';
-		$output .= '<label for="credit_permission_option">' . __(' We thank you for choosing to use our plugin! We would appreciate it if you allowed us to put our name on the plugin we work so hard to build. If you would like to support us, please check this box and change your permission settings.', 'rich-reviews') . '</label>';
-		$output .= '</div>';
-		$output .= '<input type="submit" value="' . __('Change Permission Setting', 'rich-reviews') . '" form_id="credit_permission_option" class="nm-support-staff-submit button" />';
-		$output .= '</form>';
-        $output .= '</div>';
-
-		return $output;
+		ob_start();
+        	include '/../views/admin/credit-permission.php';
+        $output = ob_get_clean();
+        return $output;
 	}
 
 	function update_credit_permission() {

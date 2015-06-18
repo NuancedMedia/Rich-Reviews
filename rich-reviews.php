@@ -198,11 +198,11 @@ class RichReviews {
 				if ($this->rr_options['form-name-display']) {
 					$rName     = $this->fp_sanitize($_POST['rName']);
 				}
-				if ($this->rr_options['form-reviewer-image-display']) {
-					$imageId = media_handle_upload('rAuthorImage',0);
-					$rAuthorImage = $imageId;
-					dump($rAuthorImage);
-				}
+				// if ($this->rr_options['form-reviewer-image-display']) {
+				// 	$imageId = media_handle_upload('rAuthorImage',0);
+				// 	$rAuthorImage = $imageId;
+				// 	dump($rAuthorImage);
+				// }
 				if ($this->rr_options['form-email-display']) {
 					$rEmail    = $this->fp_sanitize($_POST['rEmail']);
 				}
@@ -210,11 +210,11 @@ class RichReviews {
 					$rTitle    = $this->fp_sanitize($_POST['rTitle']);
 				}
 				$rRating   = $this->fp_sanitize($_POST['rRating']);
-				if ($this->rr_options['form-reviewed-image-display']) {
-					$imageId = media_handle_upload('rImage',0);
-					$rImage = $imageId;
-					dump($rImage);
-				}
+				// if ($this->rr_options['form-reviewed-image-display']) {
+				// 	$imageId = media_handle_upload('rImage',0);
+				// 	$rImage = $imageId;
+				// 	dump($rImage);
+				// }
 				if ($this->rr_options['form-content-display']) {
 					$rText     = $this->fp_sanitize($_POST['rText']);
 				}
@@ -229,11 +229,11 @@ class RichReviews {
 				$newdata = array(
 						'date_time'       => $rDateTime,
 						'reviewer_name'   => $rName,
-						'reviewer_image_id' => $rAuthorImage,
+						// 'reviewer_image_id' => $rAuthorImage,
 						'reviewer_email'  => $rEmail,
 						'review_title'    => $rTitle,
 						'review_rating'   => intval($rRating),
-						'review_image_id' => $rImage,
+						// 'review_image_id' => $rImage,
 						'review_text'     => $rText,
 						'review_status'   => $rStatus,
 						'reviewer_ip'     => $rIP,
@@ -332,18 +332,18 @@ class RichReviews {
 				$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
 				$output .= '		</tr>';
 			}
-			if($this->rr_options['form-reviewer-image-display']) {
-				$output .= '	 <tr class="rr_form_row">';
-				$output .= '		<td class="rr_form_heading';
-				if($this->rr_options['form-reviewer-image-require']) {
-					$output .= ' rr_required';
-				}
-				$output .= ' ">'.$this->rr_options['form-reviewer-image-label']. '</td>';
-				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
-				$output .= '		</tr>';
+			// if($this->rr_options['form-reviewer-image-display']) {
+			// 	$output .= '	 <tr class="rr_form_row">';
+			// 	$output .= '		<td class="rr_form_heading';
+			// 	if($this->rr_options['form-reviewer-image-require']) {
+			// 		$output .= ' rr_required';
+			// 	}
+			// 	$output .= ' ">'.$this->rr_options['form-reviewer-image-label']. '</td>';
+			// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
+			// 	$output .= '		</tr>';
 
 
-			}
+			// }
 
 			if($this->rr_options['form-email-display']) {
 				$output .= '		<tr class="rr_form_row">';
@@ -373,18 +373,18 @@ class RichReviews {
 			$output .= '		</tr>';
 
 			//TODO: Maybe immplement array of images
-			if($this->rr_options['form-reviewed-image-display']) {
-				$output .= '	 <tr class="rr_form_row">';
-				$output .= '		<td class="rr_form_heading';
-				if($this->rr_options['form-reviewed-image-require']) {
-					$output .= ' rr_required';
-				}
-				$output .= ' ">'.$this->rr_options['form-reviewed-image-label']. '</td>';
-				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
-				$output .= '		</tr>';
+			// if($this->rr_options['form-reviewed-image-display']) {
+			// 	$output .= '	 <tr class="rr_form_row">';
+			// 	$output .= '		<td class="rr_form_heading';
+			// 	if($this->rr_options['form-reviewed-image-require']) {
+			// 		$output .= ' rr_required';
+			// 	}
+			// 	$output .= ' ">'.$this->rr_options['form-reviewed-image-label']. '</td>';
+			// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
+			// 	$output .= '		</tr>';
 
 
-			}
+			// }
 
 			if($this->rr_options['form-content-display']) {
 				$output .= '		<tr class="rr_form_row">';
@@ -724,12 +724,12 @@ class RichReviews {
 		if($this->rr_options['display_full_width'] != NULL) {
 			$output = '<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">';
 			$output .= '<div class="review-head" style="border: red solid 2px;">';
-			if($rAuthorImage) {
-				dump($rAuthorImage);
-				$output .= '<div class="user-image">';
-				$output .= wp_get_attachment_image( $rAuthorImage, [70, 70]);
-				$output .= '</div>';
-			}
+			// if($rAuthorImage) {
+			// 	dump($rAuthorImage);
+			// 	$output .= '<div class="user-image">';
+			// 	$output .= wp_get_attachment_image( $rAuthorImage, [70, 70]);
+			// 	$output .= '</div>';
+			// }
 			$output .= '<div class="review-info">';
 			if( $rTitle != '') {
 				$output .= '<h3 class="rr_title">' . $rTitle . '</h3>';
@@ -882,7 +882,7 @@ if (!function_exists('dump_exit')) {function dump_exit($var, $label = 'Dump', $e
 
 
 if (!class_exists('NMRichReviewsAdminHelper')) {
-	require_once('views/view-helper/admin-view-helper-functions.php');
+	require_once('views/admin/view-helper/admin-view-helper-functions.php');
 }
 
 if (!class_exists('NMDB')) {
@@ -894,7 +894,7 @@ if (!class_exists('RROptions')) {
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
 require_once('lib/rich-reviews-widget.php');
-require_once("views/admin-add-edit-view.php");
+require_once("views/admin/admin-add-edit-view.php");
 
 global $richReviews;
 $richReviews = new RichReviews();
