@@ -22,7 +22,7 @@ class RichReviewsDB extends NMDB {
 
 	function create_update_database() {
 		global $wpdb;
-		dump("this ran");
+
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		$sql = "CREATE TABLE $this->sqltable (
 				 id int(11) NOT NULL AUTO_INCREMENT,

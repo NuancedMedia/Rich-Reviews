@@ -4,13 +4,15 @@ Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
 Version: 1.6.3
-Author: Foxy Technology
+Author: Nuanced Media
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
 License: GPL2
 
 
-Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
+
+Copyright 2015  Nuanced Media  (email : plugins@nuancedmedia.com)
+
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -26,9 +28,11 @@ Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 include_once ABSPATH . 'wp-admin/includes/media.php';
 include_once ABSPATH . 'wp-admin/includes/file.php';
 include_once ABSPATH . 'wp-admin/includes/image.php';
+
 
 class RichReviews {
 
@@ -142,6 +146,7 @@ class RichReviews {
 		$idid = $result['idid'];
 		$rName = $result['reviewername'];
 		$rIP = $result['reviewerip'];
+
 		$output = __('Something went wrong! Please report this error.', 'rich-reviews');
 		switch ($status) {
 			case 'approve':
@@ -182,7 +187,6 @@ class RichReviews {
 		,$atts));
 		$output = '';
 		$rName  = '';
-
 		$rEmail = '';
 		$rTitle = '';
 		$rText  = '';
@@ -222,6 +226,7 @@ class RichReviews {
 				$rIP       = $_SERVER['REMOTE_ADDR'];
 				$rPostID   = $post->ID;
 				$rCategory = $this->fp_sanitize($category);
+
 
 				dump($rAuthorImage);
 				dump($rImage);
@@ -307,7 +312,8 @@ class RichReviews {
 					}
 					$wpdb->insert($this->sqltable, $newdata);
 					$output .= '<span id="state"></span>';
-					//TODOL format for i18n
+
+					//TODO: format for i18n
 					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $this->nice_output($rName) . ', your review has been recorded. Thanks!</strong></center><div class="clear"></div></div>';
 					$displayForm = false;
 				} else {
@@ -341,8 +347,6 @@ class RichReviews {
 			// 	$output .= ' ">'.$this->rr_options['form-reviewer-image-label']. '</td>';
 			// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
 			// 	$output .= '		</tr>';
-
-
 			// }
 
 			if($this->rr_options['form-email-display']) {
@@ -382,8 +386,6 @@ class RichReviews {
 			// 	$output .= ' ">'.$this->rr_options['form-reviewed-image-label']. '</td>';
 			// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
 			// 	$output .= '		</tr>';
-
-
 			// }
 
 			if($this->rr_options['form-content-display']) {
@@ -458,7 +460,6 @@ class RichReviews {
 		$mail_subject = __('New Pending Review', 'rich-reviews');
 
 		mail($this->rr_options['admin-email'], $mail_subject, $message);
-
 	}
 
 	function shortcode_reviews_show($atts) {
@@ -698,7 +699,8 @@ class RichReviews {
 		$rIP        = $review->reviewer_ip;
 		$rPostId    = $review->post_id;
 		$rRating = '';
-		$rAuthorImage = $review->reviewer_image_id;
+		//$rAuthorImage = $review->reviewer_image_id;
+
 
 		for ($i=1; $i<=$rRatingVal; $i++) {
 			$rRating .= '&#9733;'; // orange star
@@ -855,7 +857,7 @@ class RichReviews {
 		$permission = $this->rr_options['credit_permission'];
 		$output = "";
 		if ($permission) {
-			$output = '<div class="credit-line">' . __('Supported By: ', 'rich-reviews') . '<a href="http://nuancedmedia.com/" rel="nofollow">' . __('Nuanced Media', 'rich-reviews') . '</a>';
+			$output = '<div class="credit-line">' . __('Supported By: ', 'rich-reviews') . '<a href="http://nuancedmedia.com/" rel="nofollow">' . 'Nuanced Media'. '</a>';
 			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
@@ -895,6 +897,7 @@ require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
 require_once('lib/rich-reviews-widget.php');
 require_once("views/admin/admin-add-edit-view.php");
+
 
 global $richReviews;
 $richReviews = new RichReviews();

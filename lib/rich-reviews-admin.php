@@ -54,6 +54,7 @@ class RichReviewsAdmin {
 		);
 		add_submenu_page(
 			'rich_reviews_settings_main',
+
 			'Rich Reviews - ' . __('Approved Reviews', 'rich-reviews'),
 			__('Approved Reviews', 'rich-reviews'),
 			$required_role,
@@ -149,6 +150,7 @@ class RichReviewsAdmin {
             $this->wrap_admin_page('main');
             return;
         }
+
         $supportNM = $this->insert_credit_permission_checkbox();
 
         include '/../views/admin/dashboard/instructions.php';
@@ -191,6 +193,7 @@ class RichReviewsAdmin {
 		// 	</ul>
 		// 	</p>';
 		//---------------------------------------------------------
+
 		/*$output .= '<h2>Shortcode Usage</h2>
 			<div class="rr_shortcode_container">
 				<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
@@ -289,6 +292,7 @@ class RichReviewsAdmin {
     }
 
     function render_rr_show_content() {
+
     	include '/../views/admin/dashboard/rr_show.php';
   //       $output = '<div class="rr_shortcode_container">
 		// 		<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
@@ -404,7 +408,6 @@ class RichReviewsAdmin {
 
 	function render_options_page($wrapped) {
 		$options = $this->parent->options->get_option();
-		// dump($options);
 		if (!$wrapped) {
 			$this->wrap_admin_page('options');
 			return;
@@ -412,8 +415,10 @@ class RichReviewsAdmin {
 		if (!current_user_can('manage_options')) {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
+
 		include '/../views/admin/options/options-index.php';
 /*
+
 		?>
 		<form id="rr-admin-options-form" action="" method="post">
 			<input type="hidden" name="update" value="rr-update-options">
@@ -551,10 +556,27 @@ class RichReviewsAdmin {
 		if ($permission == 'checked') {
 			$permission_val = ' checked';
 		}
+
 		ob_start();
         	include '/../views/admin/credit-permission.php';
         $output = ob_get_clean();
         return $output;
+
+  //       $output = '<div class="nm-support-box">';
+		// $output .= '<form action="" method="post" class="credit-option">';
+		// $output .= '<input type="hidden" name="update_permission" value="rr-update-support" />';
+  //       $output .= '<div class="nm-support-staff-checkbox">';
+		// $output .= '<input type="checkbox" name="credit_permission_option" value="checked"' .  $permission_val . ' />';
+  //       $output .= '</div>';
+  //       $output .= '<div class="nm-support-staff-label">';
+		// $output .= '<label for="credit_permission_option">We thank you for choosing to use our plugin! We would appreciate it if you allowed us to put our name on the plugin we work so hard to build. If you would like to support us, please check this box and change your permission settings.</label>';
+		// $output .= '</div>';
+		// $output .= '<input type="submit" value="Change Permission Setting" form_id="credit_permission_option" class="nm-support-staff-submit button" />';
+		// $output .= '</form>';
+  //       $output .= '</div>';
+
+		// return $output;
+
 	}
 
 	function update_credit_permission() {
