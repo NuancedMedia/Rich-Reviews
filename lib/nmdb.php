@@ -97,17 +97,13 @@ class NMDB {
     }
 
     function order_by($key, $sort = 'ASC') {
-<<<<<<< HEAD
         if($key == 'random') {
             $this->order_by = 'ORDER BY RAND() ';
         }
         else {
             $this->order_by = ' ORDER BY `' . $key . '` ' . $sort;
         }
-        
-=======
-        $this->order_by = ' ORDER BY `' . $key . '` ' . $sort;
->>>>>>> eb4d9e5d137b2dc2fd340a263baaa45f29879292
+
     }
 
     function limit($row_count, $offset = NULL) {
