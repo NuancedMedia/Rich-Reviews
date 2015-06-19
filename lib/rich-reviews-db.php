@@ -57,4 +57,59 @@ class RichReviewsDB extends NMDB {
 		return $this->get_var();
 	}
 
+	function get_reviews($category, $num, $post) {
+
+		$this->where('review_status', 1);
+		if (($category == 'post') || ($category == 'page')) {
+			$this->where('post_id', $post->ID);
+		} else if ($category == 'none') {
+			$this->where('review_category', 'none');
+			$this->or_where('review_category', '');
+		} else if($category != 'all') {
+			$this->where('review_category', $category);
+		}
+		if ($num != 'all') {
+			$num = intval($num);
+			if ($num < 1) { $num = 1; }
+			$this->limit($num);
+		}
+
+		// Set up the Order BY
+		if ($this->parent->rr_options['reviews_order'] === 'random') {
+			$this->order_by('random');
+		}
+		else {
+			$this->order_by('date_time', $this->parent->rr_options['reviews_order']);
+		}
+
+
+		$results = $this->get();
+
+		return $results;
+	}
+
+	function get_average_rating($category) {
+		global $wpdb;
+
+		if ($category == 'none') {
+			$whereStatement = "WHERE review_status=\"1\"";
+		} else if(($category == 'post') || ($category == 'page')) {
+			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
+		} else if ($category != 'all') {
+			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
+		}
+
+		$approvedReviewsCount = $wpdb->get_var("SELECT COUNT(*) FROM $this->sqltable " . $whereStatement);
+		$averageRating = 0;
+		if ($approvedReviewsCount != 0) {
+			$averageRating = $wpdb->get_var("SELECT AVG(review_rating) FROM $this->sqltable " . $whereStatement);
+			$averageRating = floor(10*floatval($averageRating))/10;
+		}
+
+		$return = array('average' => $averageRating, 'reviewsCount' => $approvedReviewsCount);
+
+
+		return $return;
+	}
+
 }
