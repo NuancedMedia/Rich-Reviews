@@ -22,6 +22,8 @@ function handle_form($atts, $options, $sqltable) {
 	if (isset($_POST['submitted'])) {
 		if ($_POST['submitted'] == 'Y') {
 			$rDateTime = date('Y-m-d H:i:s');
+			$incomingData = $_POST;
+			$incomingData['rDateTime'] = $rDateTime;
 			if ($options['form-name-display']) {
 				$rName     = fp_sanitize($_POST['rName']);
 			}
@@ -137,7 +139,11 @@ function handle_form($atts, $options, $sqltable) {
 				$output .= '<span id="state"></span>';
 
 				//TODO: format for i18n
-				$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded. Thanks!</strong></center><div class="clear"></div></div>';
+				$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded';
+				if($options['require_approval']) {
+					$output .= ' and submitted for approval';
+				}
+				$output .= '. Thanks!</strong></center><div class="clear"></div></div>';
 				$displayForm = false;
 			} else {
 				//$output .= '<span id="target"></span>';
@@ -147,121 +153,131 @@ function handle_form($atts, $options, $sqltable) {
 		$output .= '<span id="state"></span>';
 	}
 	if ($displayForm) {
-		$output .= '<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">';
-		$output .= '	<input type="hidden" name="submitted" value="Y" />';
-		$output .= '	<input type="hidden" name="rRating" id="rRating" value="0" />';
-		$output .= '	<table class="form_table">';
-		if($options['form-name-display']) {
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading';
-			if($options['form-name-require']){
-				$output .= ' rr_required';
-			}
-			$output .= '">'.$options['form-name-label'].'</td>';
-			$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
-			$output .= '		</tr>';
-		}
-		// if($options['form-reviewer-image-display']) {
-		// 	$output .= '	 <tr class="rr_form_row">';
-		// 	$output .= '		<td class="rr_form_heading';
-		// 	if($options['form-reviewer-image-require']) {
-		// 		$output .= ' rr_required';
-		// 	}
-		// 	$output .= ' ">'.$options['form-reviewer-image-label']. '</td>';
-		// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
-		// 	$output .= '		</tr>';
-		// }
+		$errors = array(
+			'name' 		=> 	$nameErr,
+			'email'		=>	$emailErr,
+			'title' 	=>	$titleErr,
+			'content'	=>	$textErr,
+			'rating'	=>	$ratingErr
+		);
+		?>
+		<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">
+			<input type="hidden" name="submitted" value="Y" />
+			<input type="hidden" name="rRating" id="rRating" value="0" />
+			<table class="form_table">
+			<?php do_action('rr_do_form_fields', $options, $newData, $errors); ?>
+		<?php
 
-		if($options['form-email-display']) {
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading';
-			if($options['form-email-require']){
-				$output .= ' rr_required';
-			}
-			$output .= '">'.$options['form-email-label'].'</td>';
-			$output .= '			<td class="rr_form_input">'.$emailErr.'<input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
-			$output .= '		</tr>';
-		}
+	// 	if($options['form-name-display']) {
+	// 		$output .= '		<tr class="rr_form_row">';
+	// 		$output .= '			<td class="rr_form_heading';
+	// 		if($options['form-name-require']){
+	// 			$output .= ' rr_required';
+	// 		}
+	// 		$output .= '">'.$options['form-name-label'].'</td>';
+	// 		$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
+	// 		$output .= '		</tr>';
+	// 	}
+	// 	// if($options['form-reviewer-image-display']) {
+	// 	// 	$output .= '	 <tr class="rr_form_row">';
+	// 	// 	$output .= '		<td class="rr_form_heading';
+	// 	// 	if($options['form-reviewer-image-require']) {
+	// 	// 		$output .= ' rr_required';
+	// 	// 	}
+	// 	// 	$output .= ' ">'.$options['form-reviewer-image-label']. '</td>';
+	// 	// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
+	// 	// 	$output .= '		</tr>';
+	// 	// }
 
-		if($options['form-title-display']) {
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading';
-			if($options['form-title-require']){
-				$output .= ' rr_required';
-			}
-			$output .= '">'.$options['form-title-label'].'</td>';
-			$output .= '			<td class="rr_form_input">'.$titleErr.'<input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
-			$output .= '		</tr>';
-		}
+	// 	if($options['form-email-display']) {
+	// 		$output .= '		<tr class="rr_form_row">';
+	// 		$output .= '			<td class="rr_form_heading';
+	// 		if($options['form-email-require']){
+	// 			$output .= ' rr_required';
+	// 		}
+	// 		$output .= '">'.$options['form-email-label'].'</td>';
+	// 		$output .= '			<td class="rr_form_input">'.$emailErr.'<input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
+	// 		$output .= '		</tr>';
+	// 	}
 
-		$output .= '		<tr class="rr_form_row">';
-		$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
-		$output .= '			<td class="rr_form_input">'.$reviewErr . star_rating_input() . '</td>';
-		$output .= '		</tr>';
+	// 	if($options['form-title-display']) {
+	// 		$output .= '		<tr class="rr_form_row">';
+	// 		$output .= '			<td class="rr_form_heading';
+	// 		if($options['form-title-require']){
+	// 			$output .= ' rr_required';
+	// 		}
+	// 		$output .= '">'.$options['form-title-label'].'</td>';
+	// 		$output .= '			<td class="rr_form_input">'.$titleErr.'<input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
+	// 		$output .= '		</tr>';
+	// 	}
 
-		//TODO: Maybe immplement array of images
-		// if($options['form-reviewed-image-display']) {
-		// 	$output .= '	 <tr class="rr_form_row">';
-		// 	$output .= '		<td class="rr_form_heading';
-		// 	if($options['form-reviewed-image-require']) {
-		// 		$output .= ' rr_required';
-		// 	}
-		// 	$output .= ' ">'.$options['form-reviewed-image-label']. '</td>';
-		// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
-		// 	$output .= '		</tr>';
-		// }
+	// 	$output .= '		<tr class="rr_form_row">';
+	// 	$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
+	// 	$output .= '			<td class="rr_form_input">'.$reviewErr . star_rating_input() . '</td>';
+	// 	$output .= '		</tr>';
 
-		if($options['form-content-display']) {
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading';
-			if($options['form-content-require']) {
-				$output .= ' rr_required';
-			}
-			$output .= '">'.$options['form-content-label'].'</td>';
-			$output .= '			<td class="rr_form_input">'.$textErr.'<textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
-			$output .= '		</tr>';
-		}
+	// 	//TODO: Maybe immplement array of images
+	// 	// if($options['form-reviewed-image-display']) {
+	// 	// 	$output .= '	 <tr class="rr_form_row">';
+	// 	// 	$output .= '		<td class="rr_form_heading';
+	// 	// 	if($options['form-reviewed-image-require']) {
+	// 	// 		$output .= ' rr_required';
+	// 	// 	}
+	// 	// 	$output .= ' ">'.$options['form-reviewed-image-label']. '</td>';
+	// 	// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
+	// 	// 	$output .= '		</tr>';
+	// 	// }
 
-		$output .= '		<tr class="rr_form_row">';
-		$output .= '			<td></td>';
-		$output .= '			<td class="rr_form_input"><input id="submitReview" name="submitButton" type="submit" value="'.$options['form-submit-text'].'"/></td>';
-		$output .= '		</tr>';
-		$output .= '	</table>';
-		$output .= '</form>';
+	// 	if($options['form-content-display']) {
+	// 		$output .= '		<tr class="rr_form_row">';
+	// 		$output .= '			<td class="rr_form_heading';
+	// 		if($options['form-content-require']) {
+	// 			$output .= ' rr_required';
+	// 		}
+	// 		$output .= '">'.$options['form-content-label'].'</td>';
+	// 		$output .= '			<td class="rr_form_input">'.$textErr.'<textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
+	// 		$output .= '		</tr>';
+	// 	}
+
+	?>
+
+				<tr class="rr_form_row">
+					<td></td>
+					<td class="rr_form_input"><input id="submitReview" name="submitButton" type="submit" value="<?php echo $options['form-submit-text']; ?>"/></td>
+				</tr>
+			</table>
+		</form>
+	<?php
+	// }
+	// render_custom_styles($options);
+	// if( $options['return-to-form']) {
+	// 		$output .= '<script>
+	// 						jQuery(function(){
+	// 							if(jQuery(".successful").is(":visible")) {
+	// 								offset = jQuery(".successful").offset();
+	// 								jQuery("html, body").animate({
+	// 									scrollTop: (offset.top - 400)
+	// 								});
+	// 							} else {
+	// 								if(jQuery(".form-err").is(":visible")) {
+	// 									offset = jQuery(".form-err").offset();
+	// 									jQuery("html, body").animate({
+	// 										scrollTop: (offset.top - 200)
+	// 									});
+	// 								}
+	// 							}
+	// 						});
+	// 					</script>';
+	// }
+	// return __($output, 'rich-reviews');
 	}
-	render_custom_styles($options);
-	if( $options['return-to-form']) {
-			$output .= '<script>
-							jQuery(function(){
-								if(jQuery(".successful").is(":visible")) {
-									offset = jQuery(".successful").offset();
-									jQuery("html, body").animate({
-										scrollTop: (offset.top - 400)
-									});
-								} else {
-									if(jQuery(".form-err").is(":visible")) {
-										offset = jQuery(".form-err").offset();
-										jQuery("html, body").animate({
-											scrollTop: (offset.top - 200)
-										});
-									}
-								}
-							});
-						</script>';
-	}
-	return __($output, 'rich-reviews');
 }
 
-function star_rating_input() {
+function rr_do_rating_field($options, $rData = null, $errors = null) {
+	$ratingErr = $errors['rating'];
 
-	$output = '<div class="rr_stars_container">
-		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_1"></span>
-		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_2"></span>
-		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_3"></span>
-		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_4"></span>
-		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_5"></span>
-	</div>';
-	return __($output, 'rich-reviews');
+	@include '/../views/frontend/form/rr-star-input.php';
+
 }
 
 function render_custom_styles($options) {
@@ -272,6 +288,73 @@ function render_custom_styles($options) {
 		}
 	</style>
 	<?php
+}
+
+function rr_do_name_field($options, $rData = null, $errors = null) {
+	$inputId = 'Name';
+	$require = false;
+	$rName = '';
+	$error = $errors['name'];
+	$label = $options['form-name-label'];
+	if($options['form-name-require']) {
+		$require = true;
+	}
+	if($rData['reviewer_name']) {
+		$rName = $rData['reviewer_name'];
+	}
+
+	@include '/../views/frontend/form/rr-text-input.php';
+}
+
+function rr_do_email_field($options, $rData = null, $errors = null) {
+	$inputId = 'Email';
+	$require = false;
+	$rEmail = '';
+	$error = $errors['email'];
+	$label = $options['form-email-label'];
+	if($options['form-email-require']) {
+		$require = true;
+	}
+	if($rData['reviewer_email']) {
+		$rEmail = $rData['reviewer_email'];
+	}
+
+	@include '/../views/frontend/form/rr-text-input.php';
+}
+
+function rr_do_title_field($options, $rData = null, $errors = null) {
+	$inputId = 'Title';
+	$require = false;
+	$rTitle = '';
+	$error = $errors['title'];
+	$label = $options['form-title-label'];
+	if($options['form-title-require']) {
+		$require = true;
+	}
+	if($rData['reviewer_title']) {
+		$rTitle = $rData['reviewer_title'];
+	}
+
+	@include '/../views/frontend/form/rr-text-input.php';
+}
+
+function rr_do_content_field($options, $rData = null, $errors = null) {
+	dump("in");
+	$inputId = 'Text';
+	$require = false;
+	$rText = '';
+	$error = $errors['content'];
+	dump($error);
+	$label = $options['form-content-label'];
+	if($options['form-content-require']) {
+		$require = true;
+	}
+	dump($require);
+	if($rData['review_text']) {
+		$rText = $rData['review_text'];
+	}
+
+	@include '/../views/frontend/form/rr-textarea-input.php';
 }
 
 function sendEmail($data, $options) {

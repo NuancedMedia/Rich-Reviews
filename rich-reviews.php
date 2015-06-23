@@ -94,6 +94,8 @@ class RichReviews {
 		$this->process_plugin_updates();
 		$this->options->update_options();
 		$this->rr_options = $this->options->get_option();
+		$this->set_display_filters();
+		$this->set_form_filters();
 	}
 
 	function process_plugin_updates() {
@@ -143,6 +145,66 @@ class RichReviews {
 		wp_enqueue_script('rich-reviews');
 		wp_register_style('rich-reviews', $pluginDirectory . 'css/rich-reviews.css');
 		wp_enqueue_style('rich-reviews');
+	}
+
+	function set_display_filters() {
+		add_action('rr_do_review_content', 'do_review_body', 3);
+		if($this->rr_options['display_full_width']) {
+			add_action('rr_do_review_wrapper', 'full_width_wrapper');
+		}	else {
+			add_action('rr_do_review_wrapper', 'column_wrapper');
+		}
+		if($this->rr_options['show_form_post_title']) {
+			add_action('rr_do_review_content', 'do_post_title', 1);
+		} else {
+			add_action('rr_do_review_content', 'do_hidden_post_title', 1);
+		}
+		if($this->rr_options['show_date']) {
+			add_action('rr_do_review_content', 'do_the_date', 2);
+		} else {
+			add_action('rr_do_review_content', 'do_the_date_hidden', 2);
+		}
+	}
+
+	function set_form_filters() {
+
+		if($this->rr_options['form-name-display']) {
+			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 3);
+			if($this->rr_options['form-name-display']) {
+				//add require validate filter
+			}
+		}
+		if($this->rr_options['form-email-display']) {
+			add_action('rr_do_form_fields', 'rr_do_email_field', 2, 3);
+			if($this->rr_options['form-email-display']) {
+				//add require validate filter
+			}
+		}
+		if($this->rr_options['form-title-display']) {
+			add_action('rr_do_form_fields', 'rr_do_title_field', 3, 3);
+			if($this->rr_options['form-title-display']) {
+				//add require validate filter
+			}
+		}
+		add_action('rr_do_form_fields', 'rr_do_rating_field', 4, 3);
+		if($this->rr_options['form-content-display']) {
+			add_action('rr_do_form_fields', 'rr_do_content_field', 5, 3);
+			if($this->rr_options['form-content-display']) {
+				//add require validate filter
+			}
+		}
+		// if($this->rr_options['form-reviewer-display']) {
+		// 	add_action('rr_do_form_fields', 'rr_do_reviewerImg_field', 6, 3);
+		// 	if($this->rr_options['form-reviewer-display']) {
+		// 		//add require validate filter
+		// 	}
+		// }
+		// if($this->rr_options['form-reviewed-display']) {
+		// 	add_action('rr_do_form_fields', 'rr_do_reviewedImg_field', 7, 3);
+		// 	if($this->rr_options['form-reviewed-display']) {
+		// 		//add require validate filter
+		// 	}
+		// }
 	}
 
 	function update_review_status($result, $status) {
