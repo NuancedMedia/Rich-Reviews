@@ -4,13 +4,15 @@ Plugin Name: Rich Reviews
 Plugin URI: http://nuancedmedia.com/wordpress-rich-reviews-plugin/
 Description: Rich Reviews empowers you to easily capture user reviews and display them on your wordpress page or post and in Google Search Results as a Google Rich Snippet.
 Version: 1.6.3
-Author: Foxy Technology
+Author: Nuanced Media
 Author URI: http://nuancedmedia.com/
 Text Domain: rich-reviews
 License: GPL2
 
 
-Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
+
+Copyright 2015  Nuanced Media  (email : plugins@nuancedmedia.com)
+
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -26,15 +28,21 @@ Copyright 2015  Ian Fox Douglas  (email : iandouglas@nuancedmedia.com)
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 include_once ABSPATH . 'wp-admin/includes/media.php';
 include_once ABSPATH . 'wp-admin/includes/file.php';
 include_once ABSPATH . 'wp-admin/includes/image.php';
 
+require_once 'shortcodes/rr-form.php';
+require_once 'shortcodes/rr-show.php';
+require_once 'shortcodes/rr-snippet.php';
+
+
 class RichReviews {
 
 	var $sqltable = 'richreviews';
-	var $fp_admin_options = 'rr_admin_options';
-	var $credit_permission_option = 'rr_credit_permission';
+	// var $fp_admin_options = 'rr_admin_options';
+	//var $credit_permission_option = 'rr_credit_permission';
 
 	var $admin;
 	var $db;
@@ -72,10 +80,10 @@ class RichReviews {
 		add_action('init', array(&$this, 'init'));
 		add_action('wp_enqueue_scripts', array(&$this, 'load_scripts_styles'), 100);
 
-		add_shortcode('RICH_REVIEWS_FORM', array(&$this, 'shortcode_reviews_form'));
-		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show'));
-		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all'));
-		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets'));
+		add_shortcode('RICH_REVIEWS_FORM', array(&$this, 'shortcode_reviews_form_control'));
+		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
+		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
+		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
 
 		add_filter('widget_text', 'do_shortcode');
 
@@ -86,6 +94,8 @@ class RichReviews {
 		$this->process_plugin_updates();
 		$this->options->update_options();
 		$this->rr_options = $this->options->get_option();
+		$this->set_display_filters();
+		$this->set_form_filters();
 	}
 
 	function process_plugin_updates() {
@@ -137,14 +147,90 @@ class RichReviews {
 		wp_enqueue_style('rich-reviews');
 	}
 
+	function set_display_filters() {
+		add_action('rr_do_review_content', 'do_review_body', 3);
+		if($this->rr_options['display_full_width']) {
+			add_action('rr_do_review_wrapper', 'full_width_wrapper');
+		}	else {
+			add_action('rr_do_review_wrapper', 'column_wrapper');
+		}
+		if($this->rr_options['show_form_post_title']) {
+			add_action('rr_do_review_content', 'do_post_title', 1);
+		} else {
+			add_action('rr_do_review_content', 'do_hidden_post_title', 1);
+		}
+		if($this->rr_options['show_date']) {
+			add_action('rr_do_review_content', 'do_the_date', 2);
+		} else {
+			add_action('rr_do_review_content', 'do_the_date_hidden', 2);
+		}
+	}
+
+	function set_form_filters() {
+
+		add_filter('rr_process_form_data', 'sanitize_incoming_data');
+		// add_filter('rr_process_form_data', 'fill_auto_data', 1, ??);
+		// add_action('rr_on_valid_data', 'rr_insert_new_review');
+		if($this->rr_options['send_email_notifications']) {
+			//add_action('rr_on_valid_data', 'rr_send_admin_email');
+		}
+		if($this->rr_options['form-name-display']) {
+			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 3);
+			// add_filter('rr_misc_validation', 'rr_validate_name_length');
+			if($this->rr_options['form-name-display']) {
+				add_filter('rr_check_required', 'rr_require_name_field');
+			}
+		}
+		if($this->rr_options['form-email-display']) {
+			add_action('rr_do_form_fields', 'rr_do_email_field', 2, 3);
+			// add_filter('rr_misc_validation', 'rr_validate_email');
+
+			if($this->rr_options['form-email-display']) {
+				add_filter('rr_check_required', 'rr_require_email_field');
+			}
+		}
+		if($this->rr_options['form-title-display']) {
+			add_action('rr_do_form_fields', 'rr_do_title_field', 3, 3);
+			// add_filter('rr_misc_validation', 'rr_validate_title_length');
+
+			if($this->rr_options['form-title-display']) {
+				add_filter('rr_check_required', 'rr_require_title_field');
+			}
+		}
+		//TODO: Maybe add min/max rating validation
+		add_action('rr_do_form_fields', 'rr_do_rating_field', 4, 3);
+		if($this->rr_options['form-content-display']) {
+			add_action('rr_do_form_fields', 'rr_do_content_field', 5, 3);
+			// add_filter('rr_misc_validation', 'rr_validate_content_length');
+
+			if($this->rr_options['form-content-display']) {
+				add_filter('rr_check_required', 'rr_require_content_field');
+			}
+		}
+		// if($this->rr_options['form-reviewer-display']) {
+		// 	add_action('rr_do_form_fields', 'rr_do_reviewerImg_field', 6, 3);
+		// 	if($this->rr_options['form-reviewer-display']) {
+		// 		//add require validate filter
+		// 	}
+		// }
+		// if($this->rr_options['form-reviewed-display']) {
+		// 	add_action('rr_do_form_fields', 'rr_do_reviewedImg_field', 7, 3);
+		// 	if($this->rr_options['form-reviewed-display']) {
+		// 		//add require validate filter
+		// 	}
+		// }
+	}
+
 	function update_review_status($result, $status) {
 		global $wpdb;
 		$idid = $result['idid'];
 		$rName = $result['reviewername'];
 		$rIP = $result['reviewerip'];
-		$output = 'Something went wrong! Please report this error.';
+
+		$output = __('Something went wrong! Please report this error.', 'rich-reviews');
 		switch ($status) {
 			case 'approve':
+				//TODO: come back to this for formatting for i18n
 				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $this->nice_output($rName) . ', whose IP is ' . $rIP . ' has been approved.<br>';
 				$wpdb->update($this->sqltable, array('review_status' => '1'), array('id' => $idid));
 				break;
@@ -171,258 +257,12 @@ class RichReviews {
 		return __($output, 'rich-reviews');
 	}
 
-	function shortcode_reviews_form($atts) {
-		global $wpdb;
-		global $post;
-		extract(shortcode_atts(
-			array(
-				'category' => 'none',
-			)
-		,$atts));
-		$output = '';
-		$rName  = '';
+	function shortcode_reviews_form_control($atts) {
+		// Move primary functoionality elsewhere
+		// class data:
+		// 	- $options
 
-		$rEmail = '';
-		$rTitle = '';
-		$rText  = '';
-		$nameErr = '';
-		$emailErr = '';
-		$titleErr = '';
-		$reviewErr = '';
-		$textErr = '';
-		$displayForm = true;
-		if (isset($_POST['submitted'])) {
-			if ($_POST['submitted'] == 'Y') {
-				$rDateTime = date('Y-m-d H:i:s');
-				if ($this->rr_options['form-name-display']) {
-					$rName     = $this->fp_sanitize($_POST['rName']);
-				}
-				if ($this->rr_options['form-reviewer-image-display']) {
-					$imageId = media_handle_upload('rAuthorImage',0);
-					$rAuthorImage = $imageId;
-					dump($rAuthorImage);
-				}
-				if ($this->rr_options['form-email-display']) {
-					$rEmail    = $this->fp_sanitize($_POST['rEmail']);
-				}
-				if ($this->rr_options['form-title-display']) {
-					$rTitle    = $this->fp_sanitize($_POST['rTitle']);
-				}
-				$rRating   = $this->fp_sanitize($_POST['rRating']);
-				if ($this->rr_options['form-reviewed-image-display']) {
-					$imageId = media_handle_upload('rImage',0);
-					$rImage = $imageId;
-					dump($rImage);
-				}
-				if ($this->rr_options['form-content-display']) {
-					$rText     = $this->fp_sanitize($_POST['rText']);
-				}
-				if ($this->rr_options['require_approval']) {$rStatus   = 0;} else {$rStatus   = 1;}
-				$rIP       = $_SERVER['REMOTE_ADDR'];
-				$rPostID   = $post->ID;
-				$rCategory = $this->fp_sanitize($category);
-
-				dump($rAuthorImage);
-				dump($rImage);
-
-				$newdata = array(
-						'date_time'       => $rDateTime,
-						'reviewer_name'   => $rName,
-						'reviewer_image_id' => $rAuthorImage,
-						'reviewer_email'  => $rEmail,
-						'review_title'    => $rTitle,
-						'review_rating'   => intval($rRating),
-						'review_image_id' => $rImage,
-						'review_text'     => $rText,
-						'review_status'   => $rStatus,
-						'reviewer_ip'     => $rIP,
-						'post_id'		  => $rPostID,
-						'review_category' => $rCategory
-				);
-				$validData = true;
-				if($this->rr_options['form-name-display']) {
-					if($this->rr_options['form-name-require']) {
-						if ($rName == '') {
-						$nameErr = '<span class="form-err">You must include your name.</span><br>';
-						$validData = false;
-						}
-					}
-				}
-				if($this->rr_options['form-title-display']) {
-					if($this->rr_options['form-title-require']) {
-						if ($rTitle == '') {
-							$titleErr= '<span class="form-err">You must include a title for your review.</span><br>';
-							$validData = false;
-						}
-					}
-				}
-				if($this->rr_options['form-content-display']) {
-					if($this->rr_options['form-content-require']) {
-						if ($rText == '') {
-							$textErr = '<span class="form-err">You must write some text in your review.</span><br>';
-							$validData = false;
-						}
-					}
-				}
-
-				if ($rRating == 0) {
-					$reviewErr = '<span class="form-err">Please give a rating between 1 and 5 stars.</span><br>';
-					$validData = false;
-				}
-				if($this->rr_options['form-email-display']) {
-					if($this->rr_options['form-email-require']) {
-						if($rEmail == '') {
-							$emailErr = '<span class="form-err">Please provide email.</span><br>';
-						}
-					}
-					if ($rEmail != '') {
-						$firstAtPos = strpos($rEmail,'@');
-						$periodPos  = strpos($rEmail,'.');
-						$lastAtPos  = strrpos($rEmail,'@');
-						if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-							$emailErr .= '<span class="form-err">You must provide a valid email address.</span><br>';
-							$validData = false;
-						}
-					}
-				}
-				if ($validData) {
-					if($this->rr_options['form-name-display']) {
-						if ((strlen($rName) > 100)) {
-							$output .= 'The name you entered was too long, and has been shortened.<br />';
-						}
-					}
-					if($this->rr_options['form-title-display']) {
-						if ((strlen($rTitle) > 150)) {
-							$output .= 'The review title you entered was too long, and has been shortened.<br />';
-						}
-					}
-					if($this->rr_options['form-email-display']) {
-						if ((strlen($rEmail) > 100)) {
-							$output .= 'The email you entered was too long, and has been shortened.<br />';
-						}
-					}
-					if( $this->rr_options['send-email-notifications']) {
-						$this->sendEmail($newdata);
-					}
-					$wpdb->insert($this->sqltable, $newdata);
-					$output .= '<span id="state"></span>';
-					$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $this->nice_output($rName) . ', your review has been recorded and submitted for approval. Thanks!</strong></center><div class="clear"></div></div>';
-					$displayForm = false;
-				} else {
-					//$output .= '<span id="target"></span>';
-				}
-			}
-		} else {
-			$output .= '<span id="state"></span>';
-		}
-		if ($displayForm) {
-			$output .= '<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">';
-			$output .= '	<input type="hidden" name="submitted" value="Y" />';
-			$output .= '	<input type="hidden" name="rRating" id="rRating" value="0" />';
-			$output .= '	<table class="form_table">';
-			if($this->rr_options['form-name-display']) {
-				$output .= '		<tr class="rr_form_row">';
-				$output .= '			<td class="rr_form_heading';
-				if($this->rr_options['form-name-require']){
-					$output .= ' rr_required';
-				}
-				$output .= '">'.$this->rr_options['form-name-label'].'</td>';
-				$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
-				$output .= '		</tr>';
-			}
-			if($this->rr_options['form-reviewer-image-display']) {
-				$output .= '	 <tr class="rr_form_row">';
-				$output .= '		<td class="rr_form_heading';
-				if($this->rr_options['form-reviewer-image-require']) {
-					$output .= ' rr_required';
-				}
-				$output .= ' ">'.$this->rr_options['form-reviewer-image-label']. '</td>';
-				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
-				$output .= '		</tr>';
-
-
-			}
-
-			if($this->rr_options['form-email-display']) {
-				$output .= '		<tr class="rr_form_row">';
-				$output .= '			<td class="rr_form_heading';
-				if($this->rr_options['form-email-require']){
-					$output .= ' rr_required';
-				}
-				$output .= '">'.$this->rr_options['form-email-label'].'</td>';
-				$output .= '			<td class="rr_form_input">'.$emailErr.'<input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
-				$output .= '		</tr>';
-			}
-
-			if($this->rr_options['form-title-display']) {
-				$output .= '		<tr class="rr_form_row">';
-				$output .= '			<td class="rr_form_heading';
-				if($this->rr_options['form-title-require']){
-					$output .= ' rr_required';
-				}
-				$output .= '">'.$this->rr_options['form-title-label'].'</td>';
-				$output .= '			<td class="rr_form_input">'.$titleErr.'<input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
-				$output .= '		</tr>';
-			}
-
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
-			$output .= '			<td class="rr_form_input">'.$reviewErr . $this->star_rating_input() . '</td>';
-			$output .= '		</tr>';
-
-			//TODO: Maybe immplement array of images
-			if($this->rr_options['form-reviewed-image-display']) {
-				$output .= '	 <tr class="rr_form_row">';
-				$output .= '		<td class="rr_form_heading';
-				if($this->rr_options['form-reviewed-image-require']) {
-					$output .= ' rr_required';
-				}
-				$output .= ' ">'.$this->rr_options['form-reviewed-image-label']. '</td>';
-				$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
-				$output .= '		</tr>';
-
-
-			}
-
-			if($this->rr_options['form-content-display']) {
-				$output .= '		<tr class="rr_form_row">';
-				$output .= '			<td class="rr_form_heading';
-				if($this->rr_options['form-content-require']) {
-					$output .= ' rr_required';
-				}
-				$output .= '">'.$this->rr_options['form-content-label'].'</td>';
-				$output .= '			<td class="rr_form_input">'.$textErr.'<textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
-				$output .= '		</tr>';
-			}
-
-			$output .= '		<tr class="rr_form_row">';
-			$output .= '			<td></td>';
-			$output .= '			<td class="rr_form_input"><input id="submitReview" name="submitButton" type="submit" value="'.$this->rr_options['form-submit-text'].'"/></td>';
-			$output .= '		</tr>';
-			$output .= '	</table>';
-			$output .= '</form>';
-		}
-		$this->render_custom_styles();
-		if( $this->options->get_option('return-to-form')) {
-				$output .= '<script>
-								jQuery(function(){
-									if(jQuery(".successful").is(":visible")) {
-										offset = jQuery(".successful").offset();
-										jQuery("html, body").animate({
-											scrollTop: (offset.top - 400)
-										});
-									} else {
-										if(jQuery(".form-err").is(":visible")) {
-											offset = jQuery(".form-err").offset();
-											jQuery("html, body").animate({
-												scrollTop: (offset.top - 200)
-											});
-										}
-									}
-								});
-							</script>';
-		}
-		return __($output, 'rich-reviews');
+		return handle_form($atts, $this->rr_options, $this->sqltable);
 	}
 
 	function sendEmail($data) {
@@ -430,9 +270,9 @@ class RichReviews {
 		$message = "";
 		$message .= "RichReviews User,\r\n";
 		$message .= "\r\n";
-		$message .= "You have received a new review which is now pending your approval. The information from the review is listed below.\r\n";
+		$message .= __("You have received a new review which is now pending your approval. The information from the review is listed below.", 'rich-reviews') . "\r\n";
 		$message .= "\r\n";
-		$message .= "Review Date: ".$date_time."\r\n";
+		$message .= __("Review Date: ", 'rich-reviews') .$date_time."\r\n";
 		if( $reviewer_name != "" ) {
 			$message .= $this->rr_options["form-name-label"].": ".$reviewer_name."\r\n";
 		}
@@ -442,101 +282,39 @@ class RichReviews {
 		if( $review_title != "" ) {
 			$message .= $this->rr_options["form-title-label"].": ".$review_title."\r\n";
 		}
-		$message .= "Review Rating: ". $review_rating ."\r\n";
+		$message .= __("Review Rating: ", 'rich-reviews'). $review_rating ."\r\n";
 		if ($review_text != "" ) {
 			$message .= $this->rr_options["form-content-label"].": ".$review_text."\r\n";
 		}
-		$message .= "Review Category: ". $review_category ."\r\n\r\n";
+		$message .= __("Review Category: ", 'rich-reviews'). $review_category ."\r\n\r\n";
 
-		$message .= "Click the link below to review and approve your new review.\r\n";
+		$message .= __("Click the link below to review and approve your new review.", 'rich-reviews'). "\r\n";
 		$message .= admin_url()."admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
-		$message .= "Thanks for choosing Rich Reviews,\r\n";
-		$message .= "The Nuanced Media Team";
+		$message .= __("Thanks for choosing Rich Reviews,", 'rich-reviews'). "\r\n";
+		$message .= __("The Nuanced Media Team", 'rich-reviews');
 
-		mail($this->rr_options['admin-email'], 'New Pending Review', $message);
+		$mail_subject = __('New Pending Review', 'rich-reviews');
 
+		mail($this->rr_options['admin-email'], $mail_subject, $message);
 	}
 
-	function shortcode_reviews_show($atts) {
-		global $wpdb;
+	function shortcode_reviews_show_control($atts) {
 		global $post;
-		$output = '';
 		extract(shortcode_atts(
 			array(
 				'category' => 'none',
 				'num' => '3',
 			)
 		, $atts));
-
-		// Set up the SQL query
-
-
-		$this->db->where('review_status', 1);
-		if (($category == 'post') || ($category == 'page')) {
-			$this->db->where('post_id', $post->ID);
-		} else if ($category == 'none') {
-			$this->db->where('review_category', 'none');
-			$this->db->or_where('review_category', '');
-		} else if($category != 'all') {
-			$this->db->where('review_category', $category);
-		}
-		if ($num != 'all') {
-			$num = intval($num);
-			if ($num < 1) { $num = 1; }
-			$this->db->limit($num);
-		}
-
-		// Set up the Order BY
-		if ($this->rr_options['reviews_order'] === 'random') {
-			$this->db->order_by('random');
-		}
-		else {
-			$this->db->order_by('date_time', $this->rr_options['reviews_order']);
-		}
-
-		// Show the reviews
-		$results = $this->db->get();
-		if (count($results)) {
-			$total_count = count($results);
-			$review_count = 0;
-			$output .= '<div class="testimonial_group">';
-			foreach($results as $review) {
-				$output .= $this->display_review($review);
-				$review_count += 1;
-				if ($review_count == 3) {
-					// end the testimonial_group
-					$output .= '</div>';
-
-					// clear the floats
-					$output .= '<div class="clear"></div>';
-
-					// do we have more reviews to show?
-					if ($review_count < $total_count) {
-						$output .= '<div class="testimonial_group">';
-					}
-
-					// reset the counter
-					$review_count = 0;
-					$total_count = $total_count - 3;
-				}
-			}
-			// do we need to close a testimonial_group?
-			if ($review_count != 0) {
-				$output .= '</div>';
-				$output .= '<div class="clear"></div>';
-			}
-
-		}
-		$output .= $this->print_credit();
-		$this->render_custom_styles();
-		return __($output, 'rich-reviews');
+		$reviews = $this->db->get_reviews($category, $num, $post);
+		return handle_show($reviews, $this->rr_options);
 	}
 
-	function shortcode_reviews_show_all() {
-		return $this->shortcode_reviews_show(array('num'=>'all'));
+	function shortcode_reviews_show_all_control() {
+		return $this->shortcode_reviews_show_control(array('num'=>'all'));
 	}
 
-	function shortcode_reviews_snippets($atts) {
+	function shortcode_reviews_snippets_control($atts) {
 		global $wpdb, $post;
 		$output = '';
 		extract(shortcode_atts(
@@ -544,81 +322,15 @@ class RichReviews {
 				'category' => 'none',
 			)
 		,$atts));
-		if ($category == 'none') {
-			$whereStatement = "WHERE review_status=\"1\"";
-		} else if(($category == 'post') || ($category == 'page')) {
-			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
-		} else if ($category != 'all') {
-			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
-		}
+		$data = $this->db->get_average_rating($category);
+		return handle_snippet($data, $this->rr_options);
 
-		$approvedReviewsCount = $wpdb->get_var("SELECT COUNT(*) FROM $this->sqltable " . $whereStatement);
-		$averageRating = 0;
-		if ($approvedReviewsCount != 0) {
-			$averageRating = $wpdb->get_var("SELECT AVG(review_rating) FROM $this->sqltable " . $whereStatement);
-			$averageRating = floor(10*floatval($averageRating))/10;
-		}
-		$decimal = $averageRating - floor($averageRating);
-		if($decimal >= 0.5) {
-			$roundedAverage = floor($averageRating) + 1;
-		} else {
-			$roundedAverage = floor($averageRating);
-		}
 
-		if ($this->options->get_option('snippet_stars')) {
-			$stars = '';
-			$star_count = 0;
-			//dump($averageRating, 'AVE:');
-			for ($i=1; $i<=5; $i++) {
-				if ($i <= $roundedAverage) {
-					$stars = $stars . '&#9733;';
-				}
-				else {
-					$stars = $stars . '&#9734;';
-				}
-			}
 
-			// ----- Old Star handling that broke Google Snippets because
-			// ----- $average rating was being altered.
-
-			// while($averageRating >= 1) {
-			// 	$stars = $stars . '&#9733';
-			// 	$star_count++;
-			// 	$averageRating--;
-			// 	//dump($averageRating, 'AVE in WHILE:');
-			// 	//dump($star_count, 'STAR COUNT:');
-			// }
-			// while ($star_count < 5) {
-			// 	$stars = $stars . '&#9734';
-			// 	$star_count++;
-			// 	//dump($star_count, 'STAR COUNT:');
-			// }
-
-		// 	$output = '<div class="hreview-aggregate">Overall rating: <span class="stars">' . $stars . '</span> <span class="rating" style="display: none !important;">' . $averageRating . '</span> based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
-		// 	$this->render_custom_styles();
-		// } else {
-		// 	$output = '<div class="hreview-aggregate">Overall rating: <span class="rating">' . $averageRating . '</span> out of 5 based on <span class="votes">' . $approvedReviewsCount . '</span> reviews</div>';
-		// }
-			$output = '<div itemscope itemtype="http://schema.org/Product">';
-			$output .= '<span itemprop="name">'. $category . '</span>';
-			$output .= 'Overall rating: <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-			$output .= '<span class="stars">' . $stars . '</span>';
-			$output .= '<span class="rating" itemprop="ratingValue" style="display: none !important;">' . $averageRating . '</span>';
-			$output .= ' based on <span class="votes" itemprop="reviewCount">' . $approvedReviewsCount . '</span>';
-			$output .= ' reviews<div style="display:none"><span itemprop="bestRating">5</span><span itemprop="worstRating">1</span></div></div>';
-			$this->render_custom_styles();
-		} else {
-			$output = '<div itemscope itemtype="http://schema.org/Product">';
-			$output .= '<span itemprop="name">'. $category . '</span>';
-			$output .= 'Overall rating: <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-			$output .= '<strong><span class="value" itemprop="ratingValue">' . $averageRating . '</span></strong> out of <strong><span itemprop="bestRating">5</span></strong> ';
-			$output .= 'based on <span class="votes" itemprop="reviewCount">' . $approvedReviewsCount . '</span> reviews</div>';
-		}
-
-		return __($output, 'rich-reviews');
 	}
 
 	function display_admin_review($review, $status = 'limbo') {
+
 		$rID        = $review['idid'];
 		$rDateTime  = $review['datetime'];
 		$rName      = $this->nice_output($review['reviewername']);
@@ -674,107 +386,6 @@ class RichReviews {
 		return __($output, 'rich-reviews');
 	}
 
-	function display_review($review) {
-
-		$rID        = $review->id;
-		$rDateTime  = $review->date_time;
-		$date 		= strtotime($rDateTime);
-		$rDay		= date("j", $date);
-		$rMonth		= date("F", $date);
-		$rWday		= date("l", $date);
-		$rYear		= date("Y", $date);
-		$rDate 		= $rWday . ', ' . $rMonth . ' ' . $rDay . ', ' . $rYear;
-		// $rDate 		= $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear;
-		$rName      = $this->nice_output($review->reviewer_name, FALSE);
-		$rEmail     = $this->nice_output($review->reviewer_email, FALSE);
-		$rTitle     = $this->nice_output($review->review_title, FALSE);
-		$rRatingVal = max(1,intval($review->review_rating));
-		$rText      = $this->nice_output($review->review_text);
-		$rStatus    = $review->review_status;
-		$rIP        = $review->reviewer_ip;
-		$rPostId    = $review->post_id;
-		$rRating = '';
-		$rAuthorImage = $review->reviewer_image_id;
-
-		for ($i=1; $i<=$rRatingVal; $i++) {
-			$rRating .= '&#9733;'; // orange star
-		}
-		for ($i=$rRatingVal+1; $i<=5; $i++) {
-			$rRating .= '&#9734;'; // white star
-		}
-
-		// $output = '<div class="testimonial">
-		// 	<h3 class="rr_title">' . $rTitle . '</h3>
-		// 	<div class="clear"></div>';
-		// if ($this->rr_options['show_form_post_title']) {
-		// 	$output .= '<div class="rr_review_post_id"><a href="' . get_the_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
-		// }
-		// $output .= '<div class="stars">' . $rRating . '</div>
-		// 	<div class="clear"></div>';
-		// $output .= '<div class="rr_review_text"><span class="drop_cap">“</span>' . $rText . '”</div>';
-		// $output .= '<div class="rr_review_name"> - ' . $rName . '</div>
-		// 	<div class="clear"></div>';
-		// $output .= '</div>';
-
-		#TODO: Rework output for rich data, image, and up/down vote
-		if($this->rr_options['display_full_width'] != NULL) {
-			$output = '<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">';
-			$output .= '<div class="review-head" style="border: red solid 2px;">';
-			if($rAuthorImage) {
-				dump($rAuthorImage);
-				$output .= '<div class="user-image">';
-				$output .= wp_get_attachment_image( $rAuthorImage, [70, 70]);
-				$output .= '</div>';
-			}
-			$output .= '<div class="review-info">';
-			if( $rTitle != '') {
-				$output .= '<h3 class="rr_title">' . $rTitle . '</h3>';
-			} else {
-				$output .= '<h3 class="rr_title" style="display:none">' . $rTitle . '</h3>';
-			}
-			$output .= '<div class="clear"></div>';
-		} else {
-			$output = '<div class="testimonial" itemscope itemtype="http://schema.org/Review">';
-			if( $rTitle != '') {
-				$output .= '<h3 class="rr_title" itemprop="name">' . $rTitle . '</h3>';
-			} else {
-				$output .= '<h3 class="rr_title" style="display:none">'.$rTitle . '</h3>';
-			}
-			$output .= '<div class="clear"></div>';
-		}
-		if ($this->rr_options['show_form_post_title']) {
-			$output .= '<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product"><div class="rr_review_post_id" itemprop="name"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div></span>';
-		} else {
-			$output .= '<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;"><a href="' . get_permalink($rPostId) . '">' . get_the_title($rPostId) . '</a></div><div class="clear"></div>';
-		}
-		#TODO: Double check to ensure dat eformatting is correct
-		if ($this->rr_options['show_date']) {
-			if($rDateTime != "0000-00-00 00:00:00") {
-				$output .= '<span class="rr_date"><meta itemprop="datePublished" content="'.$rDateTime.'"><time datetime="' . $rDate . '">' . $rDate . '</time></span>';
-			} else {
-				if(current_user_can('edit_posts')) {
-				$output .= '<span class="date-err rr_date">Date improperly formatted, correct in <a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">Dashboard</a></span>';
-				}
-			}
-		}
-		$output .= '<div class="stars">' . $rRating . '</div><div style="display:none;" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating"><span itemprop="ratingValue">' . $rRatingVal . '</span><span itemprop="bestRating">5</span><span itemprop="worstRating">1</span></div>';
-
-		$output .= '<div class="clear"></div>';
-		if($this->rr_options['display_full_width']) {
-			$output .= '</div></div>';
-		}
-		if($rText != '') {
-			$output .= '<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody">' . $rText . '</span>”</div>';
-		}
-		if( $rName !='' ) {
-			$output .= '<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">' . $rName . '</span></div>';
-		}
-		$output .=	'<div class="clear"></div>';
-		$output .= '</div>';
-		return __($output, 'rich-reviews');
-
-
-	}
 
 	function nice_output($input, $keep_breaks = TRUE) {
 		//echo '<pre>' . $input . '</pre>';
@@ -851,7 +462,7 @@ class RichReviews {
 		$permission = $this->rr_options['credit_permission'];
 		$output = "";
 		if ($permission) {
-			$output = '<div class="credit-line">Supported By: <a href="http://nuancedmedia.com/" rel="nofollow"> Nuanced Media</a>';
+			$output = '<div class="credit-line">' . __('Supported By: ', 'rich-reviews') . '<a href="http://nuancedmedia.com/" rel="nofollow">' . 'Nuanced Media'. '</a>';
 			$output .= '</div>' . PHP_EOL;
 			$output .= '<div class="clear"></div>' . PHP_EOL;
 		}
@@ -878,7 +489,7 @@ if (!function_exists('dump_exit')) {function dump_exit($var, $label = 'Dump', $e
 
 
 if (!class_exists('NMRichReviewsAdminHelper')) {
-	require_once('views/view-helper/admin-view-helper-functions.php');
+	require_once('views/admin/view-helper/admin-view-helper-functions.php');
 }
 
 if (!class_exists('NMDB')) {
@@ -890,8 +501,8 @@ if (!class_exists('RROptions')) {
 require_once('lib/rich-reviews-admin.php');
 require_once('lib/rich-reviews-db.php');
 require_once('lib/rich-reviews-widget.php');
-require_once("views/admin-add-edit-view.php");
+require_once("views/admin/admin-add-edit-view.php");
+
 
 global $richReviews;
 $richReviews = new RichReviews();
-

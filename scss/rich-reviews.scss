@@ -366,7 +366,8 @@ $star_empty_color: black;
 	}
 }
 
-// Review display
+
+//Review display
 
 .testimonial_group {
 	overflow: hidden;
@@ -377,7 +378,6 @@ $star_empty_color: black;
 		box-sizing: border-box;
 		float: left;
 		width: 33.333%;
-		padding: 20px;
 		padding: 8px 20px;
 		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
 		.rr_title {
@@ -419,7 +419,6 @@ $star_empty_color: black;
 		}
 
 	}
-
 	.full-testimonial {
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -446,7 +445,6 @@ $star_empty_color: black;
 				filter: alpha(opacity=25);
 				opacity: 0.25;
 			}
-
 		}
 		.rr_review_name {
 			text-align: right;
@@ -465,7 +463,6 @@ $star_empty_color: black;
 				font-size: 12px;
 				font-style: itlaic;
 			}
-
 
 .review-head {
 	display: flex;
