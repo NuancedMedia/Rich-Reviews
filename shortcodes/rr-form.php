@@ -21,8 +21,13 @@ function handle_form($atts, $options, $sqltable) {
 	$displayForm = true;
 	if (isset($_POST['submitted'])) {
 		if ($_POST['submitted'] == 'Y') {
-			$rDateTime = date('Y-m-d H:i:s');
 			$incomingData = $_POST;
+			dump('before: ');
+			dump($incomingData);
+			apply_filters('rr_process_form_data', $incomingData);
+			dump('after: ');
+			dump($incomingData);
+			$rDateTime = date('Y-m-d H:i:s');
 			$incomingData['rDateTime'] = $rDateTime;
 			if ($options['form-name-display']) {
 				$rName     = fp_sanitize($_POST['rName']);
@@ -271,6 +276,17 @@ function handle_form($atts, $options, $sqltable) {
 	// }
 	// return __($output, 'rich-reviews');
 	}
+}
+
+function sanitize_incoming_data($incomingData) {
+
+	$modifiedData = array();
+	foreach($incomingData as $field => $val) {
+		$incomingData[$field] = $val . 'er';
+	}
+		dump($incomingData);
+	// $incomingData = $modifiedData;
+	return $incomingData;
 }
 
 function rr_do_rating_field($options, $rData = null, $errors = null) {
