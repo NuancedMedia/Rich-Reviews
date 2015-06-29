@@ -8,7 +8,8 @@ function handle_form($atts, $options, $sqltable) {
 			'category' => 'none',
 		)
 	,$atts));
-	$output = '';
+
+	//initialize all data vars
 	$rName  = '';
 	$rEmail = '';
 	$rTitle = '';
@@ -18,9 +19,25 @@ function handle_form($atts, $options, $sqltable) {
 	$titleErr = '';
 	$reviewErr = '';
 	$textErr = '';
+	$output = '';
 	$displayForm = true;
+	$posted = false;
+
+	$newdata = array(
+		'reviewer_name'   => $rName,
+		// 'reviewer_image_id' => $rAuthorImage,
+		'reviewer_email'  => $rEmail,
+		'review_title'    => $rTitle,
+		// 'review_rating'   => intval($rRating),
+		// 'review_image_id' => $rImage,
+		'review_text'     => $rText
+	);
+
 	if (isset($_POST['submitted'])) {
 		if ($_POST['submitted'] == 'Y') {
+
+			$posted = true;
+
 			$incomingData = $_POST;
 			dump('before: ');
 			dump($incomingData);
@@ -158,19 +175,39 @@ function handle_form($atts, $options, $sqltable) {
 		$output .= '<span id="state"></span>';
 	}
 	if ($displayForm) {
-		$errors = array(
-			'name' 		=> 	$nameErr,
-			'email'		=>	$emailErr,
-			'title' 	=>	$titleErr,
-			'content'	=>	$textErr,
-			'rating'	=>	$ratingErr
-		);
+		// if(!$posted) {
+		// 	$newdata = array(
+		// 		'date_time'       => $rDateTime,
+		// 		'reviewer_name'   => $rName,
+		// 		// 'reviewer_image_id' => $rAuthorImage,
+		// 		'reviewer_email'  => $rEmail,
+		// 		'review_title'    => $rTitle,
+		// 		'review_rating'   => intval($rRating),
+		// 		// 'review_image_id' => $rImage,
+		// 		'review_text'     => $rText,
+		// 		'review_status'   => $rStatus,
+		// 		'reviewer_ip'     => $rIP,
+		// 		'post_id'		  => $rPostID,
+		// 		'review_category' => $rCategory
+		// 	);
+		// }
+
+			$errors = array(
+				'name' 		=> 	$nameErr,
+				'email'		=>	$emailErr,
+				'title' 	=>	$titleErr,
+				'content'	=>	$textErr,
+				'rating'	=>	$reviewErr
+			);
+
+			dump($newdata);
+
 		?>
 		<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">
 			<input type="hidden" name="submitted" value="Y" />
 			<input type="hidden" name="rRating" id="rRating" value="0" />
 			<table class="form_table">
-			<?php do_action('rr_do_form_fields', $options, $newData, $errors); ?>
+			<?php dump('shinanigans'); do_action('rr_do_form_fields', $options, $newdata, $errors); ?>
 		<?php
 
 	// 	if($options['form-name-display']) {
@@ -309,14 +346,14 @@ function render_custom_styles($options) {
 function rr_do_name_field($options, $rData = null, $errors = null) {
 	$inputId = 'Name';
 	$require = false;
-	$rName = '';
+	$rFieldValue = '';
 	$error = $errors['name'];
 	$label = $options['form-name-label'];
 	if($options['form-name-require']) {
 		$require = true;
 	}
 	if($rData['reviewer_name']) {
-		$rName = $rData['reviewer_name'];
+		$rFieldValue = $rData['reviewer_name'];
 	}
 
 	@include '/../views/frontend/form/rr-text-input.php';
@@ -325,30 +362,31 @@ function rr_do_name_field($options, $rData = null, $errors = null) {
 function rr_do_email_field($options, $rData = null, $errors = null) {
 	$inputId = 'Email';
 	$require = false;
-	$rEmail = '';
+	$rFieldValue = '';
 	$error = $errors['email'];
 	$label = $options['form-email-label'];
 	if($options['form-email-require']) {
 		$require = true;
 	}
 	if($rData['reviewer_email']) {
-		$rEmail = $rData['reviewer_email'];
+		$rFieldValue = $rData['reviewer_email'];
 	}
 
-	@include '/../views/frontend/form/rr-text-input.php';
+	dump(@include '/../views/frontend/form/rr-text-input.php');
 }
 
 function rr_do_title_field($options, $rData = null, $errors = null) {
+	dump($rData);
 	$inputId = 'Title';
 	$require = false;
-	$rTitle = '';
+	$rFieldValue = '';
 	$error = $errors['title'];
 	$label = $options['form-title-label'];
 	if($options['form-title-require']) {
 		$require = true;
 	}
-	if($rData['reviewer_title']) {
-		$rTitle = $rData['reviewer_title'];
+	if($rData['review_title']) {
+		$rFieldValue = $rData['review_title'];
 	}
 
 	@include '/../views/frontend/form/rr-text-input.php';
@@ -358,19 +396,19 @@ function rr_do_content_field($options, $rData = null, $errors = null) {
 	dump("in");
 	$inputId = 'Text';
 	$require = false;
-	$rText = '';
+	$rFieldValue = '';
 	$error = $errors['content'];
 	dump($error);
 	$label = $options['form-content-label'];
 	if($options['form-content-require']) {
 		$require = true;
 	}
-	dump($require);
 	if($rData['review_text']) {
-		$rText = $rData['review_text'];
+		$rFieldValue = $rData['review_text'];
 	}
-
+	ob_start();
 	@include '/../views/frontend/form/rr-textarea-input.php';
+	return ob_get_clean();
 }
 
 function sendEmail($data, $options) {

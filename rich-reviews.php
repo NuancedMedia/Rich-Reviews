@@ -41,7 +41,7 @@ require_once 'shortcodes/rr-snippet.php';
 class RichReviews {
 
 	var $sqltable = 'richreviews';
-	// var $fp_admin_options = 'rr_admin_options';
+	var $fp_admin_options = 'rr_admin_options';
 	//var $credit_permission_option = 'rr_credit_permission';
 
 	var $admin;
@@ -96,6 +96,7 @@ class RichReviews {
 		$this->rr_options = $this->options->get_option();
 		$this->set_display_filters();
 		$this->set_form_filters();
+		// dump($this->rr_options);
 	}
 
 	function process_plugin_updates() {
@@ -171,14 +172,14 @@ class RichReviews {
 		add_filter('rr_process_form_data', 'sanitize_incoming_data');
 		// add_filter('rr_process_form_data', 'fill_auto_data', 1, ??);
 		// add_action('rr_on_valid_data', 'rr_insert_new_review');
-		if($this->rr_options['send_email_notifications']) {
+		if($this->rr_options['send-email-notifications']) {
 			//add_action('rr_on_valid_data', 'rr_send_admin_email');
 		}
 		if($this->rr_options['form-name-display']) {
 			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 3);
 			// add_filter('rr_misc_validation', 'rr_validate_name_length');
 			if($this->rr_options['form-name-display']) {
-				add_filter('rr_check_required', 'rr_require_name_field');
+				//add_filter('rr_check_required', 'rr_require_name_field');
 			}
 		}
 		if($this->rr_options['form-email-display']) {
@@ -186,7 +187,7 @@ class RichReviews {
 			// add_filter('rr_misc_validation', 'rr_validate_email');
 
 			if($this->rr_options['form-email-display']) {
-				add_filter('rr_check_required', 'rr_require_email_field');
+				//add_filter('rr_check_required', 'rr_require_email_field');
 			}
 		}
 		if($this->rr_options['form-title-display']) {
@@ -194,7 +195,7 @@ class RichReviews {
 			// add_filter('rr_misc_validation', 'rr_validate_title_length');
 
 			if($this->rr_options['form-title-display']) {
-				add_filter('rr_check_required', 'rr_require_title_field');
+				//add_filter('rr_check_required', 'rr_require_title_field');
 			}
 		}
 		//TODO: Maybe add min/max rating validation
@@ -204,7 +205,7 @@ class RichReviews {
 			// add_filter('rr_misc_validation', 'rr_validate_content_length');
 
 			if($this->rr_options['form-content-display']) {
-				add_filter('rr_check_required', 'rr_require_content_field');
+				//add_filter('rr_check_required', 'rr_require_content_field');
 			}
 		}
 		// if($this->rr_options['form-reviewer-display']) {

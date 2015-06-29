@@ -153,7 +153,7 @@ class RichReviewsAdmin {
 
         $supportNM = $this->insert_credit_permission_checkbox();
 
-        include '/../views/admin/dashboard/instructions.php';
+        include '../views/admin/dashboard/instructions.php';
 
 	}
 
@@ -177,17 +177,17 @@ class RichReviewsAdmin {
 
     function render_rr_show_content() {
 
-    	include '/../views/admin/dashboard/rr_show.php';
+    	include '../views/admin/dashboard/rr_show.php';
     }
 
     function render_rr_form_content() {
 
-    	include '/../views/admin/dashboard/rr_form.php';
+    	include '../views/admin/dashboard/rr_form.php';
     }
 
     function render_rr_snippet_content() {
 
-    	  include '/../views/admin/dashboard/rr_snippet.php';
+    	include '../views/admin/dashboard/rr_snippet.php';
     }
 
 	function render_pending_reviews_page($wrapped = null) {
