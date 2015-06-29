@@ -23,7 +23,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 	$displayForm = true;
 	$posted = false;
 
-	$newdata = array(
+	$newData = array(
 		'reviewer_name'   => $rName,
 		// 'reviewer_image_id' => $rAuthorImage,
 		'reviewer_email'  => $rEmail,
@@ -39,9 +39,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 			$posted = true;
 
 			$incomingData = $_POST;
-			apply_filters('rr_process_form_data', $incomingData);
-			$rDateTime = date('Y-m-d H:i:s');
-			$incomingData['rDateTime'] = $rDateTime;
+			$incomingData = apply_filters('rr_process_form_data', $incomingData);
+
 			if ($options['form-name-display']) {
 				$rName     = fp_sanitize($_POST['rName']);
 			}
@@ -65,12 +64,23 @@ function handle_form($atts, $options, $sqltable, $path) {
 			if ($options['form-content-display']) {
 				$rText     = fp_sanitize($_POST['rText']);
 			}
+
+			$rDateTime = date('Y-m-d H:i:s');
+			$incomingData['rDateTime'] = $rDateTime;
 			if ($options['require_approval']) {$rStatus   = 0;} else {$rStatus   = 1;}
 			$rIP       = $_SERVER['REMOTE_ADDR'];
 			$rPostID   = $post->ID;
 			$rCategory = fp_sanitize($category);
 
-			$newdata = array(
+			$errors = array(
+				'nameErr'	=>	'',
+				'emailErr'	=>	'',
+				'titleErr'	=>	'',
+				'ratingErr'	=>	'',
+				'contentErr'=>	''
+			);
+
+			$newData = array(
 					'date_time'       => $rDateTime,
 					'reviewer_name'   => $rName,
 					// 'reviewer_image_id' => $rAuthorImage,
@@ -82,55 +92,63 @@ function handle_form($atts, $options, $sqltable, $path) {
 					'review_status'   => $rStatus,
 					'reviewer_ip'     => $rIP,
 					'post_id'		  => $rPostID,
-					'review_category' => $rCategory
+					'review_category' => $rCategory,
+					'isValid'		  => true,
+					'errors'		  => $errors
 			);
-			$validData = true;
-			if($options['form-name-display']) {
-				if($options['form-name-require']) {
-					if ($rName == '') {
-					$nameErr = '<span class="form-err">' . __('You must include your name.', 'rich-reviews') . '</span><br>';
-					$validData = false;
-					}
-				}
-			}
-			if($options['form-title-display']) {
-				if($options['form-title-require']) {
-					if ($rTitle == '') {
-						$titleErr= '<span class="form-err">' . __('You must include a title for your review.', 'rich-reviews') . '</span><br>';
-						$validData = false;
-					}
-				}
-			}
-			if($options['form-content-display']) {
-				if($options['form-content-require']) {
-					if ($rText == '') {
-						$textErr = '<span class="form-err">' . __('You must write some text in your review.', 'rich-reviews') . '</span><br>';
-						$validData = false;
-					}
-				}
-			}
 
-			if ($rRating == 0) {
-				$reviewErr = '<span class="form-err">' . __('Please give a rating between 1 and 5 stars.', 'rich-reviews') . '</span><br>';
-				$validData = false;
-			}
-			if($options['form-email-display']) {
-				if($options['form-email-require']) {
-					if($rEmail == '') {
-						$emailErr = '<span class="form-err">' . __('Please provide email.', 'rich-reviews') . '</span><br>';
-					}
-				}
-				if ($rEmail != '') {
-					$firstAtPos = strpos($rEmail,'@');
-					$periodPos  = strpos($rEmail,'.');
-					$lastAtPos  = strrpos($rEmail,'@');
-					if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-						$emailErr .= '<span class="form-err">' . __('You must provide a valid email address.', 'rich-reviews') . '</span><br>';
-						$validData = false;
-					}
-				}
-			}
-			if ($validData) {
+			dump($newData);
+			$newData = apply_filters('rr_check_required', $newData);
+			dump($newData);
+
+
+			// $validData = true;
+			// if($options['form-name-display']) {
+			// 	if($options['form-name-require']) {
+			// 		if ($rName == '') {
+			// 		$nameErr = '<span class="form-err">' . __('You must include your name.', 'rich-reviews') . '</span><br>';
+			// 		$validData = false;
+			// 		}
+			// 	}
+			// }
+			// if($options['form-title-display']) {
+			// 	if($options['form-title-require']) {
+			// 		if ($rTitle == '') {
+			// 			$titleErr= '<span class="form-err">' . __('You must include a title for your review.', 'rich-reviews') . '</span><br>';
+			// 			$validData = false;
+			// 		}
+			// 	}
+			// }
+			// if($options['form-content-display']) {
+			// 	if($options['form-content-require']) {
+			// 		if ($rText == '') {
+			// 			$textErr = '<span class="form-err">' . __('You must write some text in your review.', 'rich-reviews') . '</span><br>';
+			// 			$validData = false;
+			// 		}
+			// 	}
+			// }
+
+			// if ($rRating == 0) {
+			// 	$reviewErr = '<span class="form-err">' . __('Please give a rating between 1 and 5 stars.', 'rich-reviews') . '</span><br>';
+			// 	$validData = false;
+			// }
+			// if($options['form-email-display']) {
+			// 	if($options['form-email-require']) {
+			// 		if($rEmail == '') {
+			// 			$emailErr = '<span class="form-err">' . __('Please provide email.', 'rich-reviews') . '</span><br>';
+			// 		}
+			// 	}
+			// 	if ($rEmail != '') {
+			// 		$firstAtPos = strpos($rEmail,'@');
+			// 		$periodPos  = strpos($rEmail,'.');
+			// 		$lastAtPos  = strrpos($rEmail,'@');
+			// 		if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
+			// 			$emailErr .= '<span class="form-err">' . __('You must provide a valid email address.', 'rich-reviews') . '</span><br>';
+			// 			$validData = false;
+			// 		}
+			// 	}
+			// }
+			if ($newData['isValid']) {
 				if($options['form-name-display']) {
 					if ((strlen($rName) > 100)) {
 						$output .= __('The name you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
@@ -197,7 +215,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 			<input type="hidden" name="submitted" value="Y" />
 			<input type="hidden" name="rRating" id="rRating" value="0" />
 			<table class="form_table">
-			<?php do_action('rr_do_form_fields', $options, $path, $newdata, $errors); ?>
+			<?php do_action('rr_do_form_fields', $options, $path, $newData, $errors); ?>
 		<?php
 
 	// 	if($options['form-name-display']) {
@@ -309,7 +327,7 @@ function sanitize_incoming_data($incomingData) {
 
 	$modifiedData = array();
 	foreach($incomingData as $field => $val) {
-		$incomingData[$field] = $val . 'er';
+		$incomingData[$field] = fp_sanitize($val);
 	}
 	// $incomingData = $modifiedData;
 	return $incomingData;
@@ -381,7 +399,6 @@ function rr_do_title_field($options, $path, $rData = null, $errors = null) {
 }
 
 function rr_do_content_field($options, $path, $rData = null, $errors = null) {
-	dump($rData['review_text']);
 	$inputId = 'Text';
 	$require = false;
 	$rFieldValue = '';
@@ -430,6 +447,52 @@ function sendEmail($data, $options) {
 
 	mail($options['admin-email'], $mail_subject, $message);
 }
+
+// Validation for the existence of required fields.
+
+function rr_require_name_field($incomingData) {
+
+	if($incomingData['reviewer_name'] == '') {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['nameErr'] = 'absent required';
+	}
+	return $incomingData;
+}
+
+function rr_require_title_field($incomingData) {
+
+	if($incomingData['review_title'] == '') {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['titleErr'] = 'absent required';
+	}
+	return $incomingData;
+}
+
+function rr_require_email_field($incomingData) {
+
+	if($incomingData['reviewer_email'] == '') {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['emailErr'] = 'absent required';
+	}
+	return $incomingData;
+}
+
+function rr_require_content_field($incomingData) {
+	if($incomingData['review_text'] == '') {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['contentErr'] = 'absent required';
+	}
+	return $incomingData;
+}
+
+function rr_require_rating_field($incomingData) {
+	if($incomingData['review_rating'] == 0) {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['ratingErr'] = 'absent required';
+	}
+	return $incomingData;
+}
+
 
 function fp_sanitize($input) {
 

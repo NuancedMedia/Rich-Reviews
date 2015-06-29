@@ -20,22 +20,8 @@
 	</label>
 	<input type="checkbox" name="form-name-require" value="checked" <?php echo $options['form-name-require'] ?> />
 	<br>
-	<h4><?php _e('Reviewer Image Field', 'rich-reviews'); ?></h4>
-	<label for="form-reviewer-image-label">
-		<?php _e('Form Label: ', 'rich-reviews'); ?>
-	</label>
-	<input type="text" name="form-reviewer-image-label" value="<?php echo $options['form-reviewer-image-label']; ?>" />
-	<br>
-	<label for="form-reviewer-image-display">
-		<?php _e('Display Field: ', 'rich-reviews'); ?>
-	</label>
-	<input type="checkbox" name="form-reviewer-image-display" value="checked" <?php echo $options['form-reviewer-image-display'] ?> />
-	<br/>
-	<label for="form-reviewer-image-require">
-		<?php _e('Require Field: ', 'rich-reviews'); ?>
-	</label>
-	<input type="checkbox" name="form-reviewer-image-require" value="checked" <?php echo $options['form-reviewer-image-require'] ?> />
-	<br>
+
+
 	<h4><?php _e('Email Field', 'rich-reviews'); ?></h4>
 	<label for="email-label">
 		<?php _e('Form Label: ', 'rich-reviews'); ?>
@@ -84,23 +70,7 @@
 	</label>
 	<input type="checkbox" name="form-content-require" value="checked" <?php echo $options['form-content-require'] ?> />
 	<br>
-	<h4><?php _e('Review Image Field', 'rich-reviews'); ?></h4>
-	<!--TODO: Maybe make this an image array, and potentially allow video uploads -->
-	<label for="form-reviewed-image-label">
-		<?php _e('Form Label: ', 'rich-reviews'); ?>
-	</label>
-	<input type="text" name="form-reviewed-image-label" value="<?php echo $options['form-reviewed-image-label']; ?>" />
-	<br>
-	<label for="form-reviewed-image-display">
-		<?php _e('Display Field: ', 'rich-reviews'); ?>
-	</label>
-	<input type="checkbox" name="form-reviewed-image-display" value="checked" <?php echo $options['form-reviewed-image-display'] ?> />
-	<br/>
-	<label for="form-reviewed-image-require">
-		<?php _e('Require Field: ', 'rich-reviews'); ?>
-	</label>
-	<input type="checkbox" name="form-reviewed-image-require" value="checked" <?php echo $options['form-reviewed-image-require'] ?> />
-	<br>
+
 	<h4><?php _e('Submit Button', 'rich-reviews'); ?></h4>
 	<label for="form-submit-text">
 		<?php _e('Submit Text: ', 'rich-reviews'); ?>

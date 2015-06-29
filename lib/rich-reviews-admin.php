@@ -226,7 +226,8 @@ class RichReviewsAdmin {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
 
-		include $this->parent->path . 'views/admin/options/options-index.php';
+		$path = $this->parent->path;
+		include $path . 'views/admin/options/options-index.php';
 	}
 
 	function render_add_edit_page($wrapped) {

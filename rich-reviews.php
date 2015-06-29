@@ -171,42 +171,45 @@ class RichReviews {
 	function set_form_filters() {
 
 		add_filter('rr_process_form_data', 'sanitize_incoming_data');
-		// add_filter('rr_process_form_data', 'fill_auto_data', 1, ??);
+		add_filter('rr_check_required', 'rr_require_rating_field');
+		//More work than it's worth to abstract this.
+		//add_filter('rr_process_form_data', 'fill_auto_data', 1);
+
 		// add_action('rr_on_valid_data', 'rr_insert_new_review');
 		if($this->rr_options['send-email-notifications']) {
 			//add_action('rr_on_valid_data', 'rr_send_admin_email');
 		}
 		if($this->rr_options['form-name-display']) {
 			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 3);
-			// add_filter('rr_misc_validation', 'rr_validate_name_length');
-			if($this->rr_options['form-name-display']) {
-				//add_filter('rr_check_required', 'rr_require_name_field');
+			add_filter('rr_misc_validation', 'rr_validate_name_length');
+			if($this->rr_options['form-name-require']) {
+				add_filter('rr_check_required', 'rr_require_name_field');
 			}
 		}
 		if($this->rr_options['form-email-display']) {
 			add_action('rr_do_form_fields', 'rr_do_email_field', 2, 3);
-			// add_filter('rr_misc_validation', 'rr_validate_email');
+			add_filter('rr_misc_validation', 'rr_validate_email');
 
-			if($this->rr_options['form-email-display']) {
-				//add_filter('rr_check_required', 'rr_require_email_field');
+			if($this->rr_options['form-email-require']) {
+				add_filter('rr_check_required', 'rr_require_email_field');
 			}
 		}
 		if($this->rr_options['form-title-display']) {
 			add_action('rr_do_form_fields', 'rr_do_title_field', 3, 3);
-			// add_filter('rr_misc_validation', 'rr_validate_title_length');
+			add_filter('rr_misc_validation', 'rr_validate_title_length');
 
-			if($this->rr_options['form-title-display']) {
-				//add_filter('rr_check_required', 'rr_require_title_field');
+			if($this->rr_options['form-title-require']) {
+				add_filter('rr_check_required', 'rr_require_title_field');
 			}
 		}
 		//TODO: Maybe add min/max rating validation
 		add_action('rr_do_form_fields', 'rr_do_rating_field', 4, 3);
 		if($this->rr_options['form-content-display']) {
 			add_action('rr_do_form_fields', 'rr_do_content_field', 5, 3);
-			// add_filter('rr_misc_validation', 'rr_validate_content_length');
+			add_filter('rr_misc_validation', 'rr_validate_content_length');
 
-			if($this->rr_options['form-content-display']) {
-				//add_filter('rr_check_required', 'rr_require_content_field');
+			if($this->rr_options['form-content-require']) {
+				add_filter('rr_check_required', 'rr_require_content_field');
 			}
 		}
 		// if($this->rr_options['form-reviewer-display']) {
@@ -453,9 +456,9 @@ class RichReviews {
 		$options = $this->options->get_option();
 		?>
 			<style>
-			.stars, .rr_star {
-				color: <?php echo $options['star_color']?>;
-			}
+				.stars, .rr_star {
+					color: <?php echo $options['star_color']?>;
+				}
 			</style>
 		<?php
 	}
