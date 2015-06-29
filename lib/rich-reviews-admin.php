@@ -153,7 +153,7 @@ class RichReviewsAdmin {
 
         $supportNM = $this->insert_credit_permission_checkbox();
 
-        include '../views/admin/dashboard/instructions.php';
+        include $this->parent->path . 'views/admin/dashboard/instructions.php';
 
 	}
 
@@ -177,17 +177,17 @@ class RichReviewsAdmin {
 
     function render_rr_show_content() {
 
-    	include '../views/admin/dashboard/rr_show.php';
+    	include $this->parent->path . 'views/admin/dashboard/rr_show.php';
     }
 
     function render_rr_form_content() {
 
-    	include '../views/admin/dashboard/rr_form.php';
+    	include $this->parent->path . 'views/admin/dashboard/rr_form.php';
     }
 
     function render_rr_snippet_content() {
 
-    	include '../views/admin/dashboard/rr_snippet.php';
+    	include $this->parent->path . 'views/admin/dashboard/rr_snippet.php';
     }
 
 	function render_pending_reviews_page($wrapped = null) {
@@ -226,7 +226,7 @@ class RichReviewsAdmin {
 			wp_die( __('You do not have sufficient permissions to access this page.') );
 		}
 
-		include '/../views/admin/options/options-index.php';
+		include $this->parent->path . 'views/admin/options/options-index.php';
 	}
 
 	function render_add_edit_page($wrapped) {
@@ -251,7 +251,7 @@ class RichReviewsAdmin {
 		}
 
 		ob_start();
-        	include '/../views/admin/credit-permission.php';
+        	include $this->parent->path . 'views/admin/credit-permission.php';
         $output = ob_get_clean();
         return $output;
 

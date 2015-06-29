@@ -1,6 +1,6 @@
 <?php
 
-function handle_form($atts, $options, $sqltable) {
+function handle_form($atts, $options, $sqltable, $path) {
 	global $wpdb;
 	global $post;
 	extract(shortcode_atts(
@@ -39,11 +39,7 @@ function handle_form($atts, $options, $sqltable) {
 			$posted = true;
 
 			$incomingData = $_POST;
-			dump('before: ');
-			dump($incomingData);
 			apply_filters('rr_process_form_data', $incomingData);
-			dump('after: ');
-			dump($incomingData);
 			$rDateTime = date('Y-m-d H:i:s');
 			$incomingData['rDateTime'] = $rDateTime;
 			if ($options['form-name-display']) {
@@ -73,10 +69,6 @@ function handle_form($atts, $options, $sqltable) {
 			$rIP       = $_SERVER['REMOTE_ADDR'];
 			$rPostID   = $post->ID;
 			$rCategory = fp_sanitize($category);
-
-
-			dump($rAuthorImage);
-			dump($rImage);
 
 			$newdata = array(
 					'date_time'       => $rDateTime,
@@ -200,14 +192,12 @@ function handle_form($atts, $options, $sqltable) {
 				'rating'	=>	$reviewErr
 			);
 
-			dump($newdata);
-
 		?>
 		<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">
 			<input type="hidden" name="submitted" value="Y" />
 			<input type="hidden" name="rRating" id="rRating" value="0" />
 			<table class="form_table">
-			<?php dump('shinanigans'); do_action('rr_do_form_fields', $options, $newdata, $errors); ?>
+			<?php do_action('rr_do_form_fields', $options, $path, $newdata, $errors); ?>
 		<?php
 
 	// 	if($options['form-name-display']) {
@@ -321,15 +311,14 @@ function sanitize_incoming_data($incomingData) {
 	foreach($incomingData as $field => $val) {
 		$incomingData[$field] = $val . 'er';
 	}
-		dump($incomingData);
 	// $incomingData = $modifiedData;
 	return $incomingData;
 }
 
-function rr_do_rating_field($options, $rData = null, $errors = null) {
+function rr_do_rating_field($options, $path, $rData = null, $errors = null) {
 	$ratingErr = $errors['rating'];
 
-	@include '/../views/frontend/form/rr-star-input.php';
+	@include $path . 'views/frontend/form/rr-star-input.php';
 
 }
 
@@ -343,7 +332,7 @@ function render_custom_styles($options) {
 	<?php
 }
 
-function rr_do_name_field($options, $rData = null, $errors = null) {
+function rr_do_name_field($options, $path, $rData = null, $errors = null) {
 	$inputId = 'Name';
 	$require = false;
 	$rFieldValue = '';
@@ -356,10 +345,10 @@ function rr_do_name_field($options, $rData = null, $errors = null) {
 		$rFieldValue = $rData['reviewer_name'];
 	}
 
-	@include '/../views/frontend/form/rr-text-input.php';
+	@include $path . 'views/frontend/form/rr-text-input.php';
 }
 
-function rr_do_email_field($options, $rData = null, $errors = null) {
+function rr_do_email_field($options, $path, $rData = null, $errors = null) {
 	$inputId = 'Email';
 	$require = false;
 	$rFieldValue = '';
@@ -372,11 +361,10 @@ function rr_do_email_field($options, $rData = null, $errors = null) {
 		$rFieldValue = $rData['reviewer_email'];
 	}
 
-	dump(@include '/../views/frontend/form/rr-text-input.php');
+	@include $path . 'views/frontend/form/rr-text-input.php';
 }
 
-function rr_do_title_field($options, $rData = null, $errors = null) {
-	dump($rData);
+function rr_do_title_field($options, $path, $rData = null, $errors = null) {
 	$inputId = 'Title';
 	$require = false;
 	$rFieldValue = '';
@@ -389,26 +377,24 @@ function rr_do_title_field($options, $rData = null, $errors = null) {
 		$rFieldValue = $rData['review_title'];
 	}
 
-	@include '/../views/frontend/form/rr-text-input.php';
+	@include $path . 'views/frontend/form/rr-text-input.php';
 }
 
-function rr_do_content_field($options, $rData = null, $errors = null) {
-	dump("in");
+function rr_do_content_field($options, $path, $rData = null, $errors = null) {
+	dump($rData['review_text']);
 	$inputId = 'Text';
 	$require = false;
 	$rFieldValue = '';
 	$error = $errors['content'];
-	dump($error);
 	$label = $options['form-content-label'];
 	if($options['form-content-require']) {
 		$require = true;
 	}
 	if($rData['review_text']) {
+
 		$rFieldValue = $rData['review_text'];
 	}
-	ob_start();
-	@include '/../views/frontend/form/rr-textarea-input.php';
-	return ob_get_clean();
+	@include $path . 'views/frontend/form/rr-textarea-input.php';
 }
 
 function sendEmail($data, $options) {

@@ -6,6 +6,6 @@
 		</td>
 		<td class="rr_form_input">
 			<?php echo $error; ?>
-			<textarea class="rr_large_input" name="rText" rows="10"><?php echo $rText; ?></textarea>
+			<textarea class="rr_large_input" name="rText" rows="10"><?php echo $rFieldValue; ?></textarea>
 		</td>
 	</tr>

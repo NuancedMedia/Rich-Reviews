@@ -1,6 +1,5 @@
 <?php
 ?>
-<?php dump("this is bullshit!!!"); ?>
 	<tr class="rr_form_row">
 		<td class="rr_form_heading <?php if($require){ echo 'rr_required'; } ?>" >
 			<?php echo $label; ?>

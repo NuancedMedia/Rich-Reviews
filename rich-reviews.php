@@ -66,15 +66,16 @@ class RichReviews {
 	function __construct() {
 		global $wpdb;
 		$this->sqltable = $wpdb->prefix . $this->sqltable;
+		$this->path = trailingslashit(plugin_dir_path(__FILE__));
 
-		$this->path = trailingslashit(plugins_url(basename(dirname(__FILE__))));
-		$this->logo_url = $this->path . 'images/fox_logo_32x32.png';
-		$this->logo_small_url = $this->path . 'images/fox_logo_16x16.png';
+		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
+		$this->logo_url = $this->plugin_url . 'images/fox_logo_32x32.png';
+		$this->logo_small_url = $this->plugin_url . 'images/fox_logo_16x16.png';
 		$this->options_name = 'rr_options';
 		$this->options= new RROptions($this);
 		$this->db = new RichReviewsDB($this);
 		$this->admin = new RichReviewsAdmin($this);
-		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
+
 
 		add_action('plugins_loaded', array(&$this, 'on_load'));
 		add_action('init', array(&$this, 'init'));
@@ -263,7 +264,7 @@ class RichReviews {
 		// class data:
 		// 	- $options
 
-		return handle_form($atts, $this->rr_options, $this->sqltable);
+		return handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
 	}
 
 	function sendEmail($data) {
