@@ -112,7 +112,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 			$newData = apply_filters('rr_check_required', $newData);
 			if ($newData['isValid']) {
 				$newData = apply_filters('rr_misc_validation', $newData);
-				dump($newData);
+				// dump($newData);
 			}
 			if ($newData['isValid']) {
 
@@ -123,7 +123,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 					// 'reviewer_image_id' => $newData['reviewer_image_id'],
 					'reviewer_email'  => $newData['reviewer_email'],
 					'review_title'    => $newData['review_title'],
-					'review_rating'   => intval($newData['rating']),
+					'review_rating'   => intval($newData['review_rating']),
 					// 'review_image_id' => $newData['review_image_id'],
 					'review_text'     => $newData['review_text'],
 					'review_status'   => $newData['review_status'],
@@ -227,7 +227,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 
 			$errors = $newData['errors'];
 			$errors = generate_error_text($errors);
-			dump($errors);
+			// dump($errors);
 
 		?>
 		<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="fprr_review_form">
@@ -341,8 +341,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 	}
 }
 function generate_error_text($errors) {
-	dump("shats");
-	dump($errors);
+
+	// dump($errors);
 	$processed = array();
 	foreach($errors as $key => $val) {
 		if($val == 'absent required') {
@@ -564,7 +564,6 @@ function rr_validate_email($incomingData) {
 			$periodPos  = strpos($incomingData['reviewer_email'],'.');
 			$lastAtPos  = strpos($incomingData['reviewer_email'],'@');
 			if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-				dump("g please");
 					$incomingData['isValid'] = false;
 					$incomingData['errors']['email'] = 'invalid input';
 			}
