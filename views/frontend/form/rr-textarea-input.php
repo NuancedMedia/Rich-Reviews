@@ -5,7 +5,7 @@
 			<?php echo $label; ?>
 		</td>
 		<td class="rr_form_input">
-			<?php echo $error; ?>
+			<?php echo '<span class="form-err">' . $error . '</span>'; ?>
 			<textarea class="rr_large_input" name="rText" rows="10"><?php echo $rFieldValue; ?></textarea>
 		</td>
 	</tr>
