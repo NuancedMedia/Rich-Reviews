@@ -80,7 +80,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 				'contentErr'=>	''
 			);
 
-			$newData = array(
+			$newData = array (
+
 					'date_time'       => $rDateTime,
 					'reviewer_name'   => $rName,
 					// 'reviewer_image_id' => $rAuthorImage,
@@ -95,10 +96,13 @@ function handle_form($atts, $options, $sqltable, $path) {
 					'review_category' => $rCategory,
 					'isValid'		  => true,
 					'errors'		  => $errors
+
 			);
 
 			dump($newData);
 			$newData = apply_filters('rr_check_required', $newData);
+			dump($newData);
+			$newData = apply_filters('rr_misc_validation', $newData);
 			dump($newData);
 
 
@@ -426,10 +430,10 @@ function sendEmail($data, $options) {
 	if( $reviewer_name != "" ) {
 		$message .= $options["form-name-label"].": ".$reviewer_name."\r\n";
 	}
-	if( $reviewer_email != "" ) {
+	if ( $reviewer_email != "" ) {
 		$message .= $options["form-email-label"].": ".$reviewer_email."\r\n";
 	}
-	if( $review_title != "" ) {
+	if ( $review_title != "" ) {
 		$message .= $options["form-title-label"].": ".$review_title."\r\n";
 	}
 	$message .= __("Review Rating: ", 'rich-reviews'). $review_rating ."\r\n";
@@ -452,7 +456,7 @@ function sendEmail($data, $options) {
 
 function rr_require_name_field($incomingData) {
 
-	if($incomingData['reviewer_name'] == '') {
+	if ($incomingData['reviewer_name'] == '') {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['nameErr'] = 'absent required';
 	}
@@ -461,7 +465,7 @@ function rr_require_name_field($incomingData) {
 
 function rr_require_title_field($incomingData) {
 
-	if($incomingData['review_title'] == '') {
+	if ($incomingData['review_title'] == '') {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['titleErr'] = 'absent required';
 	}
@@ -470,7 +474,7 @@ function rr_require_title_field($incomingData) {
 
 function rr_require_email_field($incomingData) {
 
-	if($incomingData['reviewer_email'] == '') {
+	if ($incomingData['reviewer_email'] == '') {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['emailErr'] = 'absent required';
 	}
@@ -478,7 +482,7 @@ function rr_require_email_field($incomingData) {
 }
 
 function rr_require_content_field($incomingData) {
-	if($incomingData['review_text'] == '') {
+	if ($incomingData['review_text'] == '') {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['contentErr'] = 'absent required';
 	}
@@ -486,12 +490,55 @@ function rr_require_content_field($incomingData) {
 }
 
 function rr_require_rating_field($incomingData) {
-	if($incomingData['review_rating'] == 0) {
+	if ($incomingData['review_rating'] == 0) {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['ratingErr'] = 'absent required';
 	}
 	return $incomingData;
 }
+
+// Field Specific Validation ('rr_misc_validation')
+
+function rr_validate_name_length($incomeData) {
+	if (strlen($incomingData['reviewer_name']) > 40) {
+		$incomingData['isValid'] = false;
+		$incomingData['errors']['nameErr'] = 'length violation';
+	}
+	return $incomingData;
+}
+
+function rr_validate_email($incomingData) {
+	if ($incomingData['reviewer_email'] != '') {
+		$firstAtPos = strpos($incomingData['reviewer_email'],'@');
+		$periodPos  = strpos($incomingData['reviewer_email'],'.');
+		$lastAtPos  = strrpos($incomingData['reviewer_email'],'@');
+		if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
+				$incomingData['isValid'] = false;
+				$incomingData['errors']['emailErr'] = 'invalid email';
+		}
+	}
+	return $incomingData;
+}
+
+function rr_validate_title_length($incomingData) {
+	if ($incomingData['review_title'] != '' ) {
+		if (strlen($invomingData['review_title']) > 40) {
+			$incomingData['isValid'] = false;
+			$incomingData['errors']['titleErr'] = 'length violation';
+		}
+	}
+}
+
+function rr_validate_content_length($incomingData) {
+	if ($incomingData['review_text'] != '' ) {
+		if (strlen($invomingData['review_title']) > 300) {
+			$incomingData['isValid'] = false;
+			$incomingData['errors']['contentErr'] = 'length violation';
+		}
+	}
+}
+
+
 
 
 function fp_sanitize($input) {
