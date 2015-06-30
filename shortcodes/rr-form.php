@@ -153,34 +153,36 @@ function handle_form($atts, $options, $sqltable, $path) {
 			// 	}
 			// }
 			if ($newData['isValid']) {
-				if($options['form-name-display']) {
-					if ((strlen($rName) > 100)) {
-						$output .= __('The name you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
-					}
-				}
-				if($options['form-title-display']) {
-					if ((strlen($rTitle) > 150)) {
-						$output .= __('The review title you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
-					}
-				}
-				if($options['form-email-display']) {
-					if ((strlen($rEmail) > 100)) {
-						$output .= __('The email you entered was too long, and has been shortened.', 'rich-reviews') . '<br />';
-					}
-				}
-				if( $options['send-email-notifications']) {
-					sendEmail($newdata, $options);
-				}
-				$wpdb->insert($sqltable, $newdata);
-				$output .= '<span id="state"></span>';
 
-				//TODO: format for i18n
-				$output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded';
-				if($options['require_approval']) {
-					$output .= ' and submitted for approval';
-				}
-				$output .= '. Thanks!</strong></center><div class="clear"></div></div>';
-				$displayForm = false;
+				$newSubmission = array(
+					'date_time'       => $newDate['date_time'],
+					'reviewer_name'   => $newDate['reviewer_name'],
+					// 'reviewer_image_id' => $newDate['reviewer_image_id'],
+					'reviewer_email'  => $newDate['reviewer_email'],
+					'review_title'    => $newDate['review_title'],
+					'review_rating'   => intval($newDate['intval']),
+					// 'review_image_id' => $newDate['review_image_id'],
+					'review_text'     => $newDate['review_text'],
+					'review_status'   => $newDate['review_status'],
+					'reviewer_ip'     => $newDate['reviewer_ip'],
+					'post_id'		  => $newDate['post_id'],
+					'review_category' => $newDate['review_category'],
+				);
+
+				do_action('rr_on_valid_data', $newSubmission, $options);
+				// if( $options['send-email-notifications']) {
+				// 	sendEmail($newdata, $options);
+				// }
+
+				// $output .= '<span id="state"></span>';
+
+				// //TODO: format for i18n
+				// $output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded';
+				// if($options['require_approval']) {
+				// 	$output .= ' and submitted for approval';
+				// }
+				// $output .= '. Thanks!</strong></center><div class="clear"></div></div>';
+				// $displayForm = false;
 			} else {
 				//$output .= '<span id="target"></span>';
 			}
@@ -418,7 +420,13 @@ function rr_do_content_field($options, $path, $rData = null, $errors = null) {
 	@include $path . 'views/frontend/form/rr-textarea-input.php';
 }
 
-function sendEmail($data, $options) {
+function rr_insert_new_review($data) {
+
+	global $wpdb;
+	$wpdb->insert($sqltable, $newdata);
+}
+
+function rr_send_admin_email($data, $options) {
 
 	extract($data);
 	$message = "";
@@ -499,7 +507,7 @@ function rr_require_rating_field($incomingData) {
 
 // Field Specific Validation ('rr_misc_validation')
 
-function rr_validate_name_length($incomeData) {
+function rr_validate_name_length($incomingData) {
 	if (strlen($incomingData['reviewer_name']) > 40) {
 		$incomingData['isValid'] = false;
 		$incomingData['errors']['nameErr'] = 'length violation';
@@ -508,13 +516,19 @@ function rr_validate_name_length($incomeData) {
 }
 
 function rr_validate_email($incomingData) {
+
 	if ($incomingData['reviewer_email'] != '') {
-		$firstAtPos = strpos($incomingData['reviewer_email'],'@');
-		$periodPos  = strpos($incomingData['reviewer_email'],'.');
-		$lastAtPos  = strrpos($incomingData['reviewer_email'],'@');
-		if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-				$incomingData['isValid'] = false;
-				$incomingData['errors']['emailErr'] = 'invalid email';
+		if (strlen($incomingData['reviewer_email']) > 150 ) {
+			$incomingData['isValid'] = false;
+			$incomingData['errors']['emailErr'] = 'length violation';
+		} else {
+			$firstAtPos = strpos($incomingData['reviewer_email'],'@');
+			$periodPos  = strpos($incomingData['reviewer_email'],'.');
+			$lastAtPos  = strrpos($incomingData['reviewer_email'],'@');
+			if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
+					$incomingData['isValid'] = false;
+					$incomingData['errors']['emailErr'] = 'invalid input';
+			}
 		}
 	}
 	return $incomingData;
@@ -522,20 +536,22 @@ function rr_validate_email($incomingData) {
 
 function rr_validate_title_length($incomingData) {
 	if ($incomingData['review_title'] != '' ) {
-		if (strlen($invomingData['review_title']) > 40) {
+		if (strlen($incomingData['review_title']) > 40) {
 			$incomingData['isValid'] = false;
 			$incomingData['errors']['titleErr'] = 'length violation';
 		}
 	}
+	return $incomingData;
 }
 
 function rr_validate_content_length($incomingData) {
 	if ($incomingData['review_text'] != '' ) {
-		if (strlen($invomingData['review_title']) > 300) {
+		if (strlen($incomingData['review_title']) > 300) {
 			$incomingData['isValid'] = false;
 			$incomingData['errors']['contentErr'] = 'length violation';
 		}
 	}
+	return $incomingData;
 }
 
 

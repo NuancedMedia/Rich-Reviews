@@ -177,7 +177,7 @@ class RichReviews {
 
 		// add_action('rr_on_valid_data', 'rr_insert_new_review');
 		if($this->rr_options['send-email-notifications']) {
-			//add_action('rr_on_valid_data', 'rr_send_admin_email');
+			// add_action('rr_on_valid_data', 'rr_send_admin_email');
 		}
 		if($this->rr_options['form-name-display']) {
 			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 3);
