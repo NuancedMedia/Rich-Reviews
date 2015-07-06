@@ -108,7 +108,7 @@ class RichReviewsDB extends NMDB {
 			$averageRating = floor(10*floatval($averageRating))/10;
 		}
 
-		$return = array('average' => $averageRating, 'reviewsCount' => $approvedReviewsCount);
+		$return = array('average' => $averageRating, 'reviewsCount' => $approvedReviewsCount, 'category' => $category);
 
 
 		return $return;

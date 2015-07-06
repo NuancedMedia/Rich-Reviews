@@ -1,8 +1,13 @@
 <?php
 
-	function handle_snippet($data, $options) {
+	function handle_snippet($data, $options, $path) {
 
+		dump($data);
 		extract($data);
+
+		ob_start();
+
+		$category = '';
 
 		if ($options['snippet_stars']) {
 			$use_stars = TRUE;
@@ -23,7 +28,16 @@
 					$stars = $stars . '&#9734;';
 				}
 			}
+		} else {
+			$use_stars = FALSE;
+			$stars = null;
+
 		}
+
+		if($category == '' || $catgory == 'none' || $category == 'all') {
+			$category = '';
+		}
+
 		$data = array(
 			'use_stars'		=> $use_stars,
 			'category' 		=> $category,
@@ -33,6 +47,7 @@
 			'options'		=> $options
 		);
 
-		include '/../views/frontend/snippets.php';
+		include $path . '/views/frontend/snippets.php';
 
+		return ob_get_clean();
 	}

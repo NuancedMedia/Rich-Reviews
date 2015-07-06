@@ -261,7 +261,11 @@ class RichReviews {
 		// class data:
 		// 	- $options
 
-		return handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
+		ob_start();
+
+			handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
+
+		return ob_get_clean();
 	}
 
 	function shortcode_reviews_show_control($atts) {
@@ -273,11 +277,15 @@ class RichReviews {
 			)
 		, $atts));
 		$reviews = $this->db->get_reviews($category, $num, $post);
-		return handle_show($reviews, $this->rr_options);
+		ob_start();
+			handle_show($reviews, $this->rr_options);
+		return ob_get_clean();
 	}
 
 	function shortcode_reviews_show_all_control() {
-		return $this->shortcode_reviews_show_control(array('num'=>'all'));
+		ob_start();
+			$this->shortcode_reviews_show_control(array('num'=>'all'));
+		return ob_get_clean();
 	}
 
 	function shortcode_reviews_snippets_control($atts) {
@@ -289,7 +297,9 @@ class RichReviews {
 			)
 		,$atts));
 		$data = $this->db->get_average_rating($category);
-		return handle_snippet($data, $this->rr_options);
+		ob_start();
+			handle_snippet($data, $this->rr_options, $this->path);
+		return ob_get_clean();
 
 
 

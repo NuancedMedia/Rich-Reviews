@@ -9,6 +9,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 		)
 	,$atts));
 
+
+
 	//initialize all data vars
 	$rName  = '';
 	$rEmail = '';
@@ -167,6 +169,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 	// 					</script>';
 	// }
 	// return __($output, 'rich-reviews');
+
+
 	}
 }
 function generate_error_text($errors) {

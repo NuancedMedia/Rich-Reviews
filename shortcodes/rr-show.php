@@ -12,7 +12,6 @@
 		// Set up the SQL query
 
 
-
 		// Show the reviews
 		if (count($reviews)) {
 			$total_count = count($reviews);
@@ -96,7 +95,6 @@
 		do_action('rr_do_review_wrapper', $data);
 
 		do_action('rr_do_review_content', $data);
-
 	}
 
 function full_width_wrapper($data) {
@@ -140,6 +138,7 @@ function do_post_title ($data) {
 }
 
 function do_hidden_post_title ($data) {
+
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 		<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;">

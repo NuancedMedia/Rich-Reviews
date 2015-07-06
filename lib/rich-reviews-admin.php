@@ -153,7 +153,9 @@ class RichReviewsAdmin {
 
         $supportNM = $this->insert_credit_permission_checkbox();
 
-        include $this->parent->path . 'views/admin/dashboard/instructions.php';
+        ob_start();
+        	include $this->parent->path . 'views/admin/dashboard/instructions.php';
+        return ob_get_clean();
 
 	}
 
@@ -176,18 +178,15 @@ class RichReviewsAdmin {
     }
 
     function render_rr_show_content() {
-
-    	include $this->parent->path . 'views/admin/dashboard/rr_show.php';
+    		include $this->parent->path . 'views/admin/dashboard/rr_show.php';
     }
 
     function render_rr_form_content() {
-
-    	include $this->parent->path . 'views/admin/dashboard/rr_form.php';
+    		include $this->parent->path . 'views/admin/dashboard/rr_form.php';
     }
 
     function render_rr_snippet_content() {
-
-    	include $this->parent->path . 'views/admin/dashboard/rr_snippet.php';
+      		include $this->parent->path . 'views/admin/dashboard/rr_snippet.php';
     }
 
 	function render_pending_reviews_page($wrapped = null) {
@@ -227,7 +226,9 @@ class RichReviewsAdmin {
 		}
 
 		$path = $this->parent->path;
-		include $path . 'views/admin/options/options-index.php';
+		ob_start();
+			include $path . 'views/admin/options/options-index.php';
+		return ob_get_clean();
 	}
 
 	function render_add_edit_page($wrapped) {
