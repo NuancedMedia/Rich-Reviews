@@ -147,31 +147,11 @@ function handle_form($atts, $options, $sqltable, $path) {
 			</table>
 		</form>
 	<?php
-	// }
-	// render_custom_styles($options);
-	// if( $options['return-to-form']) {
-	// 		$output .= '<script>
-	// 						jQuery(function(){
-	// 							if(jQuery(".successful").is(":visible")) {
-	// 								offset = jQuery(".successful").offset();
-	// 								jQuery("html, body").animate({
-	// 									scrollTop: (offset.top - 400)
-	// 								});
-	// 							} else {
-	// 								if(jQuery(".form-err").is(":visible")) {
-	// 									offset = jQuery(".form-err").offset();
-	// 									jQuery("html, body").animate({
-	// 										scrollTop: (offset.top - 200)
-	// 									});
-	// 								}
-	// 							}
-	// 						});
-	// 					</script>';
-	// }
-	// return __($output, 'rich-reviews');
+
 
 
 	}
+	do_action('rr_set_local_scripts');
 }
 function generate_error_text($errors) {
 
@@ -308,6 +288,39 @@ function rr_output_response_message($data, $options) {
 		<div class="clear"></div>
 	</div>
 	<?php
+}
+
+function rr_output_scroll_script() {
+
+	?>
+		<script>
+			jQuery(function(){
+				if(jQuery(".successful").is(":visible")) {
+					console.log('success visible');
+					offset = jQuery(".successful").offset();
+					jQuery("html, body").animate({
+						scrollTop: (offset.top - 400)
+					});
+				} else {
+					errorPresent = false;
+					jQuery(".form-err").each(function () {
+						if(this.innerHTML != ''){
+							console.log("errororororor");
+							errorPresent = true;
+						}
+					});
+					if(errorPresent) {
+						console.log('error visible');
+						offset = jQuery(".form-err").offset();
+						jQuery("html, body").animate({
+							scrollTop: (offset.top + 200)
+						});
+					}
+				}
+			});
+		</script>
+	<?php
+
 }
 
 function rr_send_admin_email($data, $options) {

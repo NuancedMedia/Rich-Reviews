@@ -217,6 +217,9 @@ class RichReviews {
 				add_filter('rr_check_required', 'rr_require_content_field');
 			}
 		}
+		if($this->rr_options['return-to-form']) {
+			add_action('rr_set_local_scripts','rr_output_scroll_script');
+		}
 		// if($this->rr_options['form-reviewer-display']) {
 		// 	add_action('rr_do_form_fields', 'rr_do_reviewerImg_field', 6, 3);
 		// 	if($this->rr_options['form-reviewer-display']) {

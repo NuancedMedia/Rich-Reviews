@@ -177,7 +177,7 @@ function do_the_date ($data) {
 function do_the_date_hidden ($data) {
 		if($data['rDateTime'] != "0000-00-00 00:00:00") {
 		?>
-		<span class="rr_date"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>" style="display:none;">
+		<span class="rr_date" style="display:none;"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>">
 			<time datetime="<?php echo $data['rDate']; ?>">
 				<?php echo $data['rDate']; ?>
 			</time>
