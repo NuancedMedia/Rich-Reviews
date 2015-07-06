@@ -48,8 +48,8 @@
 			}
 
 		}
-		$output .= print_credit($options);
-		render_custom_styles($options);
+		do_action('rr_close_testimonial_group', $options);
+		// render_custom_styles($options);
 		// return __($output, 'rich-reviews');
 	}
 
@@ -59,7 +59,7 @@
 		$data = array(
 			'rID'       => $review->id,
 			'rDateTime' => $review->date_time,
-			'date' 		=> strtotime($rDateTime),
+			'date' 		=> strtotime($review->date_time),
 			'rDay'		=> date("j", $date),
 			'rMonth'	=> date("F", $date),
 			'rWday'		=> date("l", $date),
@@ -181,12 +181,12 @@ function full_width_wrapper($data) {
 	#?>
 	<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">
 		<div class="review-head">
-		<?php if($data['rAuthorImage']) {
+		<?php //if($data['rAuthorImage']) {
 			?>
-				<div class="user-image">
-					<?php wp_get_attachment_image( $data['rAuthorImage'], [70, 70]); ?>
-				</div>
-			<?php } ?>
+				<!-- <div class="user-image"> -->
+					<?php //wp_get_attachment_image( $data['rAuthorImage'], [70, 70]); ?>
+				<!-- </div> -->
+			<?php //} ?>
 		<div class="review-info">
 		<h3 class="rr_title"><?php echo $data['rTitle']; ?></h3>
 		<div class="clear"></div>
@@ -230,7 +230,7 @@ function do_hidden_post_title ($data) {
 }
 
 function do_the_date ($data) {
-	if($rDateTime != "0000-00-00 00:00:00") {
+	if($data['rDateTime'] != "0000-00-00 00:00:00") {
 		// ob_start();
 		?>
 		<span class="rr_date"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>">
@@ -253,7 +253,7 @@ function do_the_date ($data) {
 }
 
 function do_the_date_hidden ($data) {
-		if($rDateTime != "0000-00-00 00:00:00") {
+		if($data['rDateTime'] != "0000-00-00 00:00:00") {
 		?>
 		<span class="rr_date"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>" style="display:none;">
 			<time datetime="<?php echo $data['rDate']; ?>">
@@ -300,13 +300,14 @@ function do_review_body ($data) {
 	<?php
 }
 
-function print_credit($options) {
-	$permission = $options['credit_permission'];
-	$output = "";
-	if ($permission) {
-		$output = '<div class="credit-line">' . __('Supported By: ', 'rich-reviews') . '<a href="http://nuancedmedia.com/" rel="nofollow">' . 'Nuanced Media'. '</a>';
-		$output .= '</div>' . PHP_EOL;
-		$output .= '<div class="clear"></div>' . PHP_EOL;
-	}
-	return __($output, 'rich-reviews');
+function print_credit() {
+	?>
+		<div class="credit-line">
+			<?php echo __('Supported By: ', 'rich-reviews'); ?>
+			<a href="http://nuancedmedia.com/" rel="nofollow">
+				<?php echo 'Nuanced Media'; ?>
+			</a>
+		</div>
+		<div class="clear"></div>
+	<?php
 }

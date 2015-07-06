@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Created: 2014-07-15
  * Last Revised: 2014-07-15
  *

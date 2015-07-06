@@ -166,6 +166,10 @@ class RichReviews {
 		} else {
 			add_action('rr_do_review_content', 'do_the_date_hidden', 2);
 		}
+		if($this->rr_options['credit_permission']) {
+			add_action('rr_close_testimonial_group', 'print_credit');
+		}
+		add_action('rr_close_testimonial_group', 'render_custom_styles');
 	}
 
 	function set_form_filters() {
@@ -179,7 +183,7 @@ class RichReviews {
 		if($this->rr_options['send-email-notifications']) {
 			add_action('rr_on_valid_data', 'rr_send_admin_email', 1, 3);
 		}
-		add_action('rr_on_valid_data', 'rr_output_response_message');
+		add_action('rr_on_valid_data', 'rr_output_response_message', 1, 3);
 		if($this->rr_options['form-name-display']) {
 			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 4);
 			add_filter('rr_misc_validation', 'rr_validate_name_length');

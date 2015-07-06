@@ -455,13 +455,26 @@ function rr_insert_new_review($data, $options, $sqltable) {
 	$wpdb->insert($sqltable, $data);
 }
 
-function rr_output_response_message() {
-	// //TODO: format for i18n
-				// $output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded';
-				// if($options['require_approval']) {
-				// 	$output .= ' and submitted for approval';
-				// }
-				// $output .= '. Thanks!</strong></center><div class="clear"></div></div>';
+function rr_output_response_message($data, $options) {
+
+	?>
+	<div class="successful">
+		<span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span>
+		<span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span>
+		<center>
+			<strong>
+				<?php
+					echo $data['reviewer_name'] . ', your review has been recorded';
+					if($options['require_approval']) {
+						echo ' and submitted for approval';
+					}
+					echo '. Thanks!';
+				?>
+			</strong>
+		</center>
+		<div class="clear"></div>
+	</div>
+	<?php
 }
 
 function rr_send_admin_email($data, $options) {
