@@ -14,11 +14,6 @@ function handle_form($atts, $options, $sqltable, $path) {
 	$rEmail = '';
 	$rTitle = '';
 	$rText  = '';
-	// $nameErr = '';
-	// $emailErr = '';
-	// $titleErr = '';
-	// $reviewErr = '';
-	// $textErr = '';
 	$output = '';
 	$displayForm = true;
 	$posted = false;
@@ -81,14 +76,6 @@ function handle_form($atts, $options, $sqltable, $path) {
 			$rPostID   = $post->ID;
 			$rCategory = fp_sanitize($category);
 
-			// $errors = array(
-			// 	'nameErr'	=>	'',
-			// 	'emailErr'	=>	'',
-			// 	'titleErr'	=>	'',
-			// 	'ratingErr'	=>	'',
-			// 	'contentErr'=>	''
-			// );
-
 			$newData = array (
 
 					'date_time'       => $rDateTime,
@@ -134,96 +121,11 @@ function handle_form($atts, $options, $sqltable, $path) {
 
 				do_action('rr_on_valid_data', $newSubmission, $options, $sqltable);
 			}
-
-
-			// $validData = true;
-			// if($options['form-name-display']) {
-			// 	if($options['form-name-require']) {
-			// 		if ($rName == '') {
-			// 		$nameErr = '<span class="form-err">' . __('You must include your name.', 'rich-reviews') . '</span><br>';
-			// 		$validData = false;
-			// 		}
-			// 	}
-			// }
-			// if($options['form-title-display']) {
-			// 	if($options['form-title-require']) {
-			// 		if ($rTitle == '') {
-			// 			$titleErr= '<span class="form-err">' . __('You must include a title for your review.', 'rich-reviews') . '</span><br>';
-			// 			$validData = false;
-			// 		}
-			// 	}
-			// }
-			// if($options['form-content-display']) {
-			// 	if($options['form-content-require']) {
-			// 		if ($rText == '') {
-			// 			$textErr = '<span class="form-err">' . __('You must write some text in your review.', 'rich-reviews') . '</span><br>';
-			// 			$validData = false;
-			// 		}
-			// 	}
-			// }
-
-			// if ($rRating == 0) {
-			// 	$reviewErr = '<span class="form-err">' . __('Please give a rating between 1 and 5 stars.', 'rich-reviews') . '</span><br>';
-			// 	$validData = false;
-			// }
-			// if($options['form-email-display']) {
-			// 	if($options['form-email-require']) {
-			// 		if($rEmail == '') {
-			// 			$emailErr = '<span class="form-err">' . __('Please provide email.', 'rich-reviews') . '</span><br>';
-			// 		}
-			// 	}
-			// 	if ($rEmail != '') {
-			// 		$firstAtPos = strpos($rEmail,'@');
-			// 		$periodPos  = strpos($rEmail,'.');
-			// 		$lastAtPos  = strrpos($rEmail,'@');
-			// 		if (($firstAtPos === false) || ($firstAtPos != $lastAtPos) || ($periodPos === false)) {
-			// 			$emailErr .= '<span class="form-err">' . __('You must provide a valid email address.', 'rich-reviews') . '</span><br>';
-			// 			$validData = false;
-			// 		}
-			// 	}
-			// }
-
-
-				// if( $options['send-email-notifications']) {
-				// 	sendEmail($newdata, $options);
-				// }
-
-				// $output .= '<span id="state"></span>';
-
-				// //TODO: format for i18n
-				// $output .= '<div class="successful"><span class="rr_star glyphicon glyphicon-star left" style="font-size: 34px;"></span><span class="rr_star glyphicon glyphicon-star big-star right" style="font-size: 34px;"></span><center><strong>' . $rName . ', your review has been recorded';
-				// if($options['require_approval']) {
-				// 	$output .= ' and submitted for approval';
-				// }
-				// $output .= '. Thanks!</strong></center><div class="clear"></div></div>';
-				// $displayForm = false;
-		// 	} else {
-		// 		//$output .= '<span id="target"></span>';
-		// 	}
-		// }
-
 		}
 	} else {
 		?> <span id="state"></span> <?php
 	}
 	if ($displayForm) {
-		// if(!$posted) {
-		// 	$newdata = array(
-		// 		'date_time'       => $rDateTime,
-		// 		'reviewer_name'   => $rName,
-		// 		// 'reviewer_image_id' => $rAuthorImage,
-		// 		'reviewer_email'  => $rEmail,
-		// 		'review_title'    => $rTitle,
-		// 		'review_rating'   => intval($rRating),
-		// 		// 'review_image_id' => $rImage,
-		// 		'review_text'     => $rText,
-		// 		'review_status'   => $rStatus,
-		// 		'reviewer_ip'     => $rIP,
-		// 		'post_id'		  => $rPostID,
-		// 		'review_category' => $rCategory
-		// 	);
-		// }
-
 
 			$errors = $newData['errors'];
 			$errors = generate_error_text($errors);
@@ -235,80 +137,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 			<input type="hidden" name="rRating" id="rRating" value="0" />
 			<table class="form_table">
 			<?php do_action('rr_do_form_fields', $options, $path, $newData, $errors); ?>
-		<?php
 
-	// 	if($options['form-name-display']) {
-	// 		$output .= '		<tr class="rr_form_row">';
-	// 		$output .= '			<td class="rr_form_heading';
-	// 		if($options['form-name-require']){
-	// 			$output .= ' rr_required';
-	// 		}
-	// 		$output .= '">'.$options['form-name-label'].'</td>';
-	// 		$output .= '			<td class="rr_form_input">'.$nameErr.'<input class="rr_small_input" type="text" name="rName" value="' . $rName . '" /></td>';
-	// 		$output .= '		</tr>';
-	// 	}
-	// 	// if($options['form-reviewer-image-display']) {
-	// 	// 	$output .= '	 <tr class="rr_form_row">';
-	// 	// 	$output .= '		<td class="rr_form_heading';
-	// 	// 	if($options['form-reviewer-image-require']) {
-	// 	// 		$output .= ' rr_required';
-	// 	// 	}
-	// 	// 	$output .= ' ">'.$options['form-reviewer-image-label']. '</td>';
-	// 	// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rAuthorImage" size="50"/></td>';
-	// 	// 	$output .= '		</tr>';
-	// 	// }
-
-	// 	if($options['form-email-display']) {
-	// 		$output .= '		<tr class="rr_form_row">';
-	// 		$output .= '			<td class="rr_form_heading';
-	// 		if($options['form-email-require']){
-	// 			$output .= ' rr_required';
-	// 		}
-	// 		$output .= '">'.$options['form-email-label'].'</td>';
-	// 		$output .= '			<td class="rr_form_input">'.$emailErr.'<input class="rr_small_input" type="text" name="rEmail" value="' . $rEmail . '" /></td>';
-	// 		$output .= '		</tr>';
-	// 	}
-
-	// 	if($options['form-title-display']) {
-	// 		$output .= '		<tr class="rr_form_row">';
-	// 		$output .= '			<td class="rr_form_heading';
-	// 		if($options['form-title-require']){
-	// 			$output .= ' rr_required';
-	// 		}
-	// 		$output .= '">'.$options['form-title-label'].'</td>';
-	// 		$output .= '			<td class="rr_form_input">'.$titleErr.'<input class="rr_small_input" type="text" name="rTitle" value="' . $rTitle . '" /></td>';
-	// 		$output .= '		</tr>';
-	// 	}
-
-	// 	$output .= '		<tr class="rr_form_row">';
-	// 	$output .= '			<td class="rr_form_heading rr_required">Rating</td>';
-	// 	$output .= '			<td class="rr_form_input">'.$reviewErr . star_rating_input() . '</td>';
-	// 	$output .= '		</tr>';
-
-	// 	//TODO: Maybe immplement array of images
-	// 	// if($options['form-reviewed-image-display']) {
-	// 	// 	$output .= '	 <tr class="rr_form_row">';
-	// 	// 	$output .= '		<td class="rr_form_heading';
-	// 	// 	if($options['form-reviewed-image-require']) {
-	// 	// 		$output .= ' rr_required';
-	// 	// 	}
-	// 	// 	$output .= ' ">'.$options['form-reviewed-image-label']. '</td>';
-	// 	// 	$output .= '			<td class="rr_form_input">'.$textErr.'<input type="file" name="rImage" size="50"/></td>';
-	// 	// 	$output .= '		</tr>';
-	// 	// }
-
-	// 	if($options['form-content-display']) {
-	// 		$output .= '		<tr class="rr_form_row">';
-	// 		$output .= '			<td class="rr_form_heading';
-	// 		if($options['form-content-require']) {
-	// 			$output .= ' rr_required';
-	// 		}
-	// 		$output .= '">'.$options['form-content-label'].'</td>';
-	// 		$output .= '			<td class="rr_form_input">'.$textErr.'<textarea class="rr_large_input" name="rText" rows="10">' . $rText . '</textarea></td>';
-	// 		$output .= '		</tr>';
-	// 	}
-
-	?>
 				<tr class="rr_form_row">
 					<td></td>
 					<td class="rr_form_input"><input id="submitReview" name="submitButton" type="submit" value="<?php echo $options['form-submit-text']; ?>"/></td>
