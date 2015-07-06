@@ -46,9 +46,9 @@ jQuery(function(){
 		jQuery('#rRating').val(jQuery(this).attr('id').charAt(8));
 	});
 
-	jQuery('#submitReview').click(function() {
-		window.setInterval(scrollToForm(), 3000);
-	});
+	// jQuery('#submitReview').click(function() {
+	// 	window.setInterval(scrollToForm(), 3000);
+	// });
 	// jQuery('#submitReview').click(function() {
 	// 	formSubmit = true;
 	// 	console.log("formSubmit");
@@ -67,7 +67,6 @@ function renderStarRating(rating) {
 	}
 }
 
-function scrollToForm() {
-	console.log("kjndkjn");
-
-}
+// function scrollToForm() {
+// 	console.log("kjndkjn");
+// }
