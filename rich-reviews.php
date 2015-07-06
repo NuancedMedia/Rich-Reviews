@@ -256,17 +256,6 @@ class RichReviews {
 		return __($output, 'rich-reviews');
 	}
 
-	// function star_rating_input() {
-	// 	$output = '<div class="rr_stars_container">
-	// 		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_1"></span>
-	// 		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_2"></span>
-	// 		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_3"></span>
-	// 		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_4"></span>
-	// 		<span class="rr_star glyphicon glyphicon-star-empty" id="rr_star_5"></span>
-	// 	</div>';
-	// 	return __($output, 'rich-reviews');
-	// }
-
 	function shortcode_reviews_form_control($atts) {
 		// Move primary functoionality elsewhere
 		// class data:
@@ -274,39 +263,6 @@ class RichReviews {
 
 		return handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
 	}
-
-	// function sendEmail($data) {
-	// 	extract($data);
-	// 	$message = "";
-	// 	$message .= "RichReviews User,\r\n";
-	// 	$message .= "\r\n";
-	// 	$message .= __("You have received a new review which is now pending your approval. The information from the review is listed below.", 'rich-reviews') . "\r\n";
-	// 	$message .= "\r\n";
-	// 	$message .= __("Review Date: ", 'rich-reviews') .$date_time."\r\n";
-	// 	if( $reviewer_name != "" ) {
-	// 		$message .= $this->rr_options["form-name-label"].": ".$reviewer_name."\r\n";
-	// 	}
-	// 	if( $reviewer_email != "" ) {
-	// 		$message .= $this->rr_options["form-email-label"].": ".$reviewer_email."\r\n";
-	// 	}
-	// 	if( $review_title != "" ) {
-	// 		$message .= $this->rr_options["form-title-label"].": ".$review_title."\r\n";
-	// 	}
-	// 	$message .= __("Review Rating: ", 'rich-reviews'). $review_rating ."\r\n";
-	// 	if ($review_text != "" ) {
-	// 		$message .= $this->rr_options["form-content-label"].": ".$review_text."\r\n";
-	// 	}
-	// 	$message .= __("Review Category: ", 'rich-reviews'). $review_category ."\r\n\r\n";
-
-	// 	$message .= __("Click the link below to review and approve your new review.", 'rich-reviews'). "\r\n";
-	// 	$message .= admin_url()."admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
-	// 	$message .= __("Thanks for choosing Rich Reviews,", 'rich-reviews'). "\r\n";
-	// 	$message .= __("The Nuanced Media Team", 'rich-reviews');
-
-	// 	$mail_subject = __('New Pending Review', 'rich-reviews');
-
-	// 	mail($this->rr_options['admin-email'], $mail_subject, $message);
-	// }
 
 	function shortcode_reviews_show_control($atts) {
 		global $post;
