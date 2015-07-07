@@ -32,9 +32,21 @@
 		</div>
 	</div>
 	<div class="rr_shortcode_option_container">
+		<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="all"]</div>
+		<div class="rr_shortcode_option_text">
+			<?php echo __('This will show the first three approved reviews regardless of category. The "all" value submitted for the category parameter will remove the category filter from the reviews query returning reviews of all categories. Values passed to the "num" parameter ill obviously still have it\'s standard effect modifiying the quantity of reviews displayed.', 'rich-reviews'); ?>
+		</div>
+	</div>
+	<div class="rr_shortcode_option_container">
 		<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="bar" num="6"]</div>
 		<div class="rr_shortcode_option_text">
 			<?php echo __('This will show the first six approved reviews which have the category "bar". Again, you may use any category, and if you specify that category="page" then the first six approved reviews for that particular page/post will be displayed.', 'rich-reviews'); ?>
+		</div>
+	</div>
+	<div class="rr_shortcode_option_container">
+		<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="all" num="all"]</div>
+		<div class="rr_shortcode_option_text">
+			<?php echo __('This will show all of the approved reviews from your website regardless of category. Any review that is approved will be retured by this shortcode.', 'rich-reviews'); ?>
 		</div>
 	</div>
 </div>

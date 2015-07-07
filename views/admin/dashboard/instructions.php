@@ -24,7 +24,12 @@
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_SHOW category="foo"]
 					</li>
+					<li class="rr_admin_sidebar_list_item">
+						[RICH_REVIEWS_SHOW category="all"]
+					</li>
 					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">[RICH_REVIEWS_SHOW category="page" num="5"]
+					</li>
+					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">[RICH_REVIEWS_SHOW category="all" num="all"]
 					</li>
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_FORM]
@@ -36,6 +41,9 @@
 					</li>
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_SNIPPET category="foo"]
+					</li>
+					<li class="rr_admin_sidebar_list_item">
+						[RICH_REVIEWS_SNIPPET category="all"]
 					</li>
 				</ul>
 			</div>

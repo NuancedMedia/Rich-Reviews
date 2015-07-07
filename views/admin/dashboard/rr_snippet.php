@@ -20,4 +20,10 @@
 			<?php echo __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews for the current page/post (again, you may equivalently use category="post").', 'rich-reviews'); ?>
 		</div>
 	</div>
+	<div class="rr_shortcode_option_container">
+		<div class="rr_shortcode_option_name">[RICH_REVIEWS_SNIPPET category="all"]</div>
+		<div class="rr_shortcode_option_text">
+			<?php echo __('This will display the aggregate (average) score, along with the Rich Snippet markup, for all approved reviews regardless of category. All categorized and uncategorized reviews will be factored into this aggregate rating.', 'rich-reviews'); ?>
+		</div>
+	</div>
 </div>
