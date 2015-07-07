@@ -144,7 +144,7 @@ class RRAdminAddEdit {
 		}
 		if (is_null($review)) {
 			$review = array(
-				'date_time'       => NULL,
+				'date_time'       => date('Y-m-d H:i:s'),
 				'reviewer_name'   => NULL,
 				'reviewer_email'  => NULL,
 				'review_title'    => NULL,

@@ -40,7 +40,7 @@ class RROptions {
         }
         $this->options_name = $core->options_name;
         $this->defaults = array(
-			'version' => '1.5.7',
+			'version' => '1.6.4',
       'star_color' => '#ffaf00',
 			'snippet_stars' => FALSE,
 			'reviews_order' => 'asc',
