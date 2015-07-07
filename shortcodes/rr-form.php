@@ -277,7 +277,12 @@ function rr_output_response_message($data, $options) {
 		<center>
 			<strong>
 				<?php
-					echo $data['reviewer_name'] . ', your review has been recorded';
+					// dump($options);
+					if($options['form-name-display'] && $options['form-name-require']) {
+						echo $data['reviewer_name'] . ', your review has been recorded';
+					} else {
+						echo 'Your review has been recorded';
+					}
 					if($options['require_approval']) {
 						echo ' and submitted for approval';
 					}

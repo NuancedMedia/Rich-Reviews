@@ -3,7 +3,7 @@
 		?>
 		<div itemscope itemtype="http://schema.org/Product">
 			<span itemprop="name" style="display:none">
-				<?php $data['category']; ?>
+				<?php echo $data['category']; ?>
 			</span>
 			Overall rating:
 			<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
@@ -27,7 +27,7 @@
 		?>
 		<div itemscope itemtype="http://schema.org/Product">
 			<span itemprop="name" style="display:none">
-				<?php $data['category']; ?>
+				<?php echo $data['category']; ?>
 			</span>
 			Overall rating:
 			<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">

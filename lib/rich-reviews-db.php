@@ -94,11 +94,13 @@ class RichReviewsDB extends NMDB {
 		global $wpdb;
 
 		if ($category == 'none') {
-			$whereStatement = "WHERE review_status=\"1\"";
+			$whereStatement = "WHERE review_status=\"1\" and (review_category=\"none\" or review_category=\"\")";
 		} else if(($category == 'post') || ($category == 'page')) {
 			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
 		} else if ($category != 'all') {
 			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
+		} else {
+			$whereStatement = "WHERE review_status=\"1\"";
 		}
 
 		$approvedReviewsCount = $wpdb->get_var("SELECT COUNT(*) FROM $this->sqltable " . $whereStatement);

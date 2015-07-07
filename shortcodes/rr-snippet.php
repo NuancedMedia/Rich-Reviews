@@ -2,10 +2,8 @@
 
 	function handle_snippet($data, $options, $path) {
 
-		dump($data);
+		global $post;
 		extract($data);
-
-		ob_start();
 
 		$category = '';
 
@@ -35,7 +33,7 @@
 		}
 
 		if($category == '' || $catgory == 'none' || $category == 'all') {
-			$category = '';
+			$category = $post->post_title;
 		}
 
 		$data = array(
@@ -46,8 +44,5 @@
 			'reviewsCount'	=> $reviewsCount,
 			'options'		=> $options
 		);
-
 		include $path . '/views/frontend/snippets.php';
-
-		return ob_get_clean();
 	}
