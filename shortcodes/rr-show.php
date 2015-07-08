@@ -72,7 +72,9 @@
 			'rIP'       => $review->reviewer_ip,
 			'rPostId'   => $review->post_id,
 			'rRating' 	=> '',
-			'rFull'		=> false
+			'rFull'		=> false,
+			'rCategory' => $review->review_category
+
 		);
 
 		//$rAuthorImage = $review->reviewer_image_id;
@@ -124,11 +126,24 @@ function column_wrapper ($data) {
 
 function do_post_title ($data) {
 	// ob_start();
+	$page_title = get_the_title($data['rPostId']);
+
+	if(isset($page_title) && $page_title != '')  {
+		$title = $page_title;
+	} else {
+		$title = 'Service';
+	}
+	if(isset($data['rCategory'])) {
+		if($data['rCategory']) != '' || $data['rCategory']) != 'none' ) {
+			$title = $data['rCategory'];
+		}
+	}
+
 	?>
 		<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 			<div class="rr_review_post_id" itemprop="name">
 				<a href="<?php echo get_permalink($data['rPostId']); ?>">
-					<?php echo get_the_title($data['rPostId']); ?>
+					<?php echo $title; ?>
 				</a>
 			</div>
 			<div class="clear"></div>
@@ -139,11 +154,24 @@ function do_post_title ($data) {
 
 function do_hidden_post_title ($data) {
 
+	$page_title = get_the_title($data['rPostId']);
+
+	if(isset($page_title) && $page_title != '')  {
+		$title = $page_title;
+	} else {
+		$title = 'Service';
+	}
+	if(isset($data['rCategory']) {
+		if($data['rCategory']) != '' || $data['rCategory']) != 'none' ) {
+			$title = $data['rCategory'];
+		}
+	}
+
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 		<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;">
 			<a href="<?php echo get_permalink($data['rPostId']); ?>">
-				<?php echo get_the_title($data['rPostId']); ?>
+				<?php echo $title; ?>
 			</a>
 		</div>
 		<div class="clear"></div>
