@@ -171,7 +171,7 @@ function do_hidden_post_title ($data) {
 
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
-		<div class="rr_review_post_id" itemprop="itemreviewed" style="display:none;">
+		<div class="rr_review_post_id" itemprop="name" style="display:none;">
 			<a href="<?php echo get_permalink($data['rPostId']); ?>">
 				<?php echo $title; ?>
 			</a>
