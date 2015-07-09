@@ -246,7 +246,15 @@ function do_review_body ($data) {
 		<div class="clear"></div>
 
 		<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody"><?php echo $data['rText']; ?></span>”</div>
-			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name"><?php echo $data['rName']; ?></span></div>
+			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">
+			<?php
+				if(isset($data['rName']) && $data['rName'] != '') {
+					echo $data['rName'];
+				} else {
+					echo 'Anonymous';
+				}
+			?>
+			</span></div>
 			<div class="clear"></div>
 		</div>
 	<?php
