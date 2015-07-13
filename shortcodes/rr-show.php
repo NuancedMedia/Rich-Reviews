@@ -73,9 +73,34 @@
 			'rPostId'   => $review->post_id,
 			'rRating' 	=> '',
 			'rFull'		=> false,
-			'rCategory' => $review->review_category
+			'rCategory' => $review->review_category,
+			'using_subject_fallback' => false
 
 		);
+
+		if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
+			$page_title = get_the_title($data['rPostId']);
+			$using_subject_fallback = false;
+
+			if(isset($page_title) && $page_title != '')  {
+				$title = $page_title;
+			} else {
+				$using_subject_fallback = true;
+				$title = $options['rich_itemReviewed_fallback'];
+			}
+
+			$data['rCategory'] = $title;
+			$data['using_subject_fallback'] = $using_subject_fallback;
+		}
+
+		if(!isset($data['rName']) || $data['rName'] == '') {
+			if($options['rich_author_fallback'] != '') {
+				$data['rName'] = $options['rich_author_fallback'];
+			} else {
+				$data['rName'] = 'Anonymous';
+			}
+		}
+
 
 		//$rAuthorImage = $review->reviewer_image_id;
 
@@ -126,54 +151,30 @@ function column_wrapper ($data) {
 
 function do_post_title ($data) {
 	// ob_start();
-	$page_title = get_the_title($data['rPostId']);
-	$using_fallback = false;
-
-	if(isset($page_title) && $page_title != '')  {
-		$title = $page_title;
+	if($data['using_subject_fallback'] == true) {
+		do_hidden_post_title($data);
 	} else {
-		$using_fallback = true;
-		$title = 'Service';
-	}
-	if(isset($data['rCategory'])) {
-		if($data['rCategory'] != '' && strtolower($data['rCategory']) != 'none' ) {
-			$title = $data['rCategory'];
-		}
-	}
-
 	?>
 		<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
-			<div class="rr_review_post_id" itemprop="name" <?php if($using_fallback) { echo 'style="display:none"'; } ?> >
+			<div class="rr_review_post_id" itemprop="name" >
 				<a href="<?php echo get_permalink($data['rPostId']); ?>">
-					<?php echo $title; ?>
+					<?php echo $data['rCategory']; ?>
 				</a>
 			</div>
 			<div class="clear"></div>
 		</span>
 	<?php
+	}
 	// return ob_get_clean();
 }
 
 function do_hidden_post_title ($data) {
 
-	$page_title = get_the_title($data['rPostId']);
-
-	if(isset($page_title) && $page_title != '')  {
-		$title = $page_title;
-	} else {
-		$title = 'Service';
-	}
-	if(isset($data['rCategory'])) {
-		if($data['rCategory'] != '' && strtolower($data['rCategory']) != 'none' ) {
-			$title = $data['rCategory'];
-		}
-	}
-
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 		<div class="rr_review_post_id" itemprop="name" style="display:none;">
 			<a href="<?php echo get_permalink($data['rPostId']); ?>">
-				<?php echo $title; ?>
+				<?php echo $data['rCategory']; ?>
 			</a>
 		</div>
 		<div class="clear"></div>
@@ -246,13 +247,9 @@ function do_review_body ($data) {
 		<div class="clear"></div>
 
 		<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody"><?php echo $data['rText']; ?></span>”</div>
-			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">
+			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <?php echo $data['rName']; ?><span itemprop="name">
 			<?php
-				if(isset($data['rName']) && $data['rName'] != '') {
-					echo $data['rName'];
-				} else {
-					echo 'Anonymous';
-				}
+
 			?>
 			</span></div>
 			<div class="clear"></div>
