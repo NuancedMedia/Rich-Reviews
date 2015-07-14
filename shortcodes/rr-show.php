@@ -74,7 +74,8 @@
 			'rRating' 	=> '',
 			'rFull'		=> false,
 			'rCategory' => $review->review_category,
-			'using_subject_fallback' => false
+			'using_subject_fallback' => false,
+			'rich_url'  => $options['rich_url_value']
 
 		);
 
@@ -161,8 +162,7 @@ function do_post_title ($data) {
 					<?php echo $data['rCategory']; ?>
 				</a>
 			</div>
-			<div class="clear"></div>
-		</span>
+
 	<?php
 	}
 	// return ob_get_clean();
@@ -177,6 +177,20 @@ function do_hidden_post_title ($data) {
 				<?php echo $data['rCategory']; ?>
 			</a>
 		</div>
+
+	<?php
+}
+
+function do_url_schema($data) {
+	?>
+			<a href="<?php echo $data['rich_url']; ?>" itemprop="url"></a>
+			<div class="clear"></div>
+		</span>
+	<?php
+}
+
+function omit_url_schema($data) {
+	?>
 		<div class="clear"></div>
 	</span>
 	<?php
@@ -247,9 +261,9 @@ function do_review_body ($data) {
 		<div class="clear"></div>
 
 		<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody"><?php echo $data['rText']; ?></span>”</div>
-			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <?php echo $data['rName']; ?><span itemprop="name">
+			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">
 			<?php
-
+				echo $data['rName'];
 			?>
 			</span></div>
 			<div class="clear"></div>
