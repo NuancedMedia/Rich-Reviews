@@ -226,7 +226,6 @@ class RichReviewsAdmin {
 		}
 
 		$path = $this->parent->path;
-		dump($this->parent->rr_options);
 		ob_start();
 			include $path . 'views/admin/options/options-index.php';
 		return ob_get_clean();
