@@ -50,6 +50,11 @@ class RROptions {
       'display_full_width' => FALSE,
 			'credit_permission'=> FALSE,
       'show_date' => FALSE,
+      'rich_itemReviewed_fallback' => 'Service',
+      'rich_itemReviewed_fallback_case' => 'both_missing',
+      'rich_author_fallback' => 'Anonymous',
+      'rich_include_url' => 'checked',
+      'rich_url_value' => '',
       'form-name-label' => 'Name',
       'form-name-display' => 'checked',
       'form-name-require' => 'checked',
@@ -65,6 +70,7 @@ class RROptions {
       // 'form-reviewed-image-label' => 'Review Image',
       // 'form-reviewed-image-display' => 'checked',
       // 'form-reviewed-image-require' => 'checked',
+      'form-rating-label' => 'Rating',
       'form-content-label' => 'Review Content',
       'form-content-display' => 'checked',
       'form-content-require' => 'checked',
@@ -93,7 +99,8 @@ class RROptions {
              if (!isset($_POST['require_approval'])) { $_POST['require_approval'] = false; }
              if (!isset($_POST['show_form_post_title'])) { $_POST['show_form_post_title'] = false; }
              if (!isset($_POST['display_full_width'])) { $_POST['display_full_width'] = false; }
-			       if (!isset($_POST['credit_permission'])) { $_POST['credit_permission'] = false; }
+             if (!isset($_POST['credit_permission'])) { $_POST['credit_permission'] = false; }
+			       if (!isset($_POST['rich_include_url'])) { $_POST['rich_include_url'] = false; }
              if (!isset($_POST['form-name-label'])) { $_POST['form-name-label'] = false; }
              if (!isset($_POST['form-name-display'])) { $_POST['form-name-display'] = false; }
              if (!isset($_POST['form-name-require'])) { $_POST['form-name-require'] = false; }

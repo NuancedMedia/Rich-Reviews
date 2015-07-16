@@ -150,7 +150,7 @@ class RichReviews {
 	}
 
 	function set_display_filters() {
-		add_action('rr_do_review_content', 'do_review_body', 3);
+		add_action('rr_do_review_content', 'do_review_body', 4);
 		if($this->rr_options['display_full_width']) {
 			add_action('rr_do_review_wrapper', 'full_width_wrapper');
 		}	else {
@@ -161,10 +161,15 @@ class RichReviews {
 		} else {
 			add_action('rr_do_review_content', 'do_hidden_post_title', 1);
 		}
-		if($this->rr_options['show_date']) {
-			add_action('rr_do_review_content', 'do_the_date', 2);
+		if($this->rr_options['rich_include_url']) {
+			add_action('rr_do_review_content', 'do_url_schema', 2);
 		} else {
-			add_action('rr_do_review_content', 'do_the_date_hidden', 2);
+			add_action('rr_do_review_content', 'omit_url_schema', 2);
+		}
+		if($this->rr_options['show_date']) {
+			add_action('rr_do_review_content', 'do_the_date', 3);
+		} else {
+			add_action('rr_do_review_content', 'do_the_date_hidden', 3);
 		}
 		if($this->rr_options['credit_permission']) {
 			add_action('rr_close_testimonial_group', 'print_credit');
