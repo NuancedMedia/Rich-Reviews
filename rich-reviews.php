@@ -136,7 +136,8 @@ class RichReviews {
 			$new_version = str_replace('.', '', $newest_version);
 
 			//Update to initialize new options with default values
-			if(intval($curr_version) > 160 ) {
+
+			if(version_compare($newest_version, '1.6.0') ) {
 				$this->options->force_update();
 			}
 
