@@ -85,7 +85,6 @@
 			$using_subject_fallback = true;
 
 			if(isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
-				dump('oh boy');
 				$title = $page_title;
 			} else {
 				$title = $options['rich_itemReviewed_fallback'];

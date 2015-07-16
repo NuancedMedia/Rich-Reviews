@@ -35,12 +35,21 @@
 
 		if($category == '' || $category == 'none' || $category == 'all') {
 				$category = $options['rich_itemReviewed_fallback'];
+				if($options['rich_itemReviewed_fallback_case'] == 'both_missing') {
+					if(isset($post->post_title) && $post->post_title != '') {
+						$category = $post->post_title;
+					}
+				}
 		} else if($category == 'page' || $category == 'post') {
 			if(isset($post->post_title) && $post->post_title != '') {
 				$category = $post->post_title;
 			} else {
 				$category = $options['rich_itemReviewed_fallback'];
 			}
+		}
+
+		if($options['rich_itemReviewed_fallback_case'] == 'always') {
+			$category = $options['rich_itemReviewed_fallback'];
 		}
 
 		if($options['rich_include_url'] && isset($options['rich_url_value']) && $options['rich_url_value'] != '') {

@@ -20,7 +20,7 @@
 		<?php
 		if ($options['rich_itemReviewed_fallback_case']==="always"){ ?><option value="always" selected="selected"><?php _e('Always, regardless of category.', 'rich-reviews'); ?></option><?php }else {?><option value="always" ><?php _e('Always, regardless of category.', 'rich-reviews'); ?></option><?php }
 		if ($options['rich_itemReviewed_fallback_case']==="category_missing"){ ?><option value="category_missing" selected="selected"><?php _e('When no category is specified.', 'rich-reviews'); ?></option><?php }else {?><option value="category_missing" ><?php _e('When no category is specified.', 'rich-reviews'); ?></option><?php }
-		if ($options['rich_itemReviewed_fallback_case']==="both_missing"){ ?><option value="both_missing" selected="selected"><?php _e('When category isnt\'t specified, and parent page has no title.', 'rich-reviews'); ?></option><?php }else {?><option value="both_missing" ><?php _e('When category isnt\'t specified, and parent page has no title.', 'rich-reviews'); ?></option><?php }
+		if ($options['rich_itemReviewed_fallback_case']==="both_missing"){ ?><option value="both_missing" selected="selected"><?php _e('When no category is specified, and parent page has no title.', 'rich-reviews'); ?></option><?php }else {?><option value="both_missing" ><?php _e('When category isnt\'t specified, and parent page has no title.', 'rich-reviews'); ?></option><?php }
 		?>
 	</select>
 	<h4><strong><?php _e('Author Fallback Options', 'rich-reviews'); ?></strong></h4>
