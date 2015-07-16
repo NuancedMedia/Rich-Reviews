@@ -78,21 +78,27 @@
 			'rich_url'  => $options['rich_url_value']
 
 		);
-
+		$using_subject_fallback = false;
+		$title = $data['rCategory'];
 		if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
 			$page_title = get_the_title($data['rPostId']);
-			$using_subject_fallback = false;
+			$using_subject_fallback = true;
 
-			if(isset($page_title) && $page_title != '')  {
+			if(isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
+				dump('oh boy');
 				$title = $page_title;
 			} else {
-				$using_subject_fallback = true;
 				$title = $options['rich_itemReviewed_fallback'];
 			}
-
-			$data['rCategory'] = $title;
-			$data['using_subject_fallback'] = $using_subject_fallback;
 		}
+
+		if($options['rich_itemReviewed_fallback_case'] == 'always') {
+			$title = $options['rich_itemReviewed_fallback'];
+			$using_subject_fallback = true;
+		}
+
+		$data['rCategory'] = $title;
+		$data['using_subject_fallback'] = $using_subject_fallback;
 
 		if(!isset($data['rName']) || $data['rName'] == '') {
 			if($options['rich_author_fallback'] != '') {
@@ -183,7 +189,7 @@ function do_hidden_post_title ($data) {
 
 function do_url_schema($data) {
 	?>
-			<a href="<?php echo $data['rich_url']; ?>" itemprop="url"></a>
+			<a href="http://<?php echo $data['rich_url']; ?>" itemprop="url"></a>
 			<div class="clear"></div>
 		</span>
 	<?php
