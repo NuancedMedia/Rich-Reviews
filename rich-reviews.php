@@ -35,6 +35,7 @@ include_once ABSPATH . 'wp-admin/includes/image.php';
 
 require_once 'shortcodes/rr-form.php';
 require_once 'shortcodes/rr-show.php';
+require_once 'shortcodes/rr-slider.php';
 require_once 'shortcodes/rr-snippet.php';
 
 
@@ -83,6 +84,7 @@ class RichReviews {
 
 		add_shortcode('RICH_REVIEWS_FORM', array(&$this, 'shortcode_reviews_form_control'));
 		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
+		add_shortcode('RICH_REVIEWS_SLIDER', array(&$this, 'shortcode_reviews_slider_control'));
 		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
 
@@ -145,8 +147,12 @@ class RichReviews {
 		$pluginDirectory = trailingslashit(plugins_url(basename(dirname(__FILE__))));
 		wp_register_script('rich-reviews', $pluginDirectory . 'js/rich-reviews.js', array('jquery'));
 		wp_enqueue_script('rich-reviews');
+		wp_register_script('slick-slider', $pluginDirectory . 'js/slick.min.js', array('jquery'));
+		wp_enqueue_script('slick-slider');
 		wp_register_style('rich-reviews', $pluginDirectory . 'css/rich-reviews.css');
 		wp_enqueue_style('rich-reviews');
+		wp_register_style('slick-slider', $pluginDirectory . 'css/slick.css');
+		wp_enqueue_style('slick-slider');
 	}
 
 	function set_display_filters() {
@@ -282,6 +288,20 @@ class RichReviews {
 		$reviews = $this->db->get_reviews($category, $num, $post);
 		ob_start();
 			handle_show($reviews, $this->rr_options);
+		return ob_get_clean();
+	}
+
+	function shortcode_reviews_slider_control($atts) {
+		global $post;
+		extract(shortcode_atts(
+			array(
+				'category' => 'all',
+				'num' => '3',
+			)
+		, $atts));
+		$reviews = $this->db->get_reviews($category, $num, $post);
+		ob_start();
+			handle_slider($reviews, $this->rr_options);
 		return ob_get_clean();
 	}
 

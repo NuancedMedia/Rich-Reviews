@@ -12,6 +12,7 @@ jQuery(function(){
 	// 		});
 	// 	}
 	// }
+	init_sliders();
 	jQuery('.rr_review_text').each(function(event){
 		var max_length = 150;
 		if(jQuery(this).html().length > max_length){
@@ -53,6 +54,7 @@ jQuery(function(){
 	// 	formSubmit = true;
 	// 	console.log("formSubmit");
 	// });
+
 });
 
 function renderStarRating(rating) {
@@ -67,6 +69,19 @@ function renderStarRating(rating) {
 	}
 }
 
+
+function init_sliders() {
+	jQuery(".rich-slider").slick({
+		adaptiveHeight:!0,
+		arrows:!1,
+		autoplay:!0,
+		autoplaySpeed:12e3,
+
+		dots:!0,
+		draggable:!0,
+		speed:300
+	});
+}
 // function scrollToForm() {
 // 	console.log("kjndkjn");
 // }

@@ -475,5 +475,13 @@ $star_empty_color: black;
 		padding: 8px;
 		padding-left: 0;
 	}
+
 }
+
+.rich-slider {
+	border: solid red 1px;
+	display: flex;
+	padding: 21px 8px;
+}
+
 @import "rr-widgets";

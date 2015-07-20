@@ -11,14 +11,66 @@ function handle_slider($reviews, $options) {
 		$total_count = count($reviews);
 		$review_count = 0;
 		?> <div class="rich-slider"> <?php
-		foreach($reviews as $review) {
-			build_review_slide($review, $options);
-		}
+			handle_show_slider($reviews, $options);
 		?>
 			</div>
 		<?php
+		if($options['display_full_width']){
+			do_action('rr_close_testimonial_group', $options);
+		}
 	}
 }
+
+function handle_show_slider($reviews, $options) {
+		global $wpdb;
+		global $post;
+		$output = '';
+
+		// Set up the SQL query
+
+
+		// Show the reviews
+		if (count($reviews)) {
+			$total_count = count($reviews);
+			$review_count = 0;
+			if($options['display_full_width']) {
+				foreach($reviews as $review) {
+					display_review($review, $options);
+				}
+			} else {
+				?> <div class="testimonial_group"> <?php
+				foreach($reviews as $review) {
+					display_review($review, $options);
+					$review_count += 1;
+					if ($review_count == 3) {
+
+						// end the testimonial_group
+						?> <div class="clear"></div></div>
+
+						<!-- clear the floats -->
+						 <?php
+
+						// do we have more reviews to show?
+						if ($review_count < $total_count) {
+							?> <div class="testimonial_group"> <?php
+						}
+
+						// reset the counter
+						$review_count = 0;
+						$total_count = $total_count - 3;
+					}
+				}
+				// do we need to close a testimonial_group?
+				if ($review_count != 0) {
+					?>
+					</div>
+					<?php
+				}
+
+			}
+
+		}
+	}
 
 function build_review_slide($review, $options) {
 	// dump($review);
