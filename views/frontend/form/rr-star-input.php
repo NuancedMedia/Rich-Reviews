@@ -2,7 +2,7 @@
 ?>
 
 <tr class="rr_form_row">
-	<td class="rr_form_heading rr_required">Rating</td>
+	<td class="rr_form_heading rr_required"><?php echo $label; ?></td>
 	<td class="rr_form_input">
 		<?php echo '<span class="form-err">' . $error . '</span>'; ?>
 		<div class="rr_stars_container">
