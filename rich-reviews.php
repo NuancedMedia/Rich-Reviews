@@ -356,7 +356,7 @@ class RichReviews {
 					<div class="rr_review_text">' . $rText . '</div>
 				</td>
 			</tr>';
-		return __($output, 'rich-reviews');
+		return $output;
 	}
 
 
