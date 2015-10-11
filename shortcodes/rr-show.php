@@ -50,6 +50,59 @@
 		do_action('rr_close_testimonial_group', $options);
 	}
 
+	function process_content_and_wrap_links($content = null) {
+
+		$linkWords = array(
+			"I had lost all my uni work" => "http://computerrepairnorwich.co.uk/data-recovery/",
+			"riddled with viruses" => "http://computerrepairnorwich.co.uk/virus-removal/",
+			"cause of the problem, and fixing it superbly" => "http://computerrepairnorwich.co.uk/repairs/",
+			"Fantastic customer service" => "http://computerrepairnorwich.co.uk/contact/",
+			"repair of my tablet with a new glass" => "http://computerrepairnorwich.co.uk/repairs/",
+			"seriously over heating" => "http://computerrepairnorwich.co.uk/health-check/",
+			"The service was very efficient" => "http://computerrepairnorwich.co.uk/contact/",
+			"Recommended!" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"maximised it's performance" => "http://computerrepairnorwich.co.uk/health-check/",
+			"prolonging the life of your computer." => "http://computerrepairnorwich.co.uk/health-check/",
+			"identification and resolution of the problem" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"blue screen of death error" => "http://computerrepairnorwich.co.uk/repairs/",
+			"all data files were retrieved" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"very reasonable price." => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"keep it virus free" => "http://computerrepairnorwich.co.uk/virus-removal/",
+			"Good value for money and excellent service." => "http://computerrepairnorwich.co.uk/health-check/",
+			"Very recommended indeed!" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"computer fixed" => "http://computerrepairnorwich.co.uk/repairs/",
+			"computer repaired" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"exceptional value for money" => "http://computerrepairnorwich.co.uk/health-check/",
+			"Good advise for the future" => "http://computerrepairnorwich.co.uk/contact/",
+			"absolutely outstanding service" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"viruses that had infected my system" => "http://computerrepairnorwich.co.uk/virus-removal/",
+			"CRN have fixed numerous problems on my laptop" => "http://computerrepairnorwich.co.uk/repairs/",
+			"recommended, top notch!" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"honest professionalism and speedy solutions" => "http://computerrepairnorwich.co.uk/contact/",
+			"read the excellent comments" => "https://plus.google.com/u/1/b/115897397898038941930/+ComputerrepairnorwichCoUkcrn/posts",
+			"machine tuned up" => "http://computerrepairnorwich.co.uk/health-check/",
+
+		);
+		if($content == null) {
+			return;
+		} else {
+			$newContent = $content;
+			foreach($linkWords as $key => $url) {
+				dump($key);
+				dump($content);
+				$regexPattern = '/'.$key.'/';
+				if(preg_match($regexPattern, $content)) {
+					dump('found match');
+					$frontWrap = '<a href="' . $url . '">';
+					$backWrap = '</a>';
+					$replacement = $frontWrap . $key . $backWrap;
+					$newContent = preg_replace($regexPattern, $replacement, $content);
+				}
+			}
+			return $newContent;
+		}
+	}
+
 	function display_review($review, $options) {
 
 		$date = strtotime($review->date_time);
@@ -67,7 +120,7 @@
 			'rEmail'    => $review->reviewer_email,
 			'rTitle'    => $review->review_title,
 			'rRatingVal'=> max(1,intval($review->review_rating)),
-			'rText'     => $review->review_text,
+			'rText'     => process_content_and_wrap_links($review->review_text),
 			'rStatus'   => $review->review_status,
 			'rIP'       => $review->reviewer_ip,
 			'rPostId'   => $review->post_id,
