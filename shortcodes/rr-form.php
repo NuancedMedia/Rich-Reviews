@@ -130,7 +130,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 	if ($displayForm) {
 
 			$errors = $newData['errors'];
-			$errors = generate_error_text($errors);
+			$errors = generate_error_text($errors, $options);
 			// dump($errors);
 
 		?>
@@ -153,17 +153,19 @@ function handle_form($atts, $options, $sqltable, $path) {
 	}
 	do_action('rr_set_local_scripts');
 }
-function generate_error_text($errors) {
+function generate_error_text($errors, $options) {
 
 	// dump($errors);
 	$processed = array();
 	foreach($errors as $key => $val) {
+		$option_key = 'form-' . $key . '-label';
+		$label = $options[$option_key];
 		if($val == 'absent required') {
-			$processed[$key] = 'The ' . $key . ' field is required.';
+			$processed[$key] = 'The ' . $label . ' field is required.';
 		} else if ($val == 'invalid input') {
-			$processed[$key] = 'Please enter a valid ' . $key;
+			$processed[$key] = 'Please enter a valid ' . $label;
 		} else if ($val == 'length violation') {
-			$processed[$key] = 'The ' . $key . ' that you entered is too long.';
+			$processed[$key] = 'The ' . $label . ' that you entered is too long.';
 		} else {
 			$processed[$key] = '';
 		}
@@ -183,6 +185,7 @@ function sanitize_incoming_data($incomingData) {
 
 function rr_do_rating_field($options, $path, $rData = null, $errors = null) {
 	$error = $errors['rating'];
+	$label = $options['form-rating-label'];
 
 	@include $path . 'views/frontend/form/rr-star-input.php';
 
@@ -353,7 +356,7 @@ function rr_send_admin_email($data, $options) {
 	$message .= __("Review Category: ", 'rich-reviews') . $review_category ."\r\n\r\n";
 
 	$message .= __("Click the link below to review and approve your new review.", 'rich-reviews'). "\r\n";
-	$message .= admin_url()."admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
+	$message .= admin_url() . "/admin.php?page=fp_admin_pending_reviews_page\r\n\r\n";
 	$message .= __("Thanks for choosing Rich Reviews,", 'rich-reviews'). "\r\n";
 	$message .= __("The Nuanced Media Team", 'rich-reviews');
 
