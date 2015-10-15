@@ -16,6 +16,9 @@
 		<div class="one">
 			<?php include $path . 'views/admin/options/option-sections/admin-options.php'; ?>
 		</div>
+				<div class="one">
+			<?php include $path . 'views/admin/options/option-sections/user-options.php'; ?>
+		</div>
 	<br/>
 	<input type="submit" class="button" value="<?php _e('Save Options', 'rich-reviews'); ?>">
 </form>
