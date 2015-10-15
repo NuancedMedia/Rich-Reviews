@@ -85,6 +85,7 @@ class RichReviews {
 		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
 		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
+		add_shortcode('RICH_REVIEWS_TEMP', array(&$this, 'shortcode_clear_old_options'));
 
 		add_filter('widget_text', 'do_shortcode');
 
@@ -100,6 +101,11 @@ class RichReviews {
 		// dump($this->rr_options);
 	}
 
+	function shortcode_clear_old_options() {
+		dump('running');
+		unset($this->rr_options['-allow-avatar-upload']);
+		unset($this->rr_options['form-name-allow-avatar-upload']);
+	}
 	function process_plugin_updates() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php');
@@ -297,9 +303,6 @@ class RichReviews {
 		ob_start();
 			handle_snippet($data, $this->rr_options, $this->path);
 		return ob_get_clean();
-
-
-
 	}
 
 	function display_admin_review($review, $status = 'limbo') {

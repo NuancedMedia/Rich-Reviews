@@ -127,6 +127,8 @@
 
 		do_action('rr_do_review_wrapper', $data);
 
+		do_action('rr_do_review_head', $data);
+
 		do_action('rr_do_review_content', $data);
 	}
 
