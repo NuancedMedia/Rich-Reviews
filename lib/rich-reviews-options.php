@@ -79,6 +79,7 @@ class RROptions {
           'form-content-require' => 'checked',
           'form-submit-text' => 'Submit',
           'integrate-user-info' => FALSE,
+          'require-login' => FALSE,
           'return-to-form' => FALSE,
           'send-email-notifications' => FALSE,
           'admin-email' => ''
@@ -127,6 +128,7 @@ class RROptions {
              if (!isset($_POST['return-to-form'])) { $_POST['return-to-form'] = false; }
              if (!isset($_POST['send-email-notifications'])) { $_POST['send-email-notifications'] = false; }
 
+            //logic for options
             if(!$_POST['integrate-user-info']) {
                 $_POST['form-name-use-usernames'] = false;
                 $_POST['require-login'] = false;
