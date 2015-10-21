@@ -23,7 +23,8 @@ class RRShopApp {
 		add_shortcode('shopper-approved', array(&$this, 'display_handle'));
 		add_action('admin_menu', array(&$this, 'add_admin_page'));
 		add_action('init', array(&$this, 'init'));
-		 add_shortcode('run_pull', array($this, 'process_reviews_pull'));
+		 add_shortcode('run_pull', array($this, 'process_reviews_pull')); //this is currently not working as admin action, but will removed when resolved
+		 add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
 		date_default_timezone_set('MST');
 
 
@@ -165,7 +166,8 @@ class RRShopApp {
           $this->options->update_option(array('total_review_count' => $response->review_count));
         }
 
-        dump($this->options->get_option());
+        $updated_options = $this->option->get_option();
+
     }
 
     public function process_reviews_pull() {
@@ -190,19 +192,23 @@ class RRShopApp {
         	}
         }
 
-        dump($reviews_array);
+        $this->options->update_option('reviews_last_pulled', date("F j, Y, g:i a"));
+        $stored_review_ids = $this->options->get_option('imported_review_ids');
+
+        $total_pulled = count($stored_review_ids);
+        $this->options->update_option('reviews_pulled_count', $total_pulled);
+
+        // dump($reviews_array);
 
     }
 
     public function insert_shop_app_review($review, $id) {
 
     	$options = $this->options->get_option();
-
     	if(in_array($id, $options['imported_review_ids'])) {
     		return;
     	}
 
-    	dump($review);
     	$date = $this->reformat_date($review->displaydate);
 
     	if($review->public == true) {
@@ -211,9 +217,7 @@ class RRShopApp {
     		$review_status = 0;
     	}
 
-    	dump($review->textcomment);
-    	$text = str_replace("/'", "'", $review->textcomments);
-    	dump($text);
+    	$text = stripcslashes($review->textcomments);
 
     	$newSubmission = array(
 			'date_time'       => $date,
@@ -230,12 +234,21 @@ class RRShopApp {
 			'review_category' => 'shopperApproved',
 		);
 
-    	dump($options['imported_review_ids']);
     	array_push($options['imported_review_ids'], $id);
     	$this->options->update_option('imported_review_ids', $options['imported_review_ids']);
-    	dump($this->options->get_option());
-		rr_insert_new_review($newSubmission, $this->parent->rr_options, $this->parent->sqltable);
 
+    	$tempRR = new RichReviews();
+		rr_insert_new_review($newSubmission, $tempRR->rr_options, $tempRR->sqltable);
+
+    }
+
+    public function dump_shop_app_reviews() {
+    	global $wpdb;
+    	$sqltable = $this->parent->sqltable;
+    	$category = 'shopperApproved';
+
+    	$wpdb->query("DELETE FROM $sqltable WHERE review_category=\"$category\"");
+    	$this->options->update_option('imported_review_ids', array());
     }
 
     public function reformat_date($date) {
@@ -354,72 +367,6 @@ class RRShopApp {
 	    $this->options->update_option($data);
 	    $this->shopAppOptions = $this->options->get_option();
   	}
-
-	function display_shop_app_aid_menu() {
-		$this->options->update_options();
-		?>
-		<div class="rr_shortcode_container">
-		<h1>Shopper Approved Cache Menu</h1>
-		<br />
-		<!-- check if this is already set -->
-		<form id="shopAppAdmin"method="post" action="">
-			<input type="hidden" name="dinner" value="served" />
-			<div class="label-container one-fifth" style="width:30%;float:left;">
-				<label for="api_url" style="float:right;font-size:18px;">
-					Enter API Url:
-				</label>
-			</div>
-			<div class="input-container two-thirds" style="width:66%;float:right;">
-				<input type="text" name="api_url" style="width: 70%;float:left;" placeholder="API URL" style="vertical-align:bottom;" <?php if($this->shopAppOptions['api_url'] != null) { echo 'value="' . $this->shopAppOptions['api_url'] . '"';} ?> />
-			</div>
-			<div class="clear"></div>
-			<br />
-			<div class="input-container two-thirds" style="width:66%;float:right;">
-			<div style="width: 70%;float:left;">
-				<input type="submit" class="button" id="submit-api-url" value="Submit Url" style="float:right;" />
-			</div>
-		</div>
-		</form>
-		<div class="clear"></div>
-		<br />
-		<div class="label-container one-fifth" style="width:30%; float:left;">
-			<label for="html-markup" style="float:right;font-size:18px;">
-				Shopper Approved Markup:
-				<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;">Use the shortcode <code style="font-style: normal; font-size: 11px;">[shopper-approved]</code> to output this markup</div>
-			</label>
-		</div>
-		<div class="input-container two-thirds" style="width:66%;float:right;">
-			<code name="Shopper Approved" placeholder="API Key" rows="10" cols="70" style="overflow:scroll;width:70%;float:left;" >
-			<?php if($this->shopAppOptions['markup'] != null) { echo htmlspecialchars($this->shopAppOptions['markup']);} ?>
-			</code>
-		</div>
-		<div class="clear"></div>
-		<br />
-		<div class="label-container one-fifth" style="width:30%;float:left;">
-			<label for="last_update" class="one-third" style="float:right;font-size:18px;">
-				Last Updated:
-			</label>
-		</div>
-		<div class="input-container two-thirds" style="width:66%;float:right;">
-			<input type="text" name="last_update" disabled class="two-thirds" style="width:70%;float:left;" <?php if($this->shopAppOptions['last_update'] != null) { echo 'value="' . $this->shopAppOptions['last_update'] . '"';} ?>/>
-		</div>
-		<div class="clear"></div>
-		<br/>
-		<div class="label-container one-fifth" style="width:30%;float:left;">
-			<input type="submit" form="shopAppAdmin" class="button" id="force-update" style="float:right;" value="Manual Update"/>
-		</div>
-		</div>
-
-		<style>
-			.postbox-container {
-				float:none !important;
-			}
-		</style>
-
-
-		<?php
-		// dump($this->shopAppOptions);
-	}
 }
 
 /**
