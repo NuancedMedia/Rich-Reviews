@@ -71,6 +71,14 @@ class RichReviewsAdmin {
 		);
 		add_submenu_page(
 			'rich_reviews_settings_main',
+			'Rich Reviews - '. __('Shopper Approved', 'rich-reviews'),
+			__('Shopper Approved', 'rich-reviews'),
+			$required_role,
+			'fp_admin_shopper_approved_page',
+			array(&$this, 'render_shopper_approved_page')
+		);
+		add_submenu_page(
+			'rich_reviews_settings_main',
 			'Rich Reviews - ' . __('Add/Edit','rich-reviews'),
 			__('Add New Review', 'rich-reviews'),
 			$required_role,
@@ -118,6 +126,11 @@ class RichReviewsAdmin {
 		if ($page == 'options') {
 			NMRichReviewsAdminHelper::render_postbox_open('Options');
 			echo $this->render_options_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
+		if ($page == 'shopper_approved') {
+			NMRichReviewsAdminHelper::render_postbox_open('Shopper Approved');
+			echo $this->render_shopper_approved_page(TRUE);
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
 		if ($page == 'add/edit') {
@@ -228,6 +241,22 @@ class RichReviewsAdmin {
 		$path = $this->parent->path;
 		ob_start();
 			include $path . 'views/admin/options/options-index.php';
+		return ob_get_clean();
+	}
+
+	function render_shopper_approved_page($wrapped) {
+		$this->parent->shopApp->options->update_options();
+		if (!$wrapped) {
+			$this->wrap_admin_page('shopper_approved');
+			return;
+		}
+		if (!current_user_can('manage_options')) {
+			wp_die( __('You do not have sufficient permissions to access this page.') );
+		}
+
+		$path = $this->parent->path;
+		ob_start();
+			include $path . 'views/admin/shopper-approved.php';
 		return ob_get_clean();
 	}
 
