@@ -196,30 +196,99 @@ class RRShopApp {
 
     public function insert_shop_app_review($review, $id) {
 
-    	$options = $this->shopAppOptions;
+    	$options = $this->options->get_option();
 
     	if(in_array($id, $options['imported_review_ids'])) {
     		return;
     	}
 
-    	dump($id);
     	dump($review);
+    	$date = $this->reformat_date($review->displaydate);
 
-  //   	$newSubmission = array(
-		// 	'date_time'       => $newData['date_time'],
-		// 	'reviewer_name'   => $newData['reviewer_name'],
+    	if($review->public == true) {
+    		$review_status = 1;
+    	} else {
+    		$review_status = 0;
+    	}
+
+    	dump($review->textcomment);
+    	$text = str_replace("/'", "'", $review->textcomments);
+    	dump($text);
+
+    	$newSubmission = array(
+			'date_time'       => $date,
+			'reviewer_name'   => $review->name,
 		// 	// 'reviewer_image_id' => $newData['reviewer_image_id'],
 		// 	'reviewer_email'  => $newData['reviewer_email'],
 		// 	'review_title'    => $newData['review_title'],
-		// 	'review_rating'   => intval($newData['review_rating']),
+			'review_rating'   => intval($review->Overall),
 		// 	// 'review_image_id' => $newData['review_image_id'],
-		// 	'review_text'     => $newData['review_text'],
-		// 	'review_status'   => $newData['review_status'],
+			'review_text'     => $review->textcomments,
+			'review_status'   => $review_status,
 		// 	'reviewer_ip'     => $newData['reviewer_ip'],
 		// 	'post_id'		  => $newData['post_id'],
-		// 	'review_category' => $newData['review_category'],
-		// );
+			'review_category' => 'shopperApproved',
+		);
 
+    	dump($options['imported_review_ids']);
+    	array_push($options['imported_review_ids'], $id);
+    	$this->options->update_option('imported_review_ids', $options['imported_review_ids']);
+    	dump($this->options->get_option());
+		rr_insert_new_review($newSubmission, $this->parent->rr_options, $this->parent->sqltable);
+
+    }
+
+    public function reformat_date($date) {
+    	$parts = explode(' ', $date);
+    	if(is_array($parts) && count($parts) == 3) {
+    		$day = $parts[0];
+    		$year =  $parts[2];
+
+    		switch($parts[1]) {
+    			case 'Jan':
+    				$month = '01';
+    				break;
+    			case 'Feb':
+    				$month = '02';
+    				break;
+    			case 'Mar':
+    				$month = '03';
+    				break;
+    			case 'Apr':
+    				$month = '04';
+    				break;
+    			case 'May':
+    				$month = '05';
+    				break;
+    			case 'Jun':
+    				$month = '06';
+    				break;
+    			case 'Jul':
+    				$month = '07';
+    				break;
+    			case 'Aug':
+    				$month = '08';
+    				break;
+    			case 'Sep':
+    				$month = '09';
+    				break;
+    			case 'Oct':
+    				$month = '10';
+    				break;
+    			case 'Nov':
+    				$month = '11';
+    				break;
+    			case 'Dec':
+    				$month = '12';
+    				break;
+    		}
+    		$dateString = $month . '/' . $day . '/' . $year;
+    		$formattedUnix = strtotime($dateString);
+    		$formattedDate = date('Y-m-d H:i:s', $formattedUnix);
+    		return $formattedDate;
+    	} else {
+    		return null;
+    	}
     }
 
     public function fetch_shopper_approved_reviews($data = null) {
