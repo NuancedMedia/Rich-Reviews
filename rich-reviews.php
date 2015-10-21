@@ -36,6 +36,8 @@ include_once ABSPATH . 'wp-admin/includes/image.php';
 require_once 'shortcodes/rr-form.php';
 require_once 'shortcodes/rr-show.php';
 require_once 'shortcodes/rr-snippet.php';
+require_once 'lib/rrShopApp/rich-reviews-ShopApp.php';
+require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
 
 
 class RichReviews {
@@ -75,6 +77,7 @@ class RichReviews {
 		$this->options= new RROptions($this);
 		$this->db = new RichReviewsDB($this);
 		$this->admin = new RichReviewsAdmin($this);
+		$this->shopApp = new RRShopApp($this);
 
 
 		add_action('plugins_loaded', array(&$this, 'on_load'));
