@@ -81,8 +81,10 @@ class RROptions {
           'integrate-user-info' => FALSE,
           'return-to-form' => FALSE,
           'send-email-notifications' => FALSE,
-          'admin-email' => ''
-
+          'admin-email' => '',
+          // 'rrShopAppAPIUrl' => NULL,
+          // 'rrShopAppMarkup' => '',
+          // 'rrShopAppLastUpdate' => ''
           );
         if ($this->get_option() == FALSE) {
             $this->set_to_defaults();
