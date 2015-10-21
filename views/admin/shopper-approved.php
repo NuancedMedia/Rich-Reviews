@@ -1,4 +1,14 @@
-<?php $options = $this->parent->shopApp->options->get_option(); ?>
+<?php
+	$options = $this->parent->shopApp->options->get_option();
+	if(isset($options['total_review_count']) && is_int($options['reviews_pulled_count'])) {
+		$unpulled_reviews = intval($options['total_review_count']) - intval($options['reviews_pulled_count']);
+		$unpulled_reviews = (string)$unpulled_reviews;
+	} else {
+		$unpulled_reviews = null;
+	}
+
+
+?>
 		<div class="rr_shortcode_container">
 			<br />
 			<!-- check if this is already set -->
@@ -106,6 +116,21 @@
 							<input type="text" name="reviews_last_pulled" disabled class="two-thirds" style="width:100%;float:left;" <?php if($options['reviews_last_pulled'] != null) { echo 'value="' . $options['reviews_last_pulled'] . '"';} ?> disabled />
 						</div>
 						<div class="clear"></div>
+						<?php
+						if(isset($options['reviews_pulled_count']) && $options['reviews_last_pulled'] != 'not yet pulled') {
+							?>
+							<div class="label-container one-fifth" style="width:30%;float:left;">
+								<label for="unpulled_reviews" class="one-third" style="float:right;font-size:13px;">
+									New Unpulled Reviews:
+								</label>
+							</div>
+							<div class="input-container two-thirds" style="width:66%;float:right;">
+								<input type="text" name="reviews_last_pulled" disabled class="two-thirds" style="width:100%;float:left;" <?php if($unpulled_reviews != null) { echo 'value="' . $unpulled_reviews . '"';} ?> disabled />
+							</div>
+							<div class="clear"></div>
+							<?php
+						}
+						?>
 						<form name="pullReviewsButton" method="post" action="" >
 							<input type="hidden" name="Whoop" value="There it is" />
 							<div class="input-container one-third" style="width:33%;float:left;">
@@ -126,4 +151,3 @@
 							}
 						</style>
 
-		<?php dump($options); ?>
