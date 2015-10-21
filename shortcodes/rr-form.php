@@ -106,20 +106,22 @@ function handle_form($atts, $options, $sqltable, $path) {
 			if ($newData['isValid']) {
 
 				$displayForm = false;
+
 				$newSubmission = array(
-					'date_time'       => $newData['date_time'],
-					'reviewer_name'   => $newData['reviewer_name'],
-					// 'reviewer_image_id' => $newData['reviewer_image_id'],
+					'date_time'       => $date,
+					'reviewer_name'   => $review->name,
+				// 	// 'reviewer_image_id' => $newData['reviewer_image_id'],
 					'reviewer_email'  => $newData['reviewer_email'],
 					'review_title'    => $newData['review_title'],
-					'review_rating'   => intval($newData['review_rating']),
-					// 'review_image_id' => $newData['review_image_id'],
-					'review_text'     => $newData['review_text'],
+					'review_rating'   => intval($review->Overall),
+				// 	// 'review_image_id' => $newData['review_image_id'],
+					'review_text'     => $review->textcomments,
 					'review_status'   => $newData['review_status'],
 					'reviewer_ip'     => $newData['reviewer_ip'],
 					'post_id'		  => $newData['post_id'],
-					'review_category' => $newData['review_category'],
+					'review_category' => 'shopperApproved',
 				);
+
 
 				do_action('rr_on_valid_data', $newSubmission, $options, $sqltable);
 			}
