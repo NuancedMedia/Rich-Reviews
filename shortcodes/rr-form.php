@@ -209,11 +209,20 @@ function rr_do_name_field($options, $path, $rData = null, $errors = null) {
 	$rFieldValue = '';
 	$error = $errors['name'];
 	$label = $options['form-name-label'];
+	$user = wp_get_current_user();
+	$disable = false;
 	if($options['form-name-require']) {
 		$require = true;
 	}
 	if($rData['reviewer_name']) {
 		$rFieldValue = $rData['reviewer_name'];
+	} else {
+		if($options['integrate-user-info'] && $options['form-name-use-usernames']) {
+			if($user) {
+				$rFieldValue = $user->data->display_name;
+				$disable = true;
+			}
+		}
 	}
 
 	@include $path . 'views/frontend/form/rr-text-input.php';
