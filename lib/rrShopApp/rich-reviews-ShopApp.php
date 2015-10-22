@@ -20,10 +20,10 @@ class RRShopApp {
 		$this->options = new RRShopAppOptions($this);
 		$this->shopAppOptions = $this->options->get_option();
 
-		add_shortcode('shopper-approved', array(&$this, 'display_handle'));
+		// add_shortcode('shopper-approved', array(&$this, 'display_handle'));
 		add_action('admin_menu', array(&$this, 'add_admin_page'));
 		add_action('init', array(&$this, 'init'));
-		 add_shortcode('run_pull', array($this, 'process_reviews_pull')); //this is currently not working as admin action, but will removed when resolved
+		 // add_shortcode('run_pull', array($this, 'process_reviews_pull')); //this is currently not working as admin action, but will removed when resolved
 		 add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
 		date_default_timezone_set('MST');
 
