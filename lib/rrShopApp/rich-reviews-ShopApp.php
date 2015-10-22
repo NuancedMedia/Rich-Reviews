@@ -43,7 +43,7 @@ class RRShopApp {
 		$this->process_cron_update();
 	}
 
-	function display_handle($atts) {
+	function display_handle($atts = null) {
 		$stuff = $this->options->get_option();
 		if(isset($stuff['markup']) && $stuff['markup'] != '') {
 			$html = $stuff['markup'];
