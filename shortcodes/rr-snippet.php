@@ -46,6 +46,15 @@
 			} else {
 				$category = $options['rich_itemReviewed_fallback'];
 			}
+		} else if($category == 'shopperApproved') {
+			$tempRR = new RichReviews();
+			if(isset($tempRR->shopApp)) {
+				$shopAppOptions = $tempRR->shopApp->options->get_option();
+				if(isset($shopAppOptions['markup']) && $shopAppOptions['markup'] != '') {
+					echo $tempRR->shopApp->display_handle();
+					return;
+				}
+			}
 		}
 
 		if($options['rich_itemReviewed_fallback_case'] == 'always') {
