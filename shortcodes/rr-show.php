@@ -78,6 +78,7 @@
 			'rich_url'  => $options['rich_url_value']
 
 		);
+		$user = wp_get_current_user();
 		$using_subject_fallback = false;
 		$title = $data['rCategory'];
 		if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
@@ -107,8 +108,9 @@
 			}
 		}
 
-
-		//$rAuthorImage = $review->reviewer_image_id;
+		// if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
+		// 	$rAuthorImage = $review->reviewer_image_id;
+		// }
 
 
 		for ($i=1; $i<=$data['rRatingVal']; $i++) {
@@ -135,11 +137,18 @@ function full_width_wrapper($data) {
 	#?>
 	<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">
 		<div class="review-head">
-		<?php //if($data['rAuthorImage']) {
+		<?php if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
 			?>
-				<!-- <div class="user-image"> -->
-					<?php //wp_get_attachment_image( $data['rAuthorImage'], [70, 70]); ?>
-				<!-- </div> -->
+				<div class="user-image">
+				<?php
+					if($user) {
+						dump($user);
+						echo get_avatar($user->ID);
+					} else if($options['unregistered-allow-avatar-upload'] && isset($rAuthorImage)) {
+						//do something else
+					}
+				 ?>
+				</div>
 			<?php //} ?>
 		<div class="review-info">
 		<h3 class="rr_title"><?php echo $data['rTitle']; ?></h3>
