@@ -79,7 +79,7 @@
 						<div class="label-container one-fifth" style="width:30%; float:left;">
 							<label for="html-markup" style="float:right;font-size:13px;">
 								Shopper Approved Markup:
-								<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;">Use the shortcode <code style="font-style: normal; font-size: 11px;">[shopper-approved]</code> to output this markup</div>
+								<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;">Use the shortcode <code style="font-style: normal; font-size: 11px;">[RICH_REVIEWS_SNIPPET category="shopperApproved"]</code> to output this markup</div>
 							</label>
 						</div>
 						<div class="input-container two-thirds" style="width:66%;float:right;">
