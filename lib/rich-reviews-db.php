@@ -40,6 +40,8 @@ class RichReviewsDB extends NMDB {
 				 reviewer_ip varchar(15) DEFAULT NULL,
 				 post_id int(11) DEFAULT '0',
 				 review_category varchar(100) DEFAULT 'none',
+				 reviewer_image varchar(100) DEFAULT NULL,
+				 reviewer_id varchar(11) DEFAULT NULL,
 				PRIMARY KEY  (id)
 				)
 				CHARACTER SET utf8
