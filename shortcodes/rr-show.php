@@ -78,7 +78,15 @@
 			'rich_url'  => $options['rich_url_value']
 
 		);
-		$user = wp_get_current_user();
+
+		if(isset($review->reviewer_id) && $review->reviewer_id != '') {
+			$data['rReviewerId'] = $review->reviewer_id;
+		}
+
+		if(isset($review->reviewer_image) && $review->reviewer_image != '') {
+			$data['rAuthorImage'] = $review->reviewer_image;
+		}
+
 		$using_subject_fallback = false;
 		$title = $data['rCategory'];
 		if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
@@ -134,6 +142,9 @@
 
 function full_width_wrapper($data) {
 	#TODO: Rework output for rich data, image, and up/down vote
+	$tempRR = new RichReviews();
+	$options = $tempRR->options->get_option();
+	$user = wp_get_current_user();
 	#?>
 	<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">
 		<div class="review-head">
@@ -142,14 +153,14 @@ function full_width_wrapper($data) {
 				<div class="user-image">
 				<?php
 					if($user) {
-						dump($user);
 						echo get_avatar($user->ID);
 					} else if($options['unregistered-allow-avatar-upload'] && isset($rAuthorImage)) {
 						//do something else
 					}
 				 ?>
 				</div>
-			<?php //} ?>
+			<?php
+		} ?>
 		<div class="review-info">
 		<h3 class="rr_title"><?php echo $data['rTitle']; ?></h3>
 		<div class="clear"></div>
