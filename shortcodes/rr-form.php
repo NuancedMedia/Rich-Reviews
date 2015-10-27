@@ -58,11 +58,34 @@ function handle_form($atts, $options, $sqltable, $path) {
 					$rName = fp_sanitize($_POST['rName']);
 				}
 			}
-			// if ($options['form-reviewer-image-display']) {
-			// 	$imageId = media_handle_upload('rAuthorImage',0);
-			// 	$rAuthorImage = $imageId;
-			// 	dump($rAuthorImage);
-			// }
+			if($options['form-name-use-avatar']) {
+				if($user->ID) {
+					$rAuthorImage = get_avatar_url($user->ID);
+				} else if ($options['unregistered-allow-avatar-upload']) {
+					if(isset($_FILES) && count($_FILES) == 1 && isset($_FILES['rrInsertReviewerImageFile'])) {
+						if(isset($_POST['rrInsertReviewerImageDisplay']) && $_POST['rrInsertReviewerImageDisplay'] != '') {
+							$imgUrl = $_POST['rrInsertReviewerImageDisplay'];
+							$fileEnding = strrchr($imgUrl, '.');
+							if($fileEnding) {
+								$fileEnding = substr($fileEnding, 1);
+								$allowed_file_types = array ('jpg', 'png', 'gif'); //probably make an option for this eventually.
+								if(!in_array($fileEnding, $allowed_file_types)) {
+									$rAuthorImage = 'Invalid Type';
+								} else {
+									$imageId = media_handle_upload('rrInsertReviewerImageFile',0);
+									if(is_int($imageId)) {
+										$rAuthorImage = wp_get_attachment_url($imageId);
+									} else {
+										$rAuthorImage = 'Invalid Type';
+									}
+
+								}
+							}
+						}
+					}
+				}
+			}
+
 			if ($options['form-email-display']) {
 				$rEmail    = fp_sanitize($_POST['rEmail']);
 			}
