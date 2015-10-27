@@ -308,34 +308,44 @@ function do_review_body ($data) {
 		<div class="clear"></div>
 
 		<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody"><?php echo $data['rText']; ?></span>”</div>
-			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">
-
+			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<span itemprop="name">
 			<?php
-				if($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
+				echo $data['rName'];
+				if($data['rCategory'] == 'shopperApproved') {
+					//probably set an optino for this.
+					echo '  ' . build_shopper_approved_avatar();
+				} else if($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
 					// dump($data['rAuthorImage']);
 					// dump($data['rReviewerId']);
 					if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
 						//These are also handled on the front end however we check here to insure that if data['options'] are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
 						//This all has to be handled differently
-
 						if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
 							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
-								echo build_avatar_display($data['rAuthorImage']) . '  ';
+								echo '  ' . build_avatar_display($data['rAuthorImage']);
 							}
 						} else if($data['options']['unregistered-allow-avatar-upload']) {
 							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
-								echo build_avatar_display($data['rAuthorImage']) . '  ';
+								echo '  ' . build_avatar_display($data['rAuthorImage']);
 							}
 						}
+					} else {
+						echo '  ' . get_avatar(0);
 					}
-
 				}
-				echo $data['rName'];
 			?>
 			</span></div>
 			<div class="clear"></div>
 		</div>
 	<?php
+}
+
+function build_shopper_approved_avatar() {
+
+	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" width="50" height="50" style="margin-bottom:15px;"/>';
+
+	return $markup;
 }
 
 function print_credit() {
