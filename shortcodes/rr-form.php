@@ -9,14 +9,15 @@ function handle_form($atts, $options, $sqltable, $path) {
 		)
 	,$atts));
 
-
-
 	//initialize all data vars
 	$rName  = '';
 	$rEmail = '';
 	$rTitle = '';
 	$rText  = '';
+	$rAuthorImage = '';
+	$rAuthorId = '';
 	$output = '';
+	$user = wp_get_current_user();
 	$displayForm = true;
 	$posted = false;
 	$errors = array(
@@ -24,13 +25,14 @@ function handle_form($atts, $options, $sqltable, $path) {
 		'email'	=>	'',
 		'title'	=>	'',
 		'rating'	=>	'',
-		'content'=>	''
+		'content'=>	'',
+		'reviewer-image' => ''
 	);
 
 
 	$newData = array(
 		'reviewer_name'   => $rName,
-		// 'reviewer_image_id' => $rAuthorImage,
+		'reviewer_image' => $rAuthorImage,
 		'reviewer_email'  => $rEmail,
 		'review_title'    => $rTitle,
 		// 'review_rating'   => intval($rRating),
