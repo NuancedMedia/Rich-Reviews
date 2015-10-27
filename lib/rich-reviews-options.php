@@ -60,6 +60,7 @@ class RROptions {
           'form-name-require' => 'checked',
           'form-name-use-usernames' => 'checked',
           'form-name-use-avatar' => 'checked',
+          'form-name-use-blank-avatar' => 'checked',
           'unregistered-allow-avatar-upload' => FALSE,
           'form-reviewer-image-label' => 'Reviewer Image',
           // 'form-reviewer-image-display' => 'checked',
@@ -83,6 +84,7 @@ class RROptions {
           'send-email-notifications' => FALSE,
           'admin-email' => '',
           'login-url' => '',
+          'add-shopper-approved' => FALSE,
           // 'require-login' => FALSE,
           // 'rrShopAppAPIUrl' => NULL,
           // 'rrShopAppMarkup' => '',
@@ -115,6 +117,7 @@ class RROptions {
              if (!isset($_POST['form-name-require'])) { $_POST['form-name-require'] = false; }
              if (!isset($_POST['form-name-use-usernames'])) { $_POST['form-name-use-usernames'] = false; }
              if (!isset($_POST['form-name-use-avatar'])) { $_POST['form-name-use-avatar'] = false; }
+             if (!isset($_POST['form-name-use-blank-avatar'])) { $_POST['form-name-use-blank-avatar'] = false; }
              if (!isset($_POST['unregistered-allow-avatar-upload'])) { $_POST['unregistered-allow-avatar-upload'] = false; }
              if (!isset($_POST['form-email-display'])) { $_POST['form-email-display'] = false; }
              if (!isset($_POST['form-email-require'])) { $_POST['form-email-require'] = false; }
@@ -130,6 +133,7 @@ class RROptions {
              if (!isset($_POST['require-login'])) { $_POST['require-login'] = false; }
              if (!isset($_POST['return-to-form'])) { $_POST['return-to-form'] = false; }
              if (!isset($_POST['send-email-notifications'])) { $_POST['send-email-notifications'] = false; }
+             if (!isset($_POST['add-shopper-approved'])) { $_POST['add-shopper-approved'] = false; }
 
             if(!$_POST['integrate-user-info']) {
                 $_POST['form-name-use-usernames'] = false;
@@ -138,6 +142,10 @@ class RROptions {
                 $_POST['unregistered-allow-avatar-upload'] = false;
             } else if($_POST['require-login'] == 'checked') {
                 $_POST['unregistered-allow-avatar-upload'] = false;
+            }
+
+            if($_POST['form-name-use-avatar'] == false ) {
+                $_POST['form-name-use-blank-avatar'] = false;
             }
 
             $current_settings = $this->get_option();

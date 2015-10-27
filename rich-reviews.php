@@ -36,8 +36,7 @@ include_once ABSPATH . 'wp-admin/includes/image.php';
 require_once 'shortcodes/rr-form.php';
 require_once 'shortcodes/rr-show.php';
 require_once 'shortcodes/rr-snippet.php';
-require_once 'lib/rrShopApp/rich-reviews-ShopApp.php';
-require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
+
 
 
 class RichReviews {
@@ -77,7 +76,6 @@ class RichReviews {
 		$this->options= new RROptions($this);
 		$this->db = new RichReviewsDB($this);
 		$this->admin = new RichReviewsAdmin($this);
-		$this->shopApp = new RRShopApp($this);
 
 
 		add_action('plugins_loaded', array(&$this, 'on_load'));
@@ -102,6 +100,11 @@ class RichReviews {
 		$this->rr_options = $this->options->get_option();
 		$this->set_display_filters();
 		$this->set_form_filters();
+		if($this->rr_options['add-shopper-approved']) {
+			require_once 'lib/rrShopApp/rich-reviews-ShopApp.php';
+			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
+			$this->shopApp = new RRShopApp($this);
+		}
 		// dump($this->rr_options);
 	}
 

@@ -28,7 +28,7 @@
 	<br />
 
 	<input type="checkbox" name="send-email-notifications" value="checked" <?php echo $options['send-email-notifications'] ?> />
-	<label for="require_approval">
+	<label for="send-email-notifications">
 		<?php _e('Send Notification Emails - This will send an automatic email to the admin every time a new pending review is submitted.', 'rich-reviews'); ?>
 	</label>
 	<br />
@@ -39,3 +39,7 @@
 	</label>
 	<input type="text" name="admin-email" style="width:100%;" value="<?php echo $options['admin-email'] ?>" />
 	<br />
+	<input type="checkbox" name="add-shopper-approved" value="checked" <?php echo $options['add-shopper-approved'] ?> />
+	<label for="add-shopper-approved">
+		<?php _e('Add integration for Shopper Approved. (We are currently only integrated for Merchant Reviews, however will be releasing an update for product reviews in the near future.)', 'rich-reviews'); ?>
+	</label>
