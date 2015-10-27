@@ -266,7 +266,7 @@ function rr_do_name_field($options, $path, $rData = null, $errors = null) {
 		$rFieldValue = $rData['reviewer_name'];
 	} else {
 		if($options['integrate-user-info'] && $options['form-name-use-usernames']) {
-			if($user) {
+			if($user->ID) {
 				$rFieldValue = $user->data->display_name;
 				$disable = true;
 			}
@@ -275,6 +275,27 @@ function rr_do_name_field($options, $path, $rData = null, $errors = null) {
 
 	@include $path . 'views/frontend/form/rr-text-input.php';
 }
+
+function rr_do_reviewer_img_field($options, $path, $rData = null, $errors = null) {
+	$user = wp_get_current_user();
+	if($user->ID) {
+		//do nothing, because we will be using the user avatar.
+	} else {
+		$require = false;
+		$rFieldValue = '';
+		$label = $options['form-reviewer-image-label'];
+		$error = $errors['reviewer-image'];
+		if($options['form-reviewer-image-require']) {
+			$require = true;
+		}
+		if($rData['reviewer_image']) {
+			$rFieldValue = $rData['reviewer_image'];
+		}
+		//feed needed info.
+		@include $path . 'views/frontend/form/rr-img-input.php';
+	}
+}
+
 
 function rr_do_email_field($options, $path, $rData = null, $errors = null) {
 	$inputId = 'Email';
