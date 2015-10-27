@@ -467,10 +467,18 @@ $star_empty_color: black;
 
 .review-head {
 	display: flex;
+	flex-align: stretch;
 	margin-bottom: 13px;
 	.user-image {
 		padding: 8px;
+		width: 25%;
+
+		position: relative;
 		padding-left: 0;
+		img {
+			position: absolute;
+			bottom: 0;
+		}
 	}
 	.review-info {
 		padding: 8px;
