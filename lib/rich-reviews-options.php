@@ -61,9 +61,9 @@ class RROptions {
           'form-name-use-usernames' => 'checked',
           'form-name-use-avatar' => 'checked',
           'unregistered-allow-avatar-upload' => FALSE,
-          // 'form-reviewer-image-label' => 'Reviewer Image',
+          'form-reviewer-image-label' => 'Reviewer Image',
           // 'form-reviewer-image-display' => 'checked',
-          // 'form-reviewer-image-require' => 'checked',
+          'form-reviewer-image-require' => FALSE,
           'form-email-label' => 'Email',
           'form-email-display' => 'checked',
           'form-email-require' => FALSE,
@@ -82,6 +82,8 @@ class RROptions {
           'return-to-form' => FALSE,
           'send-email-notifications' => FALSE,
           'admin-email' => '',
+          'login-url' => '',
+          // 'require-login' => FALSE,
           // 'rrShopAppAPIUrl' => NULL,
           // 'rrShopAppMarkup' => '',
           // 'rrShopAppLastUpdate' => ''
@@ -123,7 +125,7 @@ class RROptions {
              // if (!isset($_POST['form-reviewed-image-display'])) { $_POST['form-reviewed-image-display'] = false; }
              // if (!isset($_POST['form-reviewed-image-require'])) { $_POST['form-reviewed-image-require'] = false; }
              // if (!isset($_POST['form-reviewer-image-display'])) { $_POST['form-reviewer-image-display'] = false; }
-             // if (!isset($_POST['form-reviewer-image-require'])) { $_POST['form-reviewer-image-require'] = false; }
+             if (!isset($_POST['form-reviewer-image-require'])) { $_POST['form-reviewer-image-require'] = false; }
              if (!isset($_POST['integrate-user-info'])) { $_POST['integrate-user-info'] = false; }
              if (!isset($_POST['require-login'])) { $_POST['require-login'] = false; }
              if (!isset($_POST['return-to-form'])) { $_POST['return-to-form'] = false; }
