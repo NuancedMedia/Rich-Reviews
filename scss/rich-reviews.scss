@@ -429,10 +429,23 @@ $star_empty_color: black;
 		padding: 8px 0 8px 28px;
 		@media only screen and (max-width: 767px) { width: 100%; min-width: 0;}
 		.rr_title {
-			margin-bottom: 5px;
+			margin: 0;
 		}
 		.stars {
 
+		}
+		.date-err {
+			color:red;
+			font-style:italic;
+			font-size:0.8em;
+			line-height: 0.6em;
+			a {
+				color:red !important;
+			}
+		}
+		.rr_date {
+			font-size: 0.6em;
+			font-style: italic;
 		}
 		.rr_review_text {
 			position: relative;
@@ -468,7 +481,7 @@ $star_empty_color: black;
 .review-head {
 	display: flex;
 	flex-align: stretch;
-	margin-bottom: 13px;
+	margin-bottom: 0px;
 	.user-image {
 		padding: 8px;
 		width: 25%;
@@ -481,17 +494,24 @@ $star_empty_color: black;
 		}
 	}
 	.review-info {
-		padding: 8px;
-		padding-left: 0;
+		padding: 0;
 	}
 }
 
 .rr_review_name {
 	span {
+		padding-top:8px;
 		width:40px;
-		img {
+		.avatar {
 			width: 40px;
+			text-align:center;
+		}
+		img {
+			&.avatar {
+				margin-bottom: 8px;
+			}
 		}
 	}
 }
+
 @import "rr-widgets";
