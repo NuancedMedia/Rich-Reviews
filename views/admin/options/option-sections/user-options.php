@@ -28,6 +28,12 @@
 		<?php _e('Use user avatars.', 'rich-reviews'); ?>
 	</label>
 	<br />
+	<div id="useAvatarSub">
+		<input type="checkbox" name="form-name-use-blank-avatars" value="checked" id="useBlankAvatarToggle" <?php echo $options['form-name-use-blank-avatar'] ?> />
+		<label for="form-name-use-blank-avatar">
+			<?php _e('Use blank avatar for users without uploaded image/gravatar.', 'rich-reviews'); ?>
+		</label>
+	</div>
 
 	<div id="userOptionsUnregisteredSub">
 		<input type="checkbox" name="unregistered-allow-avatar-upload" id="unregisteredUpload" value="checked" <?php echo $options['unregistered-allow-avatar-upload'] ?> />
@@ -53,6 +59,7 @@
 		checkParentCondition('input[id="loginGate"]:checked', '#userOptionsUnregisteredSub', true);
 		checkParentCondition('input[id="loginGate"]:checked', '#loginRequiredSub');
 		checkParentCondition('input[id="unregisteredUpload"]:checked', '#unregisteredAvatarAllowedSub');
+		checkParentCondition('input[id="useAvatarToggle"]:checked', '#useAvatarSub');
 		jQuery('#userOptionToggle').click(function() {
 			checkParentCondition('input[id="userOptionToggle"]:checked', '#userOptionsMain');
 		});
@@ -62,6 +69,9 @@
 		});
 		jQuery('#unregisteredUpload').click(function(){
 			checkParentCondition('input[id="unregisteredUpload"]:checked', '#unregisteredAvatarAllowedSub');
+		});
+		jQuery('#useAvatarToggle').click(function(){
+			checkParentCondition('input[id="useAvatarToggle"]:checked', '#useAvatarSub');
 		});
 	});
 
