@@ -249,9 +249,10 @@ class RichReviews {
 			}
 		}
 		if($this->rr_options['unregistered-allow-avatar-upload']) {
-			add_action('rr_do_form_fields', 'rr_do_reviewer_img_field', 6, 3);
+			add_action('rr_do_form_fields', 'rr_do_reviewer_img_field', 6, 4);
+			add_filter('rr_misc_validation', 'rr_validate_reviewer_image_input');
 			if($this->rr_options['form-reviewer-image-require']) {
-				//add reuired filter
+				add_filter('rr_check_required', 'rr_require_reviewer_image_field');
 			}
 		}
 		// if($this->rr_options['form-reviewed-display']) {
