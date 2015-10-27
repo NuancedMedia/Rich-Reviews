@@ -162,12 +162,46 @@ function handle_form($atts, $options, $sqltable, $path) {
 				</tr>
 			</table>
 		</form>
-	<?php
+		<?php
 
-
-
+		}
 	}
 	do_action('rr_set_local_scripts');
+}
+function rr_do_form_gate($options) {
+
+	if(isset($options['login-url']) && $options['login-url'] != '' ) {
+		$loginUrl = $options['login-url'];
+	} else {
+		$loginUrl = wp_login_url();
+	}
+	?>
+	<div class="upload-gate">
+		<p class="rr-headline">You must be logged in to Submit a Review</p>
+		<a href="<?php echo $loginUrl; ?>" class="button button-primary">
+			Login/Create Account
+		</a>
+	</div>
+	<style>
+		.upload-gate {
+			padding-top:0;
+			border: solid 3px;
+			border-radius: 8px;
+			text-align: center;
+			margin: 13px 5px;
+			padding: 21px;
+		}
+		.rr-headline {
+			font-size: 21px;
+			margin: 21px 13px;
+		}
+		.button {
+			padding: 0.4em 1.2em;
+			border: solid 3px;
+			border-radius: 3px;
+		}
+	</style>
+	<?php
 }
 function generate_error_text($errors, $options) {
 
