@@ -102,6 +102,12 @@ function handle_form($atts, $options, $sqltable, $path) {
 				$rText     = fp_sanitize($_POST['rText']);
 			}
 
+			if($options['integrate-user-info']) {
+				if($user->ID) {
+					$rAuthorId = $user->ID;
+				}
+			}
+
 			$rDateTime = date('Y-m-d H:i:s');
 			$incomingData['rDateTime'] = $rDateTime;
 			if ($options['require_approval']) {$rStatus   = 0;} else {$rStatus   = 1;}
@@ -113,13 +119,14 @@ function handle_form($atts, $options, $sqltable, $path) {
 
 					'date_time'       => $rDateTime,
 					'reviewer_name'   => $rName,
-					// 'reviewer_image_id' => $rAuthorImage,
+					'reviewer_image' => $rAuthorImage,
 					'reviewer_email'  => $rEmail,
 					'review_title'    => $rTitle,
 					'review_rating'   => intval($rRating),
 					// 'review_image_id' => $rImage,
 					'review_text'     => $rText,
 					'review_status'   => $rStatus,
+					'reviewer_id'	  => $rAuthorId,
 					'reviewer_ip'     => $rIP,
 					'post_id'		  => $rPostID,
 					'review_category' => $rCategory,
@@ -141,7 +148,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 				$newSubmission = array(
 					'date_time'       => $newData['date_time'],
 					'reviewer_name'   => $newData['reviewer_name'],
-					'reviewer_image' => $newData['reviewer_image_url'],
+					'reviewer_image' => $newData['reviewer_image'],
 					'reviewer_email'  => $newData['reviewer_email'],
 					'reviewer_id'	  => $newData['reviewer_id'],
 					'review_title'    => $newData['review_title'],
@@ -311,7 +318,7 @@ function rr_do_reviewer_img_field($options, $path, $rData = null, $errors = null
 		if($options['form-reviewer-image-require']) {
 			$require = true;
 		}
-		if($rData['reviewer_image']) {
+		if(isset($rData['reviewer_image']) && $rData['reviewer_image'] != '' ) {
 			$rFieldValue = $rData['reviewer_image'];
 		}
 		//feed needed info.
@@ -513,6 +520,19 @@ function rr_require_rating_field($incomingData) {
 	return $incomingData;
 }
 
+function rr_require_reviewer_image_field($incomingData) {
+	$user = wp_get_current_user();
+	if($user->ID){
+		return $incomingData;
+	} else {
+		if(!isset($incomingData['reviewer_image']) || $incomingData['reviewer_image'] == '') {
+			$incomingData['isValid'] = false;
+			$incomingData['errors']['reviewer-image'] = 'absent required';
+		}
+	}
+	return $incomingData;
+}
+
 // Field Specific Validation ('rr_misc_validation')
 
 function rr_validate_name_length($incomingData) {
@@ -539,6 +559,33 @@ function rr_validate_email($incomingData) {
 			}
 		}
 	}
+	return $incomingData;
+}
+
+function rr_validate_reviewer_image_input($incomingData) {
+	$user = wp_get_current_user();
+	if($user->ID){
+		return $incomingData;
+	} else {
+		if(isset($incomingData['reviewer_image']) && $incomingData['reviewer_image'] != '') {
+			$fileEnding = strrchr($incomingData['reviewer_image'], '.');
+			if($fileEnding) {
+				$fileEnding = substr($fileEnding, 1);
+				$allowed_file_types = array ('jpg', 'png', 'gif'); //probably make an option for this eventually.
+				if(!in_array($fileEnding, $allowed_file_types)) {
+					$incomingData['isValid'] = false;
+					$incomingData['errors']['reviewer-image'] = 'invalid input';
+				}
+			} else {
+				$incomingData['isValid'] = false;
+				$incomingData['errors']['reviewer-image'] = 'invalid input';
+			}
+		} else {
+			$incomingData['isValid'] = false;
+			//we shouldn't have gotten this far without
+		}
+	}
+
 	return $incomingData;
 }
 
