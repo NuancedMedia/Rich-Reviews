@@ -142,29 +142,45 @@
 
 function full_width_wrapper($data) {
 	#TODO: Rework output for rich data, image, and up/down vote
-	$tempRR = new RichReviews();
-	$options = $tempRR->options->get_option();
+	global $richReviews;
+	$options = $richReviews->options->get_option();
 	$user = wp_get_current_user();
 	#?>
 	<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">
 		<div class="review-head">
 		<?php if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
-			?>
-				<div class="user-image">
-				<?php
-					if($user) {
-						echo get_avatar($user->ID);
-					} else if($options['unregistered-allow-avatar-upload'] && isset($rAuthorImage)) {
-						//do something else
+				// dump($data['rAuthorImage']);
+				// dump($data['rReviewerId']);
+				if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
+					?> <div class="user-image"> <?php
+					//These are also handled on the front end however we check here to insure that if options are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
+					//This all has to be handled differently
+
+					if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
+						if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+							echo build_avatar_display($data['rAuthorImage']);
+						}
+					} else if($options['unregistered-allow-avatar-upload']) {
+						if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+							echo build_avatar_display($data['rAuthorImage']);
+						}
 					}
-				 ?>
-				</div>
-			<?php
+					?> </div> <?php
+				}
+
 		} ?>
 		<div class="review-info">
 		<h3 class="rr_title"><?php echo $data['rTitle']; ?></h3>
 		<div class="clear"></div>
 	<?php
+}
+
+function build_avatar_display($image_url) {
+	if(!isset($image_url) || $image_url == '') {
+		return '';
+	}
+	$markup = '<img alt="" src="' . $image_url . '" srcset="' . $image_url . '" class="avatar avatar-96 photo" height="96" width="96" />';
+	return $markup;
 }
 
 function column_wrapper ($data) {
