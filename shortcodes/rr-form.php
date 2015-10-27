@@ -50,7 +50,13 @@ function handle_form($atts, $options, $sqltable, $path) {
 			$incomingData = apply_filters('rr_process_form_data', $incomingData);
 
 			if ($options['form-name-display']) {
-				$rName     = fp_sanitize($_POST['rName']);
+				if(!isset($_POST['rName'])) {
+					if($options['integrate-user-info'] && $options['form-name-use-usernames']) {
+						$rName = $user->data->display_name;
+					}
+				} else {
+					$rName = fp_sanitize($_POST['rName']);
+				}
 			}
 			// if ($options['form-reviewer-image-display']) {
 			// 	$imageId = media_handle_upload('rAuthorImage',0);
