@@ -116,18 +116,19 @@ function handle_form($atts, $options, $sqltable, $path) {
 				$displayForm = false;
 
 				$newSubmission = array(
-					'date_time'       => $date,
-					'reviewer_name'   => $review->name,
-				// 	// 'reviewer_image_id' => $newData['reviewer_image_id'],
+					'date_time'       => $newData['date_time'],
+					'reviewer_name'   => $newData['reviewer_name'],
+					'reviewer_image' => $newData['reviewer_image_url'],
 					'reviewer_email'  => $newData['reviewer_email'],
+					'reviewer_id'	  => $newData['reviewer_id'],
 					'review_title'    => $newData['review_title'],
-					'review_rating'   => intval($review->Overall),
+					'review_rating'   => $newData['review_rating'],
 				// 	// 'review_image_id' => $newData['review_image_id'],
-					'review_text'     => $review->textcomments,
+					'review_text'     => $newData['review_text'],
 					'review_status'   => $newData['review_status'],
 					'reviewer_ip'     => $newData['reviewer_ip'],
 					'post_id'		  => $newData['post_id'],
-					'review_category' => 'shopperApproved',
+					'review_category' => $newData['review_category'],
 				);
 
 
@@ -138,6 +139,11 @@ function handle_form($atts, $options, $sqltable, $path) {
 		?> <span id="state"></span> <?php
 	}
 	if ($displayForm) {
+		if($options['require-login'] && !$user->ID) {
+			?> <div class="rr_review_form">	<?php
+				do_action('rr_display_form_gate', $options);
+			?>	</div>  <?php
+		} else {
 
 			$errors = $newData['errors'];
 			$errors = generate_error_text($errors, $options);
