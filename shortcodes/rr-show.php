@@ -199,7 +199,9 @@ function column_wrapper ($data) {
 
 function do_post_title ($data) {
 	// ob_start();
-	if($data['using_subject_fallback'] == true) {
+	if($data['rCategory'] == 'shopperApproved') {
+		do_hidden_post_title($data);
+	} else if($data['using_subject_fallback'] == true) {
 		do_hidden_post_title($data);
 	} else {
 	?>
@@ -216,11 +218,10 @@ function do_post_title ($data) {
 }
 
 function do_hidden_post_title ($data) {
-
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 		<div class="rr_review_post_id" itemprop="name" style="display:none;">
-			<a href="<?php echo get_permalink($data['rPostId']); ?>">
+			<a href="<?php if($data['rCategory'] != 'shopperApproved') { echo get_permalink($data['rPostId']); }?>">
 				<?php echo $data['rCategory']; ?>
 			</a>
 		</div>
@@ -311,10 +312,11 @@ function do_review_body ($data) {
 			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<span itemprop="name">
 			<?php
-				echo $data['rName'];
+
+				$avatar = '';
 				if($data['rCategory'] == 'shopperApproved') {
 					//probably set an optino for this.
-					echo '  ' . build_shopper_approved_avatar();
+					$avatar =  '  ' . build_shopper_approved_avatar();
 				} else if($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
 					// dump($data['rAuthorImage']);
 					// dump($data['rReviewerId']);
@@ -322,17 +324,22 @@ function do_review_body ($data) {
 						//These are also handled on the front end however we check here to insure that if data['options'] are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
 						//This all has to be handled differently
 						if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
-							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
-								echo '  ' . build_avatar_display($data['rAuthorImage']);
+							if($data['options']['form-name-use-avatar']) {
+								$avatar = '  ' . build_avatar_display($data['rAuthorImage']);
 							}
 						} else if($data['options']['unregistered-allow-avatar-upload']) {
-							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
-								echo '  ' . build_avatar_display($data['rAuthorImage']);
+							if($data['options']['form-name-use-avatar']) {
+								$avatar = '  ' . build_avatar_display($data['rAuthorImage']);
 							}
 						}
-					} else {
-						echo '  ' . get_avatar(0);
+					} else if($data['options']['form-name-use-blank-avatar']){
+						$avatar = '  ' . get_avatar(0);
 					}
+				}
+				if($avatar != '') {
+					echo $data['rName'] . $avatar;
+				} else {
+					echo '- ' . $data['rName'];
 				}
 			?>
 			</span></div>
@@ -343,7 +350,7 @@ function do_review_body ($data) {
 
 function build_shopper_approved_avatar() {
 
-	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" width="50" height="50" style="margin-bottom:15px;"/>';
+	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" width="50" height="50" style="margin-bottom:13px;"/>';
 
 	return $markup;
 }
