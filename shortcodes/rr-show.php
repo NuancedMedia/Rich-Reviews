@@ -137,6 +137,8 @@
 
 		do_action('rr_do_review_wrapper', $data);
 
+		$data['options'] = $options;
+
 		do_action('rr_do_review_content', $data);
 	}
 
@@ -148,27 +150,31 @@ function full_width_wrapper($data) {
 	#?>
 	<div class="full-testimonial" itemscope itemtype="http://schema.org/Review">
 		<div class="review-head">
-		<?php if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
+
+		<?php
+		// Handling this elsewhere for now
+		//if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
 				// dump($data['rAuthorImage']);
 				// dump($data['rReviewerId']);
-				if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
-					?> <div class="user-image"> <?php
+				//if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
+					?> <!-- <div class="user-image"> --> <?php
 					//These are also handled on the front end however we check here to insure that if options are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
 					//This all has to be handled differently
 
-					if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
-						if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
-							echo build_avatar_display($data['rAuthorImage']);
-						}
-					} else if($options['unregistered-allow-avatar-upload']) {
-						if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
-							echo build_avatar_display($data['rAuthorImage']);
-						}
-					}
-					?> </div> <?php
-				}
+					// if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
+					// 	if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+					// 		echo build_avatar_display($data['rAuthorImage']);
+					// 	}
+					// } else if($options['unregistered-allow-avatar-upload']) {
+					// 	if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+					// 		echo build_avatar_display($data['rAuthorImage']);
+					// 	}
+					// }
+					?> <!-- </div> --> <?php
+				//}
 
-		} ?>
+		//} ?>
+
 		<div class="review-info">
 		<h3 class="rr_title"><?php echo $data['rTitle']; ?></h3>
 		<div class="clear"></div>
@@ -303,7 +309,27 @@ function do_review_body ($data) {
 
 		<div class="rr_review_text"  ><span class="drop_cap">“</span><span itemprop="reviewBody"><?php echo $data['rText']; ?></span>”</div>
 			<div class="rr_review_name" itemprop="author" itemscope itemtype="http://schema.org/Person"> - <span itemprop="name">
+
 			<?php
+				if($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
+					// dump($data['rAuthorImage']);
+					// dump($data['rReviewerId']);
+					if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
+						//These are also handled on the front end however we check here to insure that if data['options'] are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
+						//This all has to be handled differently
+
+						if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
+							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
+								echo build_avatar_display($data['rAuthorImage']) . '  ';
+							}
+						} else if($data['options']['unregistered-allow-avatar-upload']) {
+							if($data['options']['form-reviewer-image-display'] && $data['options']['form-name-use-avatar']) {
+								echo build_avatar_display($data['rAuthorImage']) . '  ';
+							}
+						}
+					}
+
+				}
 				echo $data['rName'];
 			?>
 			</span></div>

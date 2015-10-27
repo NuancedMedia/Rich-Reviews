@@ -485,4 +485,13 @@ $star_empty_color: black;
 		padding-left: 0;
 	}
 }
+
+.rr_review_name {
+	span {
+		width:40px;
+		img {
+			width: 40px;
+		}
+	}
+}
 @import "rr-widgets";
