@@ -88,6 +88,8 @@ class RichReviews {
 		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
 		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
+		// add_shortcode('RICH_REVIEWS_DB', array(&$this, 'shortcode_db_update')); gotta run update or db change
+		add_shortcode('database_now', array(&$this, 'shortcode_db_update'));
 
 		add_filter('widget_text', 'do_shortcode');
 
@@ -101,6 +103,27 @@ class RichReviews {
 		$this->set_display_filters();
 		$this->set_form_filters();
 		// dump($this->rr_options);
+	}
+
+	function shortcode_db_update() {
+		$this->db->create_update_database();
+	}
+
+	function shortcode_avatar_markup() {
+		$user = wp_get_current_user();
+		ob_start();
+		echo get_avatar($user->ID);
+		$markup = ob_get_clean();
+		dump(esc_html($markup));
+		dump($user->ID);
+		$pattern = "/src='(.*?)'/i";
+		$alterUrl = 'http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg';
+		$maybe = preg_replace($pattern, $alterUrl, $markup);
+		dump($maybe);
+
+		$build = '<img alt="" src="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" srcset="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" class="avatar avatar-96 photo" height="96" width="96" />';
+
+		return $build;
 	}
 
 	function process_plugin_updates() {
@@ -217,12 +240,17 @@ class RichReviews {
 		if($this->rr_options['return-to-form']) {
 			add_action('rr_set_local_scripts','rr_output_scroll_script');
 		}
-		// if($this->rr_options['form-reviewer-display']) {
-		// 	add_action('rr_do_form_fields', 'rr_do_reviewerImg_field', 6, 3);
-		// 	if($this->rr_options['form-reviewer-display']) {
-		// 		//add require validate filter
-		// 	}
-		// }
+		if($this->rr_options['integrate-user-info']) {
+			if($this->rr_options['require-login']) {
+				add_action('rr_display_form_gate', 'rr_do_form_gate');
+			}
+		}
+		if($this->rr_options['unregistered-allow-avatar-upload']) {
+			add_action('rr_do_form_fields', 'rr_do_reviewer_img_field', 6, 3);
+			if($this->rr_options['form-reviewer-image-require']) {
+				//add reuired filter
+			}
+		}
 		// if($this->rr_options['form-reviewed-display']) {
 		// 	add_action('rr_do_form_fields', 'rr_do_reviewedImg_field', 7, 3);
 		// 	if($this->rr_options['form-reviewed-display']) {
