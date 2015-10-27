@@ -227,7 +227,7 @@ class RRShopApp {
 		// 	'review_title'    => $newData['review_title'],
 			'review_rating'   => intval($review->Overall),
 		// 	// 'review_image_id' => $newData['review_image_id'],
-			'review_text'     => $review->textcomments,
+			'review_text'     => $text,
 			'review_status'   => $review_status,
 		// 	'reviewer_ip'     => $newData['reviewer_ip'],
 		// 	'post_id'		  => $newData['post_id'],
