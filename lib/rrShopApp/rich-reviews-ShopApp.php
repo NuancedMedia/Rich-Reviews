@@ -166,7 +166,7 @@ class RRShopApp {
           $this->options->update_option(array('total_review_count' => $response->review_count));
         }
 
-        $updated_options = $this->option->get_option();
+        $updated_options = $this->options->get_option();
 
     }
 
