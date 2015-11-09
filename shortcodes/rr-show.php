@@ -185,7 +185,7 @@ function build_avatar_display($image_url) {
 	if(!isset($image_url) || $image_url == '') {
 		return '';
 	}
-	$markup = '<img alt="" src="' . $image_url . '" srcset="' . $image_url . '" class="avatar avatar-96 photo" height="96" width="96" />';
+	$markup = '<img alt="" src="' . $image_url . '" srcset="' . $image_url . '" class="rr-avatar avatar avatar-96 photo" height="44" width="44" />';
 	return $markup;
 }
 
@@ -350,7 +350,7 @@ function do_review_body ($data) {
 
 function build_shopper_approved_avatar() {
 
-	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" width="50" height="50" style="margin-bottom:13px;"/>';
+	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" class="rr-avatar sa-avatar" width="44" height="44" style="margin-bottom:8px;"/>';
 
 	return $markup;
 }

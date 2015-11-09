@@ -502,13 +502,11 @@ $star_empty_color: black;
 	span {
 		padding-top:8px;
 		width:40px;
-		.avatar {
-			width: 40px;
-			text-align:center;
-		}
-		img {
-			&.avatar {
-				margin-bottom: 8px;
+		.rr-avatar {
+			height: 44px;
+			width: 44px;
+			&.sa-avatar {
+				margin-bottom:8px;
 			}
 		}
 	}
