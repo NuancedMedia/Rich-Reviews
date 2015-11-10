@@ -45,7 +45,6 @@ class RRShopAppOptions {
 	public function update_options() {
 		// $this->set_to_defaults();
 		if(isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
-        dump($_POST['api_url']);
 	      $current_settings = $this->get_option();
         $clean_current_settings = array();
         foreach ($current_settings as $k=>$val) {

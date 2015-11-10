@@ -110,7 +110,6 @@ class RRShopApp {
         }
         $urlParamString = $urlParts[1];
         parse_str($urlParamString);
-        dump($token);
         if(isset($siteid) && isset($token)) {
             $data['site_id'] = $siteid;
             $data['site_token'] = $token;
