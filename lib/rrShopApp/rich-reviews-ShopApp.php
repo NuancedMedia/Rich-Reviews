@@ -56,7 +56,7 @@ class RRShopApp {
 		add_menu_page( 'Shop App Cache', 'Shop App Cache', 'manage_options', 'shop_app_aid_menu', array(&$this, 'display_shop_app_aid_menu'));
 	}
 
-	function process_cache_update($data) {
+	function process_cache_update($data = null) {
 
 		if($data == null) {
 			$data = $this->shopAppOptions;
