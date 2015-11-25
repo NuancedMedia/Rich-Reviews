@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <h3><strong><?php _e('Review Display Options', 'rich-reviews'); ?></strong></h3>
 <div style="border: solid 2px black"></div>
 
@@ -59,3 +55,4 @@
 	?>
 </select>
 <br />
+<?php

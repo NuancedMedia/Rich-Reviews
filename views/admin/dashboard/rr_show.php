@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <div class="rr_shortcode_container">
 	<div class="rr_shortcode_name">[RICH_REVIEWS_SHOW]</div>
 	<div class="rr_shortcode_description">
@@ -50,3 +46,5 @@
 		</div>
 	</div>
 </div>
+
+<?php
