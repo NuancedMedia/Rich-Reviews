@@ -40,7 +40,7 @@ class RRShopAppOptions {
 
 	public function update_options() {
 		// $this->set_to_defaults();
-		if(isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
+		if (isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
 			$current_settings = $this->get_option();
 			$clean_current_settings = array();
 			foreach ($current_settings as $k=>$val) {
@@ -51,9 +51,9 @@ class RRShopAppOptions {
 
 			$this->defaults = array_merge($this->defaults, $clean_current_settings);
 			$update = array_merge($this->defaults, $_POST);
-			if(isset($update['api_url']) && ($update['api_url'] != '') && ($update['api_url'] != NULL)) {
+			if (isset($update['api_url']) && ($update['api_url'] != '') && ($update['api_url'] != NULL)) {
 				$update = $this->parent->process_cache_update($update);
-				if(isset($update) && $update != NULL){
+				if (isset($update) && $update != NULL){
 					$data = array();
 					foreach ($update as $key=>$value) {
 						if ($key != 'dinner' && $key != NULL) {
@@ -76,7 +76,7 @@ class RRShopAppOptions {
 			return;
 		}
 
-		if(isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
+		if (isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
 			$this->parent->process_reviews_pull();
 		}
 	}

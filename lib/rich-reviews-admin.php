@@ -69,7 +69,7 @@ class RichReviewsAdmin {
 			'fp_admin_options_page',
 			array(&$this, 'render_options_page')
 		);
-		if($this->parent->rr_options['add-shopper-approved']) {
+		if ($this->parent->rr_options['add-shopper-approved']) {
 			add_submenu_page(
 				'rich_reviews_settings_main',
 				'Rich Reviews - '. __('Shopper Approved', 'rich-reviews'),

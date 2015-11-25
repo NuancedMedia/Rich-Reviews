@@ -15,7 +15,7 @@
 			<?php _e('Login Url for link in Review Gate', 'rich-reviews'); ?>
 		</label>
 		<br />
-		<input type="text" name="login-url" value="<?php if(isset($options['login-url']) && $options['login-url'] != '') { echo $options['login-url']; } else { echo wp_login_url(); } ?>" style="width: 90%;"/>
+		<input type="text" name="login-url" value="<?php if (isset($options['login-url']) && $options['login-url'] != '') { echo $options['login-url']; } else { echo wp_login_url(); } ?>" style="width: 90%;"/>
 	</div>
 	<br />
 	<input type="checkbox" name="form-name-use-usernames" value="checked" <?php echo $options['form-name-use-usernames'] ?> />
@@ -76,19 +76,19 @@
 	});
 
 	checkParentCondition = function(parentSelector, childSelector, reverse) {
-		if(typeof(reverse) == undefined) {
+		if (typeof(reverse) == undefined) {
 			reverse = false;
 		}
 		childSelector = '' + childSelector +  '';
 		parentSelector = '' + parentSelector +  '';
-		if(reverse == true) {
-			if(jQuery(parentSelector).length == 0) {
+		if (reverse == true) {
+			if (jQuery(parentSelector).length == 0) {
 				jQuery(childSelector).css('display', 'block');
 			} else {
 				jQuery(childSelector).css('display', 'none');
 			}
 		} else {
-			if(jQuery(parentSelector).length > 0) {
+			if (jQuery(parentSelector).length > 0) {
 				jQuery(childSelector).css('display', 'block');
 			} else {
 				jQuery(childSelector).css('display', 'none');

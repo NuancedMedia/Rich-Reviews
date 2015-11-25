@@ -98,7 +98,7 @@ class NMDB {
 
     function order_by($key, $sort = 'ASC') {
 
-        if($key == 'random') {
+        if ($key == 'random') {
             $this->order_by = 'ORDER BY RAND() ';
         }
         else {

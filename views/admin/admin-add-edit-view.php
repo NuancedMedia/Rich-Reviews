@@ -64,16 +64,16 @@ class RRAdminAddEdit {
 				);
 				//dump($newdata, 'NEW DATA');
 				$validData = true;
-				if($this->core->rr_options['form-name-display']) {
-					if($this->core->rr_options['form-name-require']) {
+				if ($this->core->rr_options['form-name-display']) {
+					if ($this->core->rr_options['form-name-require']) {
 						if ($this->reviewer_name  == '') {
 							$form_name = '<span class="err">You must include your name.</span><br>';
 							$validData = false;
 						}
 					}
 				}
-				if($this->core->rr_options['form-title-display']) {
-					if($this->core->rr_options['form-title-require']) {
+				if ($this->core->rr_options['form-title-display']) {
+					if ($this->core->rr_options['form-title-require']) {
 						if ($this->review_title == '') {
 							$form_title = '<span class="err">You must include a title for your review.</span><br>';
 							$validData = false;
@@ -81,8 +81,8 @@ class RRAdminAddEdit {
 
 					}
 				}
-				if($this->core->rr_options['form-content-display']) {
-					if($this->core->rr_options['form-content-require']) {
+				if ($this->core->rr_options['form-content-display']) {
+					if ($this->core->rr_options['form-content-require']) {
 						if ($this->review_text== '') {
 							$form_text = '<span class="err">You must write some text in your review.</span><br>';
 							$validData = false;
@@ -93,7 +93,7 @@ class RRAdminAddEdit {
 					$form_rating = '<span class="err">Please give a rating between 1 and 5 stars.</span><br>';
 					$validData = false;
 				}
-				if($this->core->rr_options['form-email-display']) {
+				if ($this->core->rr_options['form-email-display']) {
 					if ($this->reviewer_email != '') {
 						$firstAtPos = strpos($this->reviewer_email,'@');
 						$periodPos  = strpos($this->reviewer_email,'.');
@@ -103,7 +103,7 @@ class RRAdminAddEdit {
 							$validData = false;
 						}
 					} else {
-						if($this->core->rr_options['form-email-require']) {
+						if ($this->core->rr_options['form-email-require']) {
 							$form_email = '<span class="err">You must provide a valid email address.</span><br>';
 							$validData = false;
 						}
@@ -159,7 +159,7 @@ class RRAdminAddEdit {
 		foreach ($review as $key=>$value) {
 			$review[$key] = $this->core->nice_output($value);
 		}
-		if( $data != NULL) {
+		if ($data != NULL) {
 			extract($data);
 		} else {
 			$name_err = '';

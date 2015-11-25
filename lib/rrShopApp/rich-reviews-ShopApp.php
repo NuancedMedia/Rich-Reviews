@@ -60,7 +60,7 @@ class RRShopApp {
 		//make sure the api_url is actually pointing at a file file before trying to retreive content. If not everything will simply remain unchanged.
 		$pattern = '/https:\/\/www\.shopperapproved\.com\//';
 		$accurate_call = preg_match($pattern, $data['api_url']);
-		if(! $accurate_call) {
+		if (! $accurate_call) {
 			//bad api call
 			return;
 		}

@@ -4,14 +4,14 @@ function handle_snippet($data, $options, $path) {
 
 	global $post;
 	extract($data);
-	if(!isset($category) || $category == null) {
+	if (!isset($category) || $category == null) {
 		$category = '';
 	}
 
 	if ($options['snippet_stars']) {
 		$use_stars = TRUE;
 		$decimal = $average - floor($average);
-		if($decimal >= 0.5) {
+		if ($decimal >= 0.5) {
 			$roundedAverage = floor($average) + 1;
 		} else {
 			$roundedAverage = floor($average);
@@ -33,35 +33,35 @@ function handle_snippet($data, $options, $path) {
 
 	}
 
-	if($category == '' || $category == 'none' || $category == 'all') {
+	if ($category == '' || $category == 'none' || $category == 'all') {
 			$category = $options['rich_itemReviewed_fallback'];
-			if($options['rich_itemReviewed_fallback_case'] == 'both_missing') {
-				if(isset($post->post_title) && $post->post_title != '') {
+			if ($options['rich_itemReviewed_fallback_case'] == 'both_missing') {
+				if (isset($post->post_title) && $post->post_title != '') {
 					$category = $post->post_title;
 				}
 			}
-	} else if($category == 'page' || $category == 'post') {
-		if(isset($post->post_title) && $post->post_title != '') {
+	} else if ($category == 'page' || $category == 'post') {
+		if (isset($post->post_title) && $post->post_title != '') {
 			$category = $post->post_title;
 		} else {
 			$category = $options['rich_itemReviewed_fallback'];
 		}
-	} else if($category == 'shopperApproved') {
+	} else if ($category == 'shopperApproved') {
 		$tempRR = new RichReviews();
-		if(isset($tempRR->shopApp)) {
+		if (isset($tempRR->shopApp)) {
 			$shopAppOptions = $tempRR->shopApp->options->get_option();
-			if(isset($shopAppOptions['markup']) && $shopAppOptions['markup'] != '') {
+			if (isset($shopAppOptions['markup']) && $shopAppOptions['markup'] != '') {
 				echo $tempRR->shopApp->display_handle();
 				return;
 			}
 		}
 	}
 
-	if($options['rich_itemReviewed_fallback_case'] == 'always') {
+	if ($options['rich_itemReviewed_fallback_case'] == 'always') {
 		$category = $options['rich_itemReviewed_fallback'];
 	}
 
-	if($options['rich_include_url'] && isset($options['rich_url_value']) && $options['rich_url_value'] != '') {
+	if ($options['rich_include_url'] && isset($options['rich_url_value']) && $options['rich_url_value'] != '') {
 		$url_markup = '<a href="http://' . $options['rich_url_value'] . '" itemprop="url"></a>';
 	} else {
 		$url_markup = '';

@@ -99,7 +99,7 @@ class RichReviews {
 		$this->rr_options = $this->options->get_option();
 		$this->set_display_filters();
 		$this->set_form_filters();
-		if($this->rr_options['add-shopper-approved']) {
+		if ($this->rr_options['add-shopper-approved']) {
 			require_once 'lib/rrShopApp/rich-reviews-ShopApp.php';
 			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
 			$this->shopApp = new RRShopApp($this);
@@ -134,7 +134,7 @@ class RichReviews {
 		// New checks. perhaps inefficient but more future-proof
 		if ($current_version != $newest_version) {
 			//Update to initialize new options with default values
-			if(version_compare($newest_version, '1.6.0') == 1) {
+			if (version_compare($newest_version, '1.6.0') == 1) {
 				$this->options->force_update();
 			}
 			$this->admin->update_option(array('version' => $newest_version));
@@ -151,27 +151,27 @@ class RichReviews {
 
 	function set_display_filters() {
 		add_action('rr_do_review_content', 'do_review_body', 4);
-		if($this->rr_options['display_full_width']) {
+		if ($this->rr_options['display_full_width']) {
 			add_action('rr_do_review_wrapper', 'full_width_wrapper');
 		}	else {
 			add_action('rr_do_review_wrapper', 'column_wrapper');
 		}
-		if($this->rr_options['show_form_post_title']) {
+		if ($this->rr_options['show_form_post_title']) {
 			add_action('rr_do_review_content', 'do_post_title', 1);
 		} else {
 			add_action('rr_do_review_content', 'do_hidden_post_title', 1);
 		}
-		if($this->rr_options['rich_include_url']) {
+		if ($this->rr_options['rich_include_url']) {
 			add_action('rr_do_review_content', 'do_url_schema', 2);
 		} else {
 			add_action('rr_do_review_content', 'omit_url_schema', 2);
 		}
-		if($this->rr_options['show_date']) {
+		if ($this->rr_options['show_date']) {
 			add_action('rr_do_review_content', 'do_the_date', 3);
 		} else {
 			add_action('rr_do_review_content', 'do_the_date_hidden', 3);
 		}
-		if($this->rr_options['credit_permission']) {
+		if ($this->rr_options['credit_permission']) {
 			add_action('rr_close_testimonial_group', 'print_credit');
 		}
 		add_action('rr_close_testimonial_group', 'render_custom_styles');
@@ -185,55 +185,55 @@ class RichReviews {
 		//add_filter('rr_process_form_data', 'fill_auto_data', 1);
 
 		add_action('rr_on_valid_data', 'rr_insert_new_review', 1, 3);
-		if($this->rr_options['send-email-notifications']) {
+		if ($this->rr_options['send-email-notifications']) {
 			add_action('rr_on_valid_data', 'rr_send_admin_email', 1, 3);
 		}
 		add_action('rr_on_valid_data', 'rr_output_response_message', 1, 3);
-		if($this->rr_options['form-name-display']) {
+		if ($this->rr_options['form-name-display']) {
 			add_action('rr_do_form_fields', 'rr_do_name_field', 1, 4);
 			add_filter('rr_misc_validation', 'rr_validate_name_length');
-			if($this->rr_options['form-name-require']) {
+			if ($this->rr_options['form-name-require']) {
 				add_filter('rr_check_required', 'rr_require_name_field');
 			}
 		}
-		if($this->rr_options['form-email-display']) {
+		if ($this->rr_options['form-email-display']) {
 			add_action('rr_do_form_fields', 'rr_do_email_field', 2, 4);
 			add_filter('rr_misc_validation', 'rr_validate_email');
 
-			if($this->rr_options['form-email-require']) {
+			if ($this->rr_options['form-email-require']) {
 				add_filter('rr_check_required', 'rr_require_email_field');
 			}
 		}
-		if($this->rr_options['form-title-display']) {
+		if ($this->rr_options['form-title-display']) {
 			add_action('rr_do_form_fields', 'rr_do_title_field', 3, 4);
 			add_filter('rr_misc_validation', 'rr_validate_title_length');
 
-			if($this->rr_options['form-title-require']) {
+			if ($this->rr_options['form-title-require']) {
 				add_filter('rr_check_required', 'rr_require_title_field');
 			}
 		}
 		//TODO: Maybe add min/max rating validation
 		add_action('rr_do_form_fields', 'rr_do_rating_field', 4, 4);
-		if($this->rr_options['form-content-display']) {
+		if ($this->rr_options['form-content-display']) {
 			add_action('rr_do_form_fields', 'rr_do_content_field', 5, 4);
 			add_filter('rr_misc_validation', 'rr_validate_content_length');
 
-			if($this->rr_options['form-content-require']) {
+			if ($this->rr_options['form-content-require']) {
 				add_filter('rr_check_required', 'rr_require_content_field');
 			}
 		}
-		if($this->rr_options['return-to-form']) {
+		if ($this->rr_options['return-to-form']) {
 			add_action('rr_set_local_scripts','rr_output_scroll_script');
 		}
-		if($this->rr_options['integrate-user-info']) {
-			if($this->rr_options['require-login']) {
+		if ($this->rr_options['integrate-user-info']) {
+			if ($this->rr_options['require-login']) {
 				add_action('rr_display_form_gate', 'rr_do_form_gate');
 			}
 		}
-		if($this->rr_options['unregistered-allow-avatar-upload']) {
+		if ($this->rr_options['unregistered-allow-avatar-upload']) {
 			add_action('rr_do_form_fields', 'rr_do_reviewer_img_field', 6, 4);
 			add_filter('rr_misc_validation', 'rr_validate_reviewer_image_input');
-			if($this->rr_options['form-reviewer-image-require']) {
+			if ($this->rr_options['form-reviewer-image-require']) {
 				add_filter('rr_check_required', 'rr_require_reviewer_image_field');
 			}
 		}

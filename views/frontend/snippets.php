@@ -1,6 +1,6 @@
 <?php
 
-if($data["use_stars"]) {
+if ($data["use_stars"]) {
 	?>
 	<div itemscope itemtype="http://schema.org/Product">
 		<span itemprop="name" style="display:none">

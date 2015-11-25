@@ -69,7 +69,7 @@ class RichReviewsDB extends NMDB {
 		} else if ($category == 'none') {
 			$this->where('review_category', 'none');
 			$this->or_where('review_category', '');
-		} else if($category != 'all') {
+		} else if ($category != 'all') {
 			$this->where('review_category', $category);
 		}
 		if ($num != 'all') {
@@ -98,7 +98,7 @@ class RichReviewsDB extends NMDB {
 
 		if ($category == 'none') {
 			$whereStatement = "WHERE review_status=\"1\" and (review_category=\"none\" or review_category=\"\")";
-		} else if(($category == 'post') || ($category == 'page')) {
+		} else if (($category == 'post') || ($category == 'page')) {
 			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
 		} else if ($category != 'all') {
 			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";

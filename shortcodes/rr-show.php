@@ -80,28 +80,28 @@ function display_review($review, $options) {
 
 	);
 
-	if(isset($review->reviewer_id) && $review->reviewer_id != '') {
+	if (isset($review->reviewer_id) && $review->reviewer_id != '') {
 		$data['rReviewerId'] = $review->reviewer_id;
 	}
 
-	if(isset($review->reviewer_image) && $review->reviewer_image != '') {
+	if (isset($review->reviewer_image) && $review->reviewer_image != '') {
 		$data['rAuthorImage'] = $review->reviewer_image;
 	}
 
 	$using_subject_fallback = false;
 	$title = $data['rCategory'];
-	if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
+	if (!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
 		$page_title = get_the_title($data['rPostId']);
 		$using_subject_fallback = true;
 
-		if(isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
+		if (isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
 			$title = $page_title;
 		} else {
 			$title = $options['rich_itemReviewed_fallback'];
 		}
 	}
 
-	if($options['rich_itemReviewed_fallback_case'] == 'always') {
+	if ($options['rich_itemReviewed_fallback_case'] == 'always') {
 		$title = $options['rich_itemReviewed_fallback'];
 		$using_subject_fallback = true;
 	}
@@ -109,15 +109,15 @@ function display_review($review, $options) {
 	$data['rCategory'] = $title;
 	$data['using_subject_fallback'] = $using_subject_fallback;
 
-	if(!isset($data['rName']) || $data['rName'] == '') {
-		if($options['rich_author_fallback'] != '') {
+	if (!isset($data['rName']) || $data['rName'] == '') {
+		if ($options['rich_author_fallback'] != '') {
 			$data['rName'] = $options['rich_author_fallback'];
 		} else {
 			$data['rName'] = 'Anonymous';
 		}
 	}
 
-	// if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
+	// if ($options['integrate-user-info'] && $options['form-name-use-avatar']) {
 	// 	$rAuthorImage = $review->reviewer_image_id;
 	// }
 
@@ -132,7 +132,7 @@ function display_review($review, $options) {
 
 	$data['rDate'] = $data['rWday'] . ', ' . $data['rMonth'] . ' ' . $data['rDay'] . ', ' . $data['rYear'];
 
-	if($options['display_full_width']) {
+	if ($options['display_full_width']) {
 		$data['rFull'] = true;
 	}
 
@@ -154,20 +154,20 @@ function full_width_wrapper($data) {
 
 		<?php
 		// Handling this elsewhere for now
-		//if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
+		//if ($options['integrate-user-info'] && $options['form-name-use-avatar']) {
 				// dump($data['rAuthorImage']);
 				// dump($data['rReviewerId']);
-				//if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
+				//if (isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
 					?> <!-- <div class="user-image"> --> <?php
 					//These are also handled on the front end however we check here to insure that if options are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
 					//This all has to be handled differently
 
-					// if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
-					// 	if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+					// if (isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
+					// 	if ($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
 					// 		echo build_avatar_display($data['rAuthorImage']);
 					// 	}
-					// } else if($options['unregistered-allow-avatar-upload']) {
-					// 	if($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
+					// } else if ($options['unregistered-allow-avatar-upload']) {
+					// 	if ($options['form-reviewer-image-display'] && $options['form-name-use-avatar']) {
 					// 		echo build_avatar_display($data['rAuthorImage']);
 					// 	}
 					// }
@@ -183,7 +183,7 @@ function full_width_wrapper($data) {
 }
 
 function build_avatar_display($image_url) {
-	if(!isset($image_url) || $image_url == '') {
+	if (!isset($image_url) || $image_url == '') {
 		return '';
 	}
 	$markup = '<img alt="" src="' . $image_url . '" srcset="' . $image_url . '" class="rr-avatar avatar avatar-96 photo" height="44" width="44" />';
@@ -200,9 +200,9 @@ function column_wrapper ($data) {
 
 function do_post_title ($data) {
 	// ob_start();
-	if($data['rCategory'] == 'shopperApproved') {
+	if ($data['rCategory'] == 'shopperApproved') {
 		do_hidden_post_title($data);
-	} else if($data['using_subject_fallback'] == true) {
+	} else if ($data['using_subject_fallback'] == true) {
 		do_hidden_post_title($data);
 	} else {
 	?>
@@ -222,7 +222,7 @@ function do_hidden_post_title ($data) {
 	?>
 	<span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Product">
 		<div class="rr_review_post_id" itemprop="name" style="display:none;">
-			<a href="<?php if($data['rCategory'] != 'shopperApproved') { echo get_permalink($data['rPostId']); }?>">
+			<a href="<?php if ($data['rCategory'] != 'shopperApproved') { echo get_permalink($data['rPostId']); }?>">
 				<?php echo $data['rCategory']; ?>
 			</a>
 		</div>
@@ -246,7 +246,7 @@ function omit_url_schema($data) {
 }
 
 function do_the_date ($data) {
-	if($data['rDateTime'] != "0000-00-00 00:00:00") {
+	if ($data['rDateTime'] != "0000-00-00 00:00:00") {
 		// ob_start();
 		?>
 		<span class="rr_date"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>">
@@ -255,7 +255,7 @@ function do_the_date ($data) {
 			</time>
 		</span>
 	<?php } else {
-		if(current_user_can('edit_posts')) { ?>
+		if (current_user_can('edit_posts')) { ?>
 		<span class="date-err rr_date">
 			<?php echo __('Date improperly formatted, correct in ', 'rich-reviews'); ?>
 			<a href="/wp-admin/admin.php?page=fp_admin_approved_reviews_page">
@@ -269,7 +269,7 @@ function do_the_date ($data) {
 }
 
 function do_the_date_hidden ($data) {
-		if($data['rDateTime'] != "0000-00-00 00:00:00") {
+		if ($data['rDateTime'] != "0000-00-00 00:00:00") {
 		?>
 		<span class="rr_date" style="display:none;"><meta itemprop="datePublished" content="<?php echo $data['rDateTime']; ?>">
 			<time datetime="<?php echo $data['rDate']; ?>">
@@ -299,7 +299,7 @@ function do_review_body ($data) {
 		</div>
 
 
-		<?php if($data['rFull']) {
+		<?php if ($data['rFull']) {
 			?>
 				</div> <!-- close .review-info -->
 			</div> <!-- close .review-head -->
@@ -315,29 +315,29 @@ function do_review_body ($data) {
 			<?php
 
 				$avatar = '';
-				if($data['rCategory'] == 'shopperApproved') {
+				if ($data['rCategory'] == 'shopperApproved') {
 					//probably set an optino for this.
 					$avatar =  '  ' . build_shopper_approved_avatar();
-				} else if($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
+				} else if ($data['options']['integrate-user-info'] && $data['options']['form-name-use-avatar']) {
 					// dump($data['rAuthorImage']);
 					// dump($data['rReviewerId']);
-					if(isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
+					if (isset($data['rAuthorImage']) && $data['rAuthorImage'] != '') {
 						//These are also handled on the front end however we check here to insure that if data['options'] are changed after the fact of review submission, than the changes will be refelcted in the display of the review.
 						//This all has to be handled differently
-						if(isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
-							if($data['options']['form-name-use-avatar']) {
+						if (isset($data['rReviewerId']) && $data['rReviewerId'] != '') {
+							if ($data['options']['form-name-use-avatar']) {
 								$avatar = '  ' . build_avatar_display($data['rAuthorImage']);
 							}
-						} else if($data['options']['unregistered-allow-avatar-upload']) {
-							if($data['options']['form-name-use-avatar']) {
+						} else if ($data['options']['unregistered-allow-avatar-upload']) {
+							if ($data['options']['form-name-use-avatar']) {
 								$avatar = '  ' . build_avatar_display($data['rAuthorImage']);
 							}
 						}
-					} else if($data['options']['form-name-use-blank-avatar']){
+					} else if ($data['options']['form-name-use-blank-avatar']){
 						$avatar = '  ' . get_avatar(0);
 					}
 				}
-				if($avatar != '') {
+				if ($avatar != '') {
 					echo $data['rName'] . $avatar;
 				} else {
 					echo '- ' . $data['rName'];
