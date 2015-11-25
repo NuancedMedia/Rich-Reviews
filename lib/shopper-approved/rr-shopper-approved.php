@@ -1,6 +1,6 @@
 <?php
 
-require_once('rich-reviews-ShopAppOptions.php');
+require_once('rr-shopper-approved-options.php');
 wp_cron();
 
 
@@ -22,8 +22,6 @@ class RRShopApp {
 		// add_shortcode('run_pull', array($this, 'process_reviews_pull')); //this is currently not working as admin action, but will removed when resolved
 		add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
 		date_default_timezone_set('MST');
-
-
 	}
 
 	function init() {

@@ -29,13 +29,13 @@ Copyright 2015  Nuanced Media  (email : plugins@nuancedmedia.com)
 */
 
 
-include_once ABSPATH . 'wp-admin/includes/media.php';
-include_once ABSPATH . 'wp-admin/includes/file.php';
-include_once ABSPATH . 'wp-admin/includes/image.php';
+include_once(ABSPATH . 'wp-admin/includes/media.php');
+include_once(ABSPATH . 'wp-admin/includes/file.php');
+include_once(ABSPATH . 'wp-admin/includes/image.php');
 
-require_once 'shortcodes/rr-form.php';
-require_once 'shortcodes/rr-show.php';
-require_once 'shortcodes/rr-snippet.php';
+require_once('shortcodes/rr-form.php');
+require_once('shortcodes/rr-show.php');
+require_once('shortcodes/rr-snippet.php');
 
 
 
@@ -77,7 +77,6 @@ class RichReviews {
 		$this->db = new RichReviewsDB($this);
 		$this->admin = new RichReviewsAdmin($this);
 
-
 		add_action('plugins_loaded', array(&$this, 'on_load'));
 		add_action('init', array(&$this, 'init'));
 		add_action('wp_enqueue_scripts', array(&$this, 'load_scripts_styles'), 100);
@@ -100,8 +99,7 @@ class RichReviews {
 		$this->set_display_filters();
 		$this->set_form_filters();
 		if ($this->rr_options['add-shopper-approved']) {
-			require_once 'lib/rrShopApp/rich-reviews-ShopApp.php';
-			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
+			require_once('lib/shopper-approved/rr-shopper-approved.php');
 			$this->shopApp = new RRShopApp($this);
 		}
 	}
@@ -112,7 +110,7 @@ class RichReviews {
 
 	function process_plugin_updates() {
 		global $wpdb;
-		require_once( ABSPATH . 'wp-admin/includes/plugin.php');
+		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 		$plugin_data    = get_plugin_data( __FILE__ );
 		$newest_version = $plugin_data['Version'];
 		$options = get_option($this->fp_admin_options);
@@ -271,7 +269,7 @@ class RichReviews {
 
 		ob_start();
 
-			handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
+		handle_form($atts, $this->rr_options, $this->sqltable, $this->path);
 
 		return ob_get_clean();
 	}
@@ -286,13 +284,13 @@ class RichReviews {
 		, $atts));
 		$reviews = $this->db->get_reviews($category, $num, $post);
 		ob_start();
-			handle_show($reviews, $this->rr_options);
+		handle_show($reviews, $this->rr_options);
 		return ob_get_clean();
 	}
 
 	function shortcode_reviews_show_all_control() {
 		ob_start();
-			$this->shortcode_reviews_show_control(array('num'=>'all'));
+		$this->shortcode_reviews_show_control(array('num'=>'all'));
 		return ob_get_clean();
 	}
 
@@ -397,7 +395,7 @@ class RichReviews {
 	function render_custom_styles() {
 		$options = $this->options->get_option();
 		?>
-			<style>.stars, .rr_star {color: <?php echo $options['star_color']?>;}</style>
+		<style>.stars, .rr_star {color: <?php echo $options['star_color']?>;}</style>
 		<?php
 	}
 
