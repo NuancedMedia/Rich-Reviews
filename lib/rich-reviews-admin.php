@@ -90,8 +90,8 @@ class RichReviewsAdmin {
 	}
 
 	function load_admin_scripts_styles() {
-		wp_register_script('rich-reviews-admin', trailingslashit($this->parent->plugin_url) . 'js/rich-reviews-admin.min.js', array('jquery'));
-		wp_register_style('rich-reviews-admin', trailingslashit($this->parent->plugin_url) . 'css/rich-reviews-admin.css');
+		wp_register_script('rich-reviews-admin', trailingslashit($this->parent->plugin_url) . 'assets/js/rich-reviews-admin.min.js', array('jquery'));
+		wp_register_style('rich-reviews-admin', trailingslashit($this->parent->plugin_url) . 'assets/css/rich-reviews-admin.css');
 
 		wp_enqueue_script('rich-reviews-admin');
 		wp_enqueue_style('rich-reviews-admin');

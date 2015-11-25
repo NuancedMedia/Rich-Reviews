@@ -70,8 +70,8 @@ class RichReviews {
 		$this->path = trailingslashit(plugin_dir_path(__FILE__));
 
 		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
-		$this->logo_url = $this->plugin_url . 'images/fox_logo_32x32.png';
-		$this->logo_small_url = $this->plugin_url . 'images/fox_logo_16x16.png';
+		$this->logo_url = $this->plugin_url . 'assets/images/fox_logo_32x32.png';
+		$this->logo_small_url = $this->plugin_url . 'assets/images/fox_logo_16x16.png';
 		$this->options_name = 'rr_options';
 		$this->options= new RROptions($this);
 		$this->db = new RichReviewsDB($this);
@@ -90,7 +90,7 @@ class RichReviews {
 
 		add_filter('widget_text', 'do_shortcode');
 
-		add_action( 'widgets_init', array(&$this, 'register_rr_widget') );
+		add_action('widgets_init', array(&$this, 'register_rr_widget'));
 	}
 
 	function init() {
@@ -110,23 +110,6 @@ class RichReviews {
 		$this->db->create_update_database();
 	}
 
-	function shortcode_avatar_markup() {
-		$user = wp_get_current_user();
-		ob_start();
-		echo get_avatar($user->ID);
-		$markup = ob_get_clean();
-		dump(esc_html($markup));
-		dump($user->ID);
-		$pattern = "/src='(.*?)'/i";
-		$alterUrl = 'http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg';
-		$maybe = preg_replace($pattern, $alterUrl, $markup);
-		dump($maybe);
-
-		$build = '<img alt="" src="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" srcset="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" class="avatar avatar-96 photo" height="96" width="96" />';
-
-		return $build;
-	}
-
 	function process_plugin_updates() {
 		global $wpdb;
 		require_once( ABSPATH . 'wp-admin/includes/plugin.php');
@@ -135,7 +118,8 @@ class RichReviews {
 		$options = get_option($this->fp_admin_options);
 		if (isset($options['version'])) {
 			$current_version = $options['version'];
-		} else { //we were in version 1.0, now we updated
+		} else {
+			//we were in version 1.0, now we updated
 			$current_version = '1.0';
 		}
 
@@ -159,9 +143,9 @@ class RichReviews {
 
 	function load_scripts_styles() {
 		$pluginDirectory = trailingslashit(plugins_url(basename(dirname(__FILE__))));
-		wp_register_script('rich-reviews', $pluginDirectory . 'js/rich-reviews.js', array('jquery'));
+		wp_register_script('rich-reviews', $pluginDirectory . 'assets/js/rich-reviews.min.js', array('jquery'));
 		wp_enqueue_script('rich-reviews');
-		wp_register_style('rich-reviews', $pluginDirectory . 'css/rich-reviews.css');
+		wp_register_style('rich-reviews', $pluginDirectory . 'assets/css/rich-reviews.css');
 		wp_enqueue_style('rich-reviews');
 	}
 
@@ -253,12 +237,6 @@ class RichReviews {
 				add_filter('rr_check_required', 'rr_require_reviewer_image_field');
 			}
 		}
-		// if($this->rr_options['form-reviewed-display']) {
-		// 	add_action('rr_do_form_fields', 'rr_do_reviewedImg_field', 7, 3);
-		// 	if($this->rr_options['form-reviewed-display']) {
-		// 		//add require validate filter
-		// 	}
-		// }
 	}
 
 	function update_review_status($result, $status) {
@@ -328,11 +306,8 @@ class RichReviews {
 		,$atts));
 		$data = $this->db->get_average_rating($category);
 		ob_start();
-			handle_snippet($data, $this->rr_options, $this->path);
+		handle_snippet($data, $this->rr_options, $this->path);
 		return ob_get_clean();
-
-
-
 	}
 
 	function display_admin_review($review, $status = 'limbo') {
@@ -394,41 +369,11 @@ class RichReviews {
 
 
 	function nice_output($input, $keep_breaks = TRUE) {
-		//echo '<pre>' . $input . '</pre>';
-		//return str_replace(array('\\', '/'), '', $input);
-		/*if (strpos($input, '\r\n')) {
-			if ($keep_breaks) {
-				while (strpos($input, '\r\n\r\n\r\n')) {
-					// get rid of everything but single line breaks and pretend-paragraphs
-					$input = str_replace(array('\r\n\r\n\r\n'), '\r\n\r\n', $input);
-				}
-				$input = str_replace(array('\r\n'), '<br />', $input);
-			} else {
-				$input = str_replace(array('\r\n'), '', $input);
-			}
-		}
-		$input = str_replace(array('\\', '/'), '', $input);*/
-
-		//$input = $this->clean_input($input);
-
 		return $input;
 	}
 
 	function clean_input($input) {
-		/*$search = array(
-			'@<script[^>]*?>.*?</script>@si',   // strip out javascript
-			'@<[\/\!]*?[^<>]*?>@si',            // strip out HTML tags
-			'@<style[^>]*?>.*?</style>@siU',    // strip style tags properly
-			'@<![\s\S]*?--[ \t\n\r]*>@'         // strip multi-line comments
-		);
-		$output = preg_replace($search, '', $input);*/
 		$handling = $input;
-
-		/*$handling = strip_tags($handling);
-		$handling = stripslashes($handling);
-		$handling = esc_html($handling);
-		$handling = mysql_real_escape_string($handling);*/
-
 		$handling = sanitize_text_field($handling);
 		$handling = stripslashes($handling);
 
@@ -443,11 +388,7 @@ class RichReviews {
 			}
 		}
 		else {
-			if (get_magic_quotes_gpc()) {
-				//$input = stripslashes($input);
-			}
 			$input  = $this->clean_input($input);
-			//$output = mysql_real_escape_string($input);
 			$output = $input;
 		}
 		return $output;
@@ -456,11 +397,7 @@ class RichReviews {
 	function render_custom_styles() {
 		$options = $this->options->get_option();
 		?>
-			<style>
-				.stars, .rr_star {
-					color: <?php echo $options['star_color']?>;
-				}
-			</style>
+			<style>.stars, .rr_star {color: <?php echo $options['star_color']?>;}</style>
 		<?php
 	}
 
@@ -477,7 +414,7 @@ class RichReviews {
 
 	function on_load() {
 		$plugin_dir = basename(dirname(__FILE__));
-		load_plugin_textdomain( 'rich-reviews', false, $plugin_dir );
+		load_plugin_textdomain('rich-reviews', false, $plugin_dir);
 	}
 
 	function register_rr_widget() {

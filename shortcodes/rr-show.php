@@ -1,146 +1,147 @@
 <?php
 
-	//
-	// This file contains all functions specifically pertinant to the display of Reviews
-	// TODO: Modify to use filters
+//
+// This file contains all functions specifically pertinant to the display of Reviews
+// TODO: Modify to use filters
+//
 
-	function handle_show($reviews, $options) {
-		global $wpdb;
-		global $post;
-		$output = '';
+function handle_show($reviews, $options) {
+	global $wpdb;
+	global $post;
+	$output = '';
 
-		// Set up the SQL query
+	// Set up the SQL query
 
 
-		// Show the reviews
-		if (count($reviews)) {
-			$total_count = count($reviews);
-			$review_count = 0;
-			?> <div class="testimonial_group"> <?php
-			foreach($reviews as $review) {
-				display_review($review, $options);
-				$review_count += 1;
-				if ($review_count == 3) {
+	// Show the reviews
+	if (count($reviews)) {
+		$total_count = count($reviews);
+		$review_count = 0;
+		?> <div class="testimonial_group"> <?php
+		foreach($reviews as $review) {
+			display_review($review, $options);
+			$review_count += 1;
+			if ($review_count == 3) {
 
-					// end the testimonial_group
-					?> </div>
+				// end the testimonial_group
+				?> </div>
 
-					<!-- clear the floats -->
-					<div class="clear"></div> <?php
+				<!-- clear the floats -->
+				<div class="clear"></div> <?php
 
-					// do we have more reviews to show?
-					if ($review_count < $total_count) {
-						?> <div class="testimonial_group"> <?php
-					}
-
-					// reset the counter
-					$review_count = 0;
-					$total_count = $total_count - 3;
+				// do we have more reviews to show?
+				if ($review_count < $total_count) {
+					?> <div class="testimonial_group"> <?php
 				}
-			}
-			// do we need to close a testimonial_group?
-			if ($review_count != 0) {
-				?>
-				</div>
-				<div class="clear"></div>
-				<?php
-			}
 
+				// reset the counter
+				$review_count = 0;
+				$total_count = $total_count - 3;
+			}
 		}
-		do_action('rr_close_testimonial_group', $options);
+		// do we need to close a testimonial_group?
+		if ($review_count != 0) {
+			?>
+			</div>
+			<div class="clear"></div>
+			<?php
+		}
+
+	}
+	do_action('rr_close_testimonial_group', $options);
+}
+
+function display_review($review, $options) {
+
+	$date = strtotime($review->date_time);
+	$data = array(
+		'rID'       => $review->id,
+		'rDateTime' => $review->date_time,
+		'date' 		=> strtotime($review->date_time),
+		'rDay'		=> date("j", $date),
+		'rMonth'	=> date("F", $date),
+		'rWday'		=> date("l", $date),
+		'rYear'		=> date("Y", $date),
+		'rDate' 	=> '',
+		// 'rDate' 		=> $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear,
+		'rName'     => $review->reviewer_name,
+		'rEmail'    => $review->reviewer_email,
+		'rTitle'    => $review->review_title,
+		'rRatingVal'=> max(1,intval($review->review_rating)),
+		'rText'     => $review->review_text,
+		'rStatus'   => $review->review_status,
+		'rIP'       => $review->reviewer_ip,
+		'rPostId'   => $review->post_id,
+		'rRating' 	=> '',
+		'rFull'		=> false,
+		'rCategory' => $review->review_category,
+		'using_subject_fallback' => false,
+		'rich_url'  => $options['rich_url_value']
+
+	);
+
+	if(isset($review->reviewer_id) && $review->reviewer_id != '') {
+		$data['rReviewerId'] = $review->reviewer_id;
 	}
 
-	function display_review($review, $options) {
+	if(isset($review->reviewer_image) && $review->reviewer_image != '') {
+		$data['rAuthorImage'] = $review->reviewer_image;
+	}
 
-		$date = strtotime($review->date_time);
-		$data = array(
-			'rID'       => $review->id,
-			'rDateTime' => $review->date_time,
-			'date' 		=> strtotime($review->date_time),
-			'rDay'		=> date("j", $date),
-			'rMonth'	=> date("F", $date),
-			'rWday'		=> date("l", $date),
-			'rYear'		=> date("Y", $date),
-			'rDate' 	=> '',
-			// 'rDate' 		=> $rMonth . ' ' . $rDay . $rSuffix . ', '  . $rYear,
-			'rName'     => $review->reviewer_name,
-			'rEmail'    => $review->reviewer_email,
-			'rTitle'    => $review->review_title,
-			'rRatingVal'=> max(1,intval($review->review_rating)),
-			'rText'     => $review->review_text,
-			'rStatus'   => $review->review_status,
-			'rIP'       => $review->reviewer_ip,
-			'rPostId'   => $review->post_id,
-			'rRating' 	=> '',
-			'rFull'		=> false,
-			'rCategory' => $review->review_category,
-			'using_subject_fallback' => false,
-			'rich_url'  => $options['rich_url_value']
+	$using_subject_fallback = false;
+	$title = $data['rCategory'];
+	if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
+		$page_title = get_the_title($data['rPostId']);
+		$using_subject_fallback = true;
 
-		);
-
-		if(isset($review->reviewer_id) && $review->reviewer_id != '') {
-			$data['rReviewerId'] = $review->reviewer_id;
-		}
-
-		if(isset($review->reviewer_image) && $review->reviewer_image != '') {
-			$data['rAuthorImage'] = $review->reviewer_image;
-		}
-
-		$using_subject_fallback = false;
-		$title = $data['rCategory'];
-		if(!isset($data['rCategory']) || $data['rCategory'] == '' || strtolower($data['rCategory']) == 'none' || $data['rCategory'] == null ) {
-			$page_title = get_the_title($data['rPostId']);
-			$using_subject_fallback = true;
-
-			if(isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
-				$title = $page_title;
-			} else {
-				$title = $options['rich_itemReviewed_fallback'];
-			}
-		}
-
-		if($options['rich_itemReviewed_fallback_case'] == 'always') {
+		if(isset($page_title) && $page_title != '' && $options['rich_itemReviewed_fallback_case'] == 'both_missing')  {
+			$title = $page_title;
+		} else {
 			$title = $options['rich_itemReviewed_fallback'];
-			$using_subject_fallback = true;
 		}
-
-		$data['rCategory'] = $title;
-		$data['using_subject_fallback'] = $using_subject_fallback;
-
-		if(!isset($data['rName']) || $data['rName'] == '') {
-			if($options['rich_author_fallback'] != '') {
-				$data['rName'] = $options['rich_author_fallback'];
-			} else {
-				$data['rName'] = 'Anonymous';
-			}
-		}
-
-		// if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
-		// 	$rAuthorImage = $review->reviewer_image_id;
-		// }
-
-
-		for ($i=1; $i<=$data['rRatingVal']; $i++) {
-			$data['rRating'] .= '&#9733;'; // orange star
-		}
-		for ($i=$data['rRatingVal']+1; $i<=5; $i++) {
-			$data['rRating'] .= '&#9734;'; // white star
-		}
-
-
-		$data['rDate'] = $data['rWday'] . ', ' . $data['rMonth'] . ' ' . $data['rDay'] . ', ' . $data['rYear'];
-
-		if($options['display_full_width']) {
-			$data['rFull'] = true;
-		}
-
-		do_action('rr_do_review_wrapper', $data);
-
-		$data['options'] = $options;
-
-		do_action('rr_do_review_content', $data);
 	}
+
+	if($options['rich_itemReviewed_fallback_case'] == 'always') {
+		$title = $options['rich_itemReviewed_fallback'];
+		$using_subject_fallback = true;
+	}
+
+	$data['rCategory'] = $title;
+	$data['using_subject_fallback'] = $using_subject_fallback;
+
+	if(!isset($data['rName']) || $data['rName'] == '') {
+		if($options['rich_author_fallback'] != '') {
+			$data['rName'] = $options['rich_author_fallback'];
+		} else {
+			$data['rName'] = 'Anonymous';
+		}
+	}
+
+	// if($options['integrate-user-info'] && $options['form-name-use-avatar']) {
+	// 	$rAuthorImage = $review->reviewer_image_id;
+	// }
+
+
+	for ($i=1; $i<=$data['rRatingVal']; $i++) {
+		$data['rRating'] .= '&#9733;'; // orange star
+	}
+	for ($i=$data['rRatingVal']+1; $i<=5; $i++) {
+		$data['rRating'] .= '&#9734;'; // white star
+	}
+
+
+	$data['rDate'] = $data['rWday'] . ', ' . $data['rMonth'] . ' ' . $data['rDay'] . ', ' . $data['rYear'];
+
+	if($options['display_full_width']) {
+		$data['rFull'] = true;
+	}
+
+	do_action('rr_do_review_wrapper', $data);
+
+	$data['options'] = $options;
+
+	do_action('rr_do_review_content', $data);
+}
 
 function full_width_wrapper($data) {
 	#TODO: Rework output for rich data, image, and up/down vote
@@ -350,7 +351,7 @@ function do_review_body ($data) {
 
 function build_shopper_approved_avatar() {
 
-	$markup = '<img alt="" src="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" srcset="' . plugins_url("/RichReviewsGit/images/SA-logo.jpg") . '" class="rr-avatar sa-avatar" width="44" height="44" style="margin-bottom:8px;"/>';
+	$markup = '<img alt="" src="' . plugins_url("/images/SA-logo.jpg") . '" srcset="' . plugins_url("/images/SA-logo.jpg") . '" class="rr-avatar sa-avatar" width="44" height="44" style="margin-bottom:8px;"/>';
 
 	return $markup;
 }
