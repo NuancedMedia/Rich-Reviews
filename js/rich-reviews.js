@@ -1,17 +1,4 @@
 jQuery(function(){
-	// if(jQuery('.successful').is(':visible')) {
-	// 	offset = jQuery('.successful').offset();
-	// 	jQuery('html, body').animate({
-	// 		scrollTop: (offset.top - 400)
-	// 	});
-	// } else {
-	// 	if(jQuery('.form-err').is(':visible')) {
-	// 		offset = jQuery('.form-err').offset();
-	// 		jQuery('html, body').animate({
-	// 			scrollTop: (offset.top - 200)
-	// 		});
-	// 	}
-	// }
 	jQuery('.rr_review_text').each(function(event){
 		var max_length = 150;
 		if(jQuery(this).html().length > max_length){
@@ -24,7 +11,6 @@ jQuery(function(){
 				jQuery(this).parents('.rr_review_text').find('span.ellipses').hide();
 				jQuery(this).parents('.rr_review_text').find('.more_text').show();
 				jQuery(this).parents('.rr_review_text').find('a.show_less').show();
-				console.log("culprit");
 			});
 			jQuery(this).find('a.show_less').click(function(event){
 				event.preventDefault();
@@ -45,14 +31,6 @@ jQuery(function(){
 	jQuery('.rr_star').click(function() {
 		jQuery('#rRating').val(jQuery(this).attr('id').charAt(8));
 	});
-
-	// jQuery('#submitReview').click(function() {
-	// 	window.setInterval(scrollToForm(), 3000);
-	// });
-	// jQuery('#submitReview').click(function() {
-	// 	formSubmit = true;
-	// 	console.log("formSubmit");
-	// });
 });
 
 function renderStarRating(rating) {
@@ -66,7 +44,3 @@ function renderStarRating(rating) {
 		}
 	}
 }
-
-// function scrollToForm() {
-// 	console.log("kjndkjn");
-// }
