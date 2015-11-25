@@ -43,19 +43,12 @@ class RichReviews {
 
 	var $sqltable = 'richreviews';
 	var $fp_admin_options = 'rr_admin_options';
-	//var $credit_permission_option = 'rr_credit_permission';
 
 	var $admin;
 	var $db;
 
-	/**
-	* @var RROptions
-	*/
 	var $options;
 
-	/**
-	* The variable that stores all current options
-	*/
 	var $rr_options;
 
 	var $plugin_url;
@@ -247,15 +240,15 @@ class RichReviews {
 		switch ($status) {
 			case 'approve':
 				//TODO: come back to this for formatting for i18n
-				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $this->nice_output($rName) . ', whose IP is ' . $rIP . ' has been approved.<br>';
+				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $rName . ', whose IP is ' . $rIP . ' has been approved.<br>';
 				$wpdb->update($this->sqltable, array('review_status' => '1'), array('id' => $idid));
 				break;
 			case 'limbo':
-				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $this->nice_output($rName) . ', whose IP is ' . $rIP . ' has been set as a pending review.<br>';
+				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $rName . ', whose IP is ' . $rIP . ' has been set as a pending review.<br>';
 				$wpdb->update($this->sqltable, array('review_status' => '0'), array('id' => $idid));
 				break;
 			case 'delete':
-				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $this->nice_output($rName) . ', whose IP is ' . $rIP . ' has been deleted.<br>';
+				$output = 'Review with internal ID ' . $idid . ' from the reviewer ' . $rName . ', whose IP is ' . $rIP . ' has been deleted.<br>';
 				$wpdb->query("DELETE FROM $this->sqltable WHERE id=\"$idid\"");
 				break;
 		}
@@ -312,11 +305,11 @@ class RichReviews {
 
 		$rID        = $review['idid'];
 		$rDateTime  = $review['datetime'];
-		$rName      = $this->nice_output($review['reviewername']);
-		$rEmail     = $this->nice_output($review['revieweremail']);
-		$rTitle     = $this->nice_output($review['reviewtitle']);
+		$rName      = $review['reviewername'];
+		$rEmail     = $review['revieweremail'];
+		$rTitle     = $review['reviewtitle'];
 		$rRatingVal = max(1,intval($review['reviewrating']));
-		$rText      = $this->nice_output($review['reviewtext']);
+		$rText      = $review['reviewtext'];
 		$rStatus    = $review['reviewstatus'];
 		$rIP        = $review['reviewerip'];
 		$rPostID    = $review['postid'];
@@ -363,11 +356,6 @@ class RichReviews {
 				</td>
 			</tr>';
 		return $output;
-	}
-
-
-	function nice_output($input, $keep_breaks = TRUE) {
-		return $input;
 	}
 
 	function clean_input($input) {
