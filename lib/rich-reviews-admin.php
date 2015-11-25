@@ -14,7 +14,7 @@ class RichReviewsAdmin {
 		$this->parent = $parent;
 		$this->db = $this->parent->db;
 		add_action('admin_menu', array(&$this, 'init_admin_menu'));
-		add_action( 'admin_enqueue_scripts', array(&$this, 'load_admin_scripts_styles'), 100);
+		add_action('admin_enqueue_scripts', array(&$this, 'load_admin_scripts_styles'), 100);
 		add_filter('plugin_action_links_rich-reviews/rich-reviews.php', array(&$this, 'add_plugin_settings_link'));
 	}
 
@@ -90,41 +90,39 @@ class RichReviewsAdmin {
 	}
 
 	function load_admin_scripts_styles() {
-        wp_register_script('rich-reviews', trailingslashit($this->parent->plugin_url) . 'js/rich-reviews.js', array('jquery'));
+		wp_register_script('rich-reviews', trailingslashit($this->parent->plugin_url) . 'js/rich-reviews.js', array('jquery'));
 		wp_enqueue_script('rich-reviews');
-        wp_register_script('rich-reviews-dashboard', trailingslashit($this->parent->plugin_url) . 'views/view-helper/js/nm-dashboard-script.js', array('jquery'));
+		wp_register_script('rich-reviews-dashboard', trailingslashit($this->parent->plugin_url) . 'views/view-helper/js/nm-dashboard-script.js', array('jquery'));
 		wp_enqueue_script('rich-reviews-dashboard');
-		wp_register_style('rich-reviews', trailingslashit($this->parent->plugin_url) . 'css/rich-reviews.css');
-		wp_enqueue_style('rich-reviews');
-		//wp_register_style('rich-reviews2', trailingslashit($this->parent->plugin_url) . 'css/rr-old.css');
-		//wp_enqueue_style('rich-reviews2');
+		wp_register_style('rich-reviews-admin', trailingslashit($this->parent->plugin_url) . 'css/rich-reviews-admin.css');
+		wp_enqueue_style('rich-reviews-admin');
 	}
 
-    function wrap_admin_page($page = null) {
-        echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Pending Reviews</h2></div>';
-        NMRichReviewsAdminHelper::render_tabs();
-        NMRichReviewsAdminHelper::render_container_open('content-container');
-        if ($page == 'main') {
+	function wrap_admin_page($page = null) {
+		echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Pending Reviews</h2></div>';
+		NMRichReviewsAdminHelper::render_tabs();
+		NMRichReviewsAdminHelper::render_container_open('content-container');
+		if ($page == 'main') {
 
 			// NMRichReviewsAdminHelper::render_postbox_open('We Have A New Website');
 			// echo $this->render_new_site_banner();
 			// NMRichReviewsAdminHelper::render_postbox_close();
 
-            NMRichReviewsAdminHelper::render_postbox_open('Instructions');
-            echo $this->render_settings_main_page(TRUE);
-            NMRichReviewsAdminHelper::render_postbox_close();
-            $this->render_shortcode_usage();
-        }
-        if ($page == 'pending') {
-            NMRichReviewsAdminHelper::render_postbox_open('Pending Reviews');
-            echo $this->render_pending_reviews_page(TRUE);
-            NMRichReviewsAdminHelper::render_postbox_close();
-        }
-        if ($page == 'approved') {
-            NMRichReviewsAdminHelper::render_postbox_open('Approved Reviews');
-            echo $this->render_approved_reviews_page(TRUE);
-            NMRichReviewsAdminHelper::render_postbox_close();
-        }
+			NMRichReviewsAdminHelper::render_postbox_open('Instructions');
+			echo $this->render_settings_main_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+			$this->render_shortcode_usage();
+		}
+		if ($page == 'pending') {
+			NMRichReviewsAdminHelper::render_postbox_open('Pending Reviews');
+			echo $this->render_pending_reviews_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
+		if ($page == 'approved') {
+			NMRichReviewsAdminHelper::render_postbox_open('Approved Reviews');
+			echo $this->render_approved_reviews_page(TRUE);
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
 		if ($page == 'options') {
 			NMRichReviewsAdminHelper::render_postbox_open('Options');
 			echo $this->render_options_page(TRUE);
@@ -140,19 +138,19 @@ class RichReviewsAdmin {
 			echo $this->render_add_edit_page(TRUE);
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
-        NMRichReviewsAdminHelper::render_container_close();
-        NMRichReviewsAdminHelper::render_container_open('sidebar-container');
-        $permission = $this->get_option('permission');
-        $this->update_credit_permission();
-        if (!$permission == 'checked') {
-            NMRichReviewsAdminHelper::render_postbox_open("Support the Staff");
-            echo $this->insert_credit_permission_checkbox();
-            NMRichReviewsAdminHelper::render_postbox_close();
-        }
-        NMRichReviewsAdminHelper::render_sidebar();
-        NMRichReviewsAdminHelper::render_container_close();
-        echo '<div class="clear"></div>';
-    }
+		NMRichReviewsAdminHelper::render_container_close();
+		NMRichReviewsAdminHelper::render_container_open('sidebar-container');
+		$permission = $this->get_option('permission');
+		$this->update_credit_permission();
+		if (!$permission == 'checked') {
+			NMRichReviewsAdminHelper::render_postbox_open("Support the Staff");
+			echo $this->insert_credit_permission_checkbox();
+			NMRichReviewsAdminHelper::render_postbox_close();
+		}
+		NMRichReviewsAdminHelper::render_sidebar();
+		NMRichReviewsAdminHelper::render_container_close();
+		echo '<div class="clear"></div>';
+	}
 
 	function add_plugin_settings_link($links) {
 		$settings_link = '<a href="admin.php?page=rich_reviews_settings_main">' . __('Settings') . '</a>';
@@ -161,54 +159,53 @@ class RichReviewsAdmin {
 	}
 
 	function render_settings_main_page($wrapped = false) {
-        if (!$wrapped) {
-            $this->wrap_admin_page('main');
-            return;
-        }
+		if (!$wrapped) {
+			$this->wrap_admin_page('main');
+			return;
+		}
 
-        $supportNM = $this->insert_credit_permission_checkbox();
+		$supportNM = $this->insert_credit_permission_checkbox();
 
-        ob_start();
-        	include $this->parent->path . 'views/admin/dashboard/instructions.php';
-        return ob_get_clean();
-
+		ob_start();
+		include $this->parent->path . 'views/admin/dashboard/instructions.php';
+		return ob_get_clean();
 	}
 
-    function render_shortcode_usage() {
-        //NMMeetupAdminHelper::render_postbox_open('Shortcode Usage');
+	function render_shortcode_usage() {
+		//NMMeetupAdminHelper::render_postbox_open('Shortcode Usage');
 
-        NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_SHOW]');
-        $this->render_rr_show_content();
-        NMRichReviewsAdminHelper::render_postbox_close();
+		NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_SHOW]');
+		$this->render_rr_show_content();
+		NMRichReviewsAdminHelper::render_postbox_close();
 
-        NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_FORM]');
-        $this->render_rr_form_content();
-        NMRichReviewsAdminHelper::render_postbox_close();
+		NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_FORM]');
+		$this->render_rr_form_content();
+		NMRichReviewsAdminHelper::render_postbox_close();
 
-        NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_SNIPPET]');
-        $this->render_rr_snippet_content();
-        NMRichReviewsAdminHelper::render_postbox_close();
+		NMRichReviewsAdminHelper::render_postbox_open('[RICH_REVIEWS_SNIPPET]');
+		$this->render_rr_snippet_content();
+		NMRichReviewsAdminHelper::render_postbox_close();
 
-        //NMMeetupAdminHelper::render_postbox_close();
-    }
+		//NMMeetupAdminHelper::render_postbox_close();
+	}
 
-    function render_rr_show_content() {
-    		include $this->parent->path . 'views/admin/dashboard/rr_show.php';
-    }
+	function render_rr_show_content() {
+		include $this->parent->path . 'views/admin/dashboard/rr_show.php';
+	}
 
-    function render_rr_form_content() {
-    		include $this->parent->path . 'views/admin/dashboard/rr_form.php';
-    }
+	function render_rr_form_content() {
+		include $this->parent->path . 'views/admin/dashboard/rr_form.php';
+	}
 
-    function render_rr_snippet_content() {
-      		include $this->parent->path . 'views/admin/dashboard/rr_snippet.php';
-    }
+	function render_rr_snippet_content() {
+		include $this->parent->path . 'views/admin/dashboard/rr_snippet.php';
+	}
 
 	function render_pending_reviews_page($wrapped = null) {
-        if (!$wrapped) {
-            $this->wrap_admin_page('pending');
-            return;
-        }
+		if (!$wrapped) {
+			$this->wrap_admin_page('pending');
+			return;
+		}
 		require_once('rich-reviews-admin-tables.php');
 		$rich_review_admin_table = new Rich_Reviews_Table();
 		$rich_review_admin_table->prepare_items('pending');
@@ -218,10 +215,10 @@ class RichReviewsAdmin {
 	}
 
 	function render_approved_reviews_page($wrapped) {
-        if (!$wrapped) {
-            $this->wrap_admin_page('approved');
-            return;
-        }
+		if (!$wrapped) {
+			$this->wrap_admin_page('approved');
+			return;
+		}
 		require_once('rich-reviews-admin-tables.php');
 		$rich_review_admin_table = new Rich_Reviews_Table();
 		$rich_review_admin_table->prepare_items('approved');
@@ -242,7 +239,7 @@ class RichReviewsAdmin {
 
 		$path = $this->parent->path;
 		ob_start();
-			include $path . 'views/admin/options/options-index.php';
+		include $path . 'views/admin/options/options-index.php';
 		return ob_get_clean();
 	}
 
@@ -258,7 +255,7 @@ class RichReviewsAdmin {
 
 		$path = $this->parent->path;
 		ob_start();
-			include $path . 'views/admin/shopper-approved.php';
+		include $path . 'views/admin/shopper-approved.php';
 		return ob_get_clean();
 	}
 
@@ -284,9 +281,9 @@ class RichReviewsAdmin {
 		}
 
 		ob_start();
-        	include $this->parent->path . 'views/admin/credit-permission.php';
-        $output = ob_get_clean();
-        return $output;
+		include $this->parent->path . 'views/admin/credit-permission.php';
+		$output = ob_get_clean();
+		return $output;
 
 	}
 

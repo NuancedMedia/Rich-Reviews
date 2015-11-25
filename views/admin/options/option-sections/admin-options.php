@@ -2,7 +2,7 @@
 
 ?>
 
-<h3><strong><?php _e('Admin Options', 'rich-reviews'); ?></strong></h3>
+<h3 class="rr-options-"><strong><?php _e('Admin Options', 'rich-reviews'); ?></strong></h3>
 	<div style="border: solid 2px black"></div>
 
 	<h4><strong><?php _e('Approval Options', 'rich-reviews'); ?></strong></h4>

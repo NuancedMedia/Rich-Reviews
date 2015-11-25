@@ -631,23 +631,23 @@ function fp_sanitize($input) {
 }
 
 function clean_input($input) {
-		/*$search = array(
-			'@<script[^>]*?>.*?</script>@si',   // strip out javascript
-			'@<[\/\!]*?[^<>]*?>@si',            // strip out HTML tags
-			'@<style[^>]*?>.*?</style>@siU',    // strip style tags properly
-			'@<![\s\S]*?--[ \t\n\r]*>@'         // strip multi-line comments
-		);
-		$output = preg_replace($search, '', $input);*/
-		$handling = $input;
+	/*$search = array(
+		'@<script[^>]*?>.*?</script>@si',   // strip out javascript
+		'@<[\/\!]*?[^<>]*?>@si',            // strip out HTML tags
+		'@<style[^>]*?>.*?</style>@siU',    // strip style tags properly
+		'@<![\s\S]*?--[ \t\n\r]*>@'         // strip multi-line comments
+	);
+	$output = preg_replace($search, '', $input);*/
+	$handling = $input;
 
-		/*$handling = strip_tags($handling);
-		$handling = stripslashes($handling);
-		$handling = esc_html($handling);
-		$handling = mysql_real_escape_string($handling);*/
+	/*$handling = strip_tags($handling);
+	$handling = stripslashes($handling);
+	$handling = esc_html($handling);
+	$handling = mysql_real_escape_string($handling);*/
 
-		$handling = sanitize_text_field($handling);
-		$handling = stripslashes($handling);
+	$handling = sanitize_text_field($handling);
+	$handling = stripslashes($handling);
 
-		$output = $handling;
-		return $output;
-	}
+	$output = $handling;
+	return $output;
+}
