@@ -86,7 +86,6 @@ class RichReviews {
 		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
 		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
-		// add_shortcode('RICH_REVIEWS_DB', array(&$this, 'shortcode_db_update')); gotta run update or db change
 		add_shortcode('database_now', array(&$this, 'shortcode_db_update'));
 
 		add_filter('widget_text', 'do_shortcode');
@@ -105,7 +104,6 @@ class RichReviews {
 			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
 			$this->shopApp = new RRShopApp($this);
 		}
-		// dump($this->rr_options);
 	}
 
 	function shortcode_db_update() {

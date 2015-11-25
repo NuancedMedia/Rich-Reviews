@@ -37,7 +37,7 @@ $tab-color-text-active: #000;
 			a {
 				background: $tab-color-bg-active;
 				color: $tab-color-text-active;
-                font-weight: 900;
+				font-weight: 900;
 			}
 		}
 	}
@@ -62,10 +62,6 @@ $tab-color-text-active: #000;
 		}
 	}
 }
-
-
-
-
 
 
 
@@ -96,49 +92,49 @@ $tab-color-text-active: #000;
 	.sidebar-container {
 		width: 30%;
 	}
-    .hndle {
-        background: #06c69f;
-    }
-    .handlediv {
-        color: #000;
-    }
+	.hndle {
+		background: #06c69f;
+	}
+	.handlediv {
+		color: #000;
+	}
 }
 
 .nm-support-staff-submit {
-    margin-top: 10px !important;
-    margin-left: 5% !important;
+	margin-top: 10px !important;
+	margin-left: 5% !important;
 }
 .nm-support-staff-checkbox {
-    float: left;
-    width: 5%;
+	float: left;
+	width: 5%;
 }
 .nm-support-staff-label {
-    float: left;
-    width: 95%;
+	float: left;
+	width: 95%;
 }
 
 .nm-social-media-links-container {
-    padding: 10px 20px;
+	padding: 10px 20px;
 }
 
 .nm-logo {
-    img {
-        width: 100%;
-    }
+	img {
+		width: 100%;
+	}
 }
 
 
 .one-half {
-    width: 50%;
-    float: left;
+	width: 50%;
+	float: left;
 }
 
 .one-fourth {
-    width: 25%;
-    float:left;
+	width: 25%;
+	float:left;
 }
 
 .three-fourths {
-    width: 75%;
-    float: left;
+	width: 75%;
+	float: left;
 }
