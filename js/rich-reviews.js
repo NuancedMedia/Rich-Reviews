@@ -15,6 +15,9 @@ jQuery(function(){
 	jQuery('.rr_review_text').each(function(event){
 		var max_length = 150;
 		if(jQuery(this).html().length > max_length){
+			while(jQuery(this).html().charAt(max_length) != ' ') {
+				max_length += 1;
+			}
 			var short_content 	= jQuery(this).html().substr(0,max_length);
 			var long_content	= jQuery(this).html().substr(max_length);
 			jQuery(this).html(short_content+'<span class="ellipses">... </span><a href="#" class="read_more"><br />Read More</a>'+'<span class="more_text" style="display:none;">'+long_content+' <br /><a href="#" class="show_less" style="display:none;">Less</a></span>');
