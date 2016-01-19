@@ -11,7 +11,6 @@
 
 		// Set up the SQL query
 
-
 		// Show the reviews
 		if (count($reviews)) {
 			$total_count = count($reviews);
@@ -130,6 +129,8 @@
 		do_action('rr_do_review_head', $data);
 
 		do_action('rr_do_review_content', $data);
+
+
 	}
 
 function full_width_wrapper($data) {

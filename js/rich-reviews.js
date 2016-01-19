@@ -12,9 +12,18 @@ jQuery(function(){
 	// 		});
 	// 	}
 	// }
+
 	jQuery('.rr_review_text').each(function(event){
 		var max_length = 150;
-		if(jQuery(this).html().length > max_length){
+
+		if ( typeof php_vars == 'object') {
+			if (typeof php_vars.excerpt_length == 'string') {
+				custom_length = parseInt(php_vars.excerpt_length);
+				max_length = custom_length;
+			}
+		}
+
+		if (jQuery(this).html().length > max_length){
 			while(jQuery(this).html().charAt(max_length) != ' ') {
 				max_length += 1;
 			}

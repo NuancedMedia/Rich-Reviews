@@ -38,6 +38,12 @@
 </label>
 <br />
 
+<label for="excerpt_length">
+	<?php _e('Character Length for Excerpt: ', 'rich-reviews'); ?>
+</label>
+<input type="number" name="excerpt_length" min="0" value="<?php echo $options['excerpt_length'] ?>" />
+<br />
+
 <input type="checkbox" name="credit_permission" value="checked" <?php echo $options['credit_permission'] ?> />
 <label for="credit_permission">
 	<?php _e('Give Credit to Nuanced Media - this option will add a small credit line and a link to Nuanced Media\'s website to the bottom of your reviews page', 'rich-reviews'); ?>

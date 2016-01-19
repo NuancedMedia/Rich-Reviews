@@ -43,6 +43,7 @@ class RROptions {
     			'version' => '1.6.4',
           'star_color' => '#ffaf00',
     			'snippet_stars' => FALSE,
+          'excerpt_length' => 150,
     			'reviews_order' => 'asc',
     			'approve_authority' => 'manage_options',
     			'require_approval' => 'checked',
