@@ -63,9 +63,3 @@
 		}
 	}
 </script>
-
-<?php dump($options['integrate-user-info']); ?>
-<?php dump($options['form-name-use-usernames']); ?>
-<?php dump($options['form-name-use-avatar']); ?>
-<?php dump($options['require-login']); ?>
-<?php dump($options['unregistered-allow-avatar-upload']); ?>
