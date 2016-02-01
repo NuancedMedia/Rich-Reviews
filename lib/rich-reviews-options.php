@@ -103,7 +103,14 @@ class RROptions {
         }
     }
 
-    public function update_options() {
+    public function update_options($init = null) {
+        if($init == true ) {
+            foreach($this->defaults as $key => $val) {
+                if(!$this->get_option($key)) {
+                  $this->update_option($key, $val);
+                }
+            }
+        }
         if (isset($_POST['update']) && $_POST['update'] === 'rr-update-options') {
              if (!isset($_POST['snippet_stars'])) { $_POST['snippet_stars'] = false; }
              if (!isset($_POST['show_date'])) { $_POST['show_date'] = false; }
