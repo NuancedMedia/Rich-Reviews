@@ -56,6 +56,12 @@ jQuery(function(){
 	// 	formSubmit = true;
 	// 	console.log("formSubmit");
 	// });
+	jQuery('.toggle-shop-app-config').click(function(){
+		jQuery('.shop-app-init').toggleClass('active');
+		jQuery('.shop-app-info').toggleClass('active');
+
+	});
+
 });
 
 function renderStarRating(rating) {
