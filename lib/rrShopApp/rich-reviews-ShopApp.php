@@ -1,6 +1,7 @@
 <?php
 
 require_once('rich-reviews-ShopAppOptions.php');
+require_once('rich-reviews-ShopAppShortcode.php');
 wp_cron();
 
 
@@ -20,11 +21,9 @@ class RRShopApp {
 		$this->options = new RRShopAppOptions($this);
 		$this->shopAppOptions = $this->options->get_option();
 
-		// add_shortcode('shopper-approved', array(&$this, 'display_handle'));
-		add_action('admin_menu', array(&$this, 'add_admin_page'));
 		add_action('init', array(&$this, 'init'));
-		 // add_shortcode('run_pull', array($this, 'process_reviews_pull')); //this is currently not working as admin action, but will removed when resolved
-		 add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
+		add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
+         add_shortcode('RR_SHOPPER_APPROVED', array(&$this, 'shortcode_shopper_approved_control'));
 		date_default_timezone_set('MST');
 
 
@@ -33,7 +32,6 @@ class RRShopApp {
 	function init() {
 		$this->options->update_options();
 		add_action('update_cache', array(&$this, 'cron_update_cache'));
-
 		if ( ! wp_next_scheduled( 'update_cache' ) ) {
 		  wp_schedule_event( time(), 'daily', 'update_cache' );
 		}
@@ -43,6 +41,21 @@ class RRShopApp {
 		$this->process_cron_update();
 	}
 
+    function shortcode_shopper_approved_control($atts) {
+        global $wpdb, $post;
+        extract(shortcode_atts(
+            array(
+                'get' => ''
+            )
+        ,$atts));
+
+        ob_start();
+            if ($get != '') {
+                handle_shopper_approved($get, $this->shopAppOptions, $this->parent->path);
+            }
+        return ob_get_clean();
+    }
+
 	function display_handle($atts = null) {
 		$stuff = $this->options->get_option();
 		if(isset($stuff['markup']) && $stuff['markup'] != '') {
@@ -50,10 +63,6 @@ class RRShopApp {
 			return $html;
 		}
 			return;
-	}
-
-	function add_admin_page() {
-		add_menu_page( 'Shop App Cache', 'Shop App Cache', 'manage_options', 'shop_app_aid_menu', array(&$this, 'display_shop_app_aid_menu'));
 	}
 
 	function process_cache_update($data = null) {
@@ -139,8 +148,8 @@ class RRShopApp {
     }
 
     public function update_reviews_info() {
-      $data = $this->options->get_option();
-      $this->update_reviews_general_info($data);
+        $data = $this->options->get_option();
+        $this->update_reviews_general_info($data);
     }
 
     public function update_reviews_general_info($data) {
