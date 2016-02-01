@@ -30,3 +30,28 @@
 	}
 }
 
+.shop-app-init, .shop-app-info {
+	// width: 90%;
+	display:inline-block;
+	margin: auto;
+	padding: 21px 5%;
+	text-align: center;
+	display: none;
+	background: darken(#fff, 20%);
+	border-radius: 13px;
+
+	&.active {
+		display: block;
+	}
+	.label-container {
+		margin-bottom: 8px;
+		label {
+			font-size: 21px;
+		}
+	}
+	input[type="text"] {
+		width: 80%;
+	}
+
+
+}
