@@ -101,7 +101,7 @@ class RichReviewsAdmin {
 	}
 
     function wrap_admin_page($page = null) {
-        echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Pending Reviews</h2></div>';
+        echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Rich Reviews</h2></div>';
         NMRichReviewsAdminHelper::render_tabs();
         NMRichReviewsAdminHelper::render_container_open('content-container');
         if ($page == 'main') {
