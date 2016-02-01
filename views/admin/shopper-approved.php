@@ -8,28 +8,35 @@
 	}
 
 
+
 ?>
-		<div class="rr_shortcode_container">
-			<br />
+		<div class="rr_shortcode_container shop-app-tab">
 			<!-- check if this is already set -->
-			<form id="shopAppAdmin"method="post" action="">
-				<input type="hidden" name="dinner" value="served" />
-				<div class="label-container one-fifth" style="width:30%;float:left;">
-					<label for="api_url" style="float:right;font-size:13px;">
-						Enter API Url:
-					</label>
-				</div>
-				<div class="input-container two-thirds" style="width:66%;float:right;">
-					<input type="text" name="api_url" style="width: 100%;float:left;" placeholder="API URL" style="vertical-align:bottom;" <?php if($options['api_url'] != null) { echo 'value="' . $options['api_url'] . '"';} ?> />
-				</div>
-				<div class="clear"></div>
-				<br />
-				<div class="input-container two-thirds" style="width:66%;float:right;">
-					<div style="width: 100%;float:left;">
-						<input type="submit" class="button" id="submit-api-url" value="Submit Url" style="float:right;" />
+			<div class="shop-app-info active">
+				<h3>Already registered with Shopper Approved?</h3>
+				<button class="button toggle-shop-app-config">
+					Configure Shopper Approved Extension
+				</button>
+			</div>
+			<div class="shop-app-init">
+				<form id="shopAppAdmin"method="post" action="">
+					<input type="hidden" name="dinner" value="served" />
+					<div class="label-container one-fifth">
+						<label for="api_url">
+							Enter API Url:
+						</label>
 					</div>
-				</div>
-			</form>
+					<br />
+					<div class="input-container" >
+						<input type="text" name="api_url" placeholder="API URL" <?php if($options['api_url'] != null) { echo 'value="' . $options['api_url'] . '"';} ?> />
+					</div>
+					<div class="clear"></div>
+					<br />
+					<input type="submit" class="button" id="submit-api-url" value="Submit Url" style="float:right;" />
+					<div class="clear"></div>
+				</form>
+			</div>
+
 			<div class="clear"></div>
 			<br />
 				<?php
@@ -105,6 +112,41 @@
 						<div class="clear"></div>
 						<br />
 
+						<h2>Shopper Approved Shortcode Options</h2>
+						<hr>
+						<form name="shopper-approved-shortcode-options" method="post">
+							<input type="hidden" name="napolean" value="complex" />
+							<div class="label-container one-fifth" style="width:30%;float:left;">
+								<label for="link_text" class="one-third" style="float:right;font-size:13px;">
+									Link Text:
+								</label>
+							</div>
+							<div class="input-container two-thirds" style="width:66%;float:right;">
+								<input type="text" name="link_text" class="two-thirds" style="width:100%;float:left;" <?php if($options['link_text'] != null) { echo 'value="' . $options['link_text'] . '"';} ?>/>
+							</div>
+							<div class="clear"></div>
+							<div class="label-container one-fifth" style="width:30%;float:left;">
+								<label for="link_element_class" class="one-third" style="float:right;font-size:13px;">
+									Link Element Class:
+								</label>
+							</div>
+							<div class="input-container two-thirds" style="width:66%;float:right;">
+								<input type="text" name="link_element_class" class="two-thirds" style="width:100%;float:left;" <?php if($options['link_element_class'] != null) { echo 'value="' . $options['link_element_class'] . '"';} ?>/>
+							</div>
+							<div class="clear"></div>
+							<div class="label-container one-fifth" style="width:30%;float:left;">
+								<label for="inline_review_form" class="one-third" style="float:right;text-align:right;font-size:13px;">
+									Display Review Inline:<br/>
+									<span style="font-size:10px;">(default shows form in modal)</span>
+								</label>
+							</div>
+							<div class="input-container two-thirds" style="width:66%;float:right;">
+								<input type="checkbox" name="inline_review_form" class="two-thirds" <?php if($options['inline_review_form']) { echo 'checked';} ?>/>
+							</div>
+							<div class="clear"></div>
+							<br/>
+							<input type="submit" value="Update Shortcode Options" class="button" />
+						</form>
 						<h2>Pull Reviews</h2>
 						<hr>
 						<div class="label-container one-fifth" style="width:30%;float:left;">
