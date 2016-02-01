@@ -166,12 +166,13 @@ class RRShopApp {
         }
         $response = json_decode($response);
 
+
         if(isset($response->average)) {
-          $this->options->update_option(array('average_score' => $response->average));
+          $this->options->update_option('average_score', $response->average);
         }
 
         if(isset($response->review_count)) {
-          $this->options->update_option(array('total_review_count' => $response->review_count));
+          $this->options->update_option('total_review_count', $response->review_count);
         }
 
         $updated_options = $this->options->get_option();
@@ -206,7 +207,7 @@ class RRShopApp {
         $total_pulled = count($stored_review_ids);
         $this->options->update_option('reviews_pulled_count', $total_pulled);
 
-        // dump($reviews_array);
+        $this->update_reviews_general_info($this->shopAppOptions);
 
     }
 
