@@ -85,7 +85,7 @@ class RROptions {
           'admin-email' => '',
           'login-url' => '',
           'add-shopper-approved' => FALSE,
-          // 'require-login' => FALSE,
+          'require-login' => FALSE,
           // 'rrShopAppAPIUrl' => NULL,
           // 'rrShopAppMarkup' => '',
           // 'rrShopAppLastUpdate' => ''
