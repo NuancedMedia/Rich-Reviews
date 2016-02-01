@@ -14,8 +14,8 @@ class RRShopAppOptions {
 
 		$this->parent = $parent;
 		if (isset($_POST['dinner'])) {
-            $this->updated = $_POST['dinner'];
-        }
+        $this->updated = $_POST['dinner'];
+    }
 		$this->options_name = $this->parent->option_name;
 		$this->defaults = array(
 			'api_url' 		=> 	'',
@@ -27,12 +27,18 @@ class RRShopAppOptions {
       'total_review_count' => NULL,
       'reviews_pulled_count' => NULL,
       'average_score' => NULL,
-      'imported_review_ids' => array()
+      'imported_review_ids' => array(),
+      'inline_review_form' => false,
+      'link_text' => 'Review Us',
+      'link_element_class' => ''
 		);
 
-		if ($this->get_option() == FALSE) {
-            $this->set_to_defaults();
-        }
+		  if ($this->get_option() == FALSE) {
+        dump('whahahh');
+          $this->set_to_defaults();
+      }
+      // add_action()
+      $this->update_options(true);
 	}
 
 	public function set_to_defaults() {
@@ -42,22 +48,28 @@ class RRShopAppOptions {
         }
     }
 
-	public function update_options() {
+	public function update_options($init = null) {
+     if($init == true ) {
+          foreach($this->defaults as $key => $val) {
+
+              if(!$this->get_option($key)) {
+                $this->update_option($key, $val);
+              }
+          }
+          return;
+      }
 		// $this->set_to_defaults();
 		if(isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
+
 	      $current_settings = $this->get_option();
         $clean_current_settings = array();
         foreach ($current_settings as $k=>$val) {
             if ($k != NULL) {
                 $clean_current_settings[$k] = $val;
             }
-        }
 
-        $this->defaults = array_merge($this->defaults, $clean_current_settings);
-        $update = array_merge($this->defaults, $_POST);
-        if(isset($update['api_url']) && ($update['api_url'] != '') && ($update['api_url'] != NULL)) {
             $update = $this->parent->process_cache_update($update);
-            if(isset($update) && $update != NULL){
+            if (isset($update) && $update != NULL){
                 $data = array();
                 foreach ($update as $key=>$value) {
                     if ($key != 'dinner' && $key != NULL) {
@@ -72,16 +84,26 @@ class RRShopAppOptions {
                 $this->updated = 'wpm-update-options';
                 $this->parent->shopAppOptions = $this->get_option();
             }
-            // dump('error contacting api/processing cache update');
-        } else {
-          //Maybe output messages...
-          // dump('api_url not set properly');
         }
-        return;
+            // dump('error contacting api/processing cache update');
     }
 
-    if(isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
+    if (isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
         $this->parent->process_reviews_pull();
+    }
+
+    if (isset($_POST['napolean']) && $_POST['napolean'] == 'complex') {
+      if (isset($_POST['link_text']) && $_POST['link_text'] != '' ) {
+        $this->update_option('link_text', $_POST['link_text']);
+      }
+      if (isset($_POST['link_element_class'])) {
+        $this->update_option('link_element_class', $_POST['link_element_class']);
+      }
+      if (isset($_POST['inline_review_form']) && $_POST['inline_review_form'] != '') {
+        $this->update_option('inline_review_form', true);
+      } else {
+        $this->update_option('inline_review_form', false);
+      }
     }
 }
 
@@ -131,6 +153,7 @@ class RRShopAppOptions {
   */
   public function update_option($opt_name, $opt_val = '') {
      // ----- allow a function override where we just use a key/val array
+
      if (is_array($opt_name) && $opt_val == '') {
          foreach ($opt_name as $real_opt_name => $real_opt_value) {
              $this->update_option($real_opt_name, $real_opt_value);
