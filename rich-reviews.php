@@ -86,6 +86,7 @@ class RichReviews {
 		add_shortcode('RICH_REVIEWS_SHOW', array(&$this, 'shortcode_reviews_show_control'));
 		add_shortcode('RICH_REVIEWS_SHOW_ALL', array(&$this, 'shortcode_reviews_show_all_control'));
 		add_shortcode('RICH_REVIEWS_SNIPPET', array(&$this, 'shortcode_reviews_snippets_control'));
+
 		// add_shortcode('RICH_REVIEWS_DB', array(&$this, 'shortcode_db_update')); gotta run update or db change
 		add_shortcode('database_now', array(&$this, 'shortcode_db_update'));
 
@@ -105,6 +106,7 @@ class RichReviews {
 			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
 			$this->shopApp = new RRShopApp($this);
 		}
+
 		// dump($this->rr_options);
 	}
 
@@ -306,9 +308,16 @@ class RichReviews {
 			array(
 				'category' => 'none',
 				'num' => '3',
+				'id' => ''
 			)
 		, $atts));
+		if ($id != '') {
+			$id = intval($id);
+			$post = get_post($id);
+		}
+
 		$reviews = $this->db->get_reviews($category, $num, $post);
+
 		ob_start();
 			handle_show($reviews, $this->rr_options);
 		return ob_get_clean();
@@ -332,10 +341,8 @@ class RichReviews {
 		ob_start();
 			handle_snippet($data, $this->rr_options, $this->path);
 		return ob_get_clean();
-
-
-
 	}
+
 
 	function display_admin_review($review, $status = 'limbo') {
 
