@@ -92,14 +92,17 @@ class RichReviewsDB extends NMDB {
 		return $results;
 	}
 
-	function get_average_rating($category) {
-		global $wpdb;
-		global $post;
+	function get_average_rating($category, $inPost = NULL) {
+		global $wpdb, $post;
+
+		if($inPost == NULL) {
+			$inPost = $post;
+		}
 
 		if ($category == 'none') {
 			$whereStatement = "WHERE review_status=\"1\" and (review_category=\"none\" or review_category=\"\")";
 		} else if(($category == 'post') || ($category == 'page')) {
-			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$post->ID\")";
+			$whereStatement = "WHERE (review_status=\"1\" and post_id=\"$inPost->ID\")";
 		} else if ($category != 'all') {
 			$whereStatement = "WHERE (review_status=\"1\" and review_category=\"$category\")";
 		} else {

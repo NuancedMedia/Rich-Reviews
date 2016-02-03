@@ -313,31 +313,50 @@ class RichReviews {
 		, $atts));
 		if ($id != '') {
 			$id = intval($id);
-			$post = get_post($id);
+			$passedPost = get_post($id);
 		}
 
-		$reviews = $this->db->get_reviews($category, $num, $post);
+		if (!$passedPost) {
+			$passedPost = $post;
+		}
 
-		ob_start();
+		$reviews = $this->db->get_reviews($category, $num, $passedPost);
+		if (!empty($reviews)) {
+			ob_start();
 			handle_show($reviews, $this->rr_options);
-		return ob_get_clean();
+			return ob_get_clean();
+		} else {
+			return;
+		}
+
+
 	}
 
 	function shortcode_reviews_show_all_control() {
 		ob_start();
-			$this->shortcode_reviews_show_control(array('num'=>'all'));
+			$this->shortcode_reviews_show_control(array('num'=>'all', 'category'=>'all'));
 		return ob_get_clean();
 	}
 
 	function shortcode_reviews_snippets_control($atts) {
-		global $wpdb, $post;
+		global $post;
 		$output = '';
 		extract(shortcode_atts(
 			array(
 				'category' => 'none',
+				'id' => ''
 			)
 		,$atts));
-		$data = $this->db->get_average_rating($category);
+		if ($id != '') {
+			$id = intval($id);
+			$passedPost = get_post($id);
+		}
+
+		if (!$passedPost) {
+			$passedPost = $post;
+		}
+
+		$data = $this->db->get_average_rating($category, $passedPost);
 		ob_start();
 			handle_snippet($data, $this->rr_options, $this->path);
 		return ob_get_clean();
