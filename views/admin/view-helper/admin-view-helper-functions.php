@@ -4,6 +4,10 @@ class NMRichReviewsAdminHelper {
 
 	public static function render_header($title, $echo = TRUE) {
 		global $file;
+
+
+
+
 		$plugin_data = get_plugin_data( $file);
 		$output = '';
 		$output .= '<h1>' . $plugin_data['Name'] . '</h1>';
@@ -17,6 +21,12 @@ class NMRichReviewsAdminHelper {
 	public static function render_sidebar() {
 		?>
         <?php
+
+  //       $rr = new RichReviews();
+		// $options = $rr->options->get_option();
+
+
+
 
 		NMRichReviewsAdminHelper::render_postbox_open('Need Help');
 		NMRichReviewsAdminHelper::insert_website_link();
