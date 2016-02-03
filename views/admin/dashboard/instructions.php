@@ -27,14 +27,17 @@
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_SHOW category="all"]
 					</li>
-					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">[RICH_REVIEWS_SHOW category="page" num="5"]
+					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">
+						[RICH_REVIEWS_SHOW category="page" id="283" num="5"]
 					</li>
-					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">[RICH_REVIEWS_SHOW category="all" num="all"]
+					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">
+						[RICH_REVIEWS_SHOW category="all" num="all"]
 					</li>
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_FORM]
 					</li>
-					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">[RICH_REVIEWS_FORM category="foo"]
+					<li class="rr_admin_sidebar_list_item" style="margin: 0px 0px 4px 	0px;">
+						[RICH_REVIEWS_FORM category="foo"]
 					</li>
 					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_SNIPPET]
@@ -43,14 +46,12 @@
 						[RICH_REVIEWS_SNIPPET category="foo"]
 					</li>
 					<li class="rr_admin_sidebar_list_item">
+						[RICH_REVIEWS_SNIPPET category="page"]
+					</li>
+					<li class="rr_admin_sidebar_list_item">
 						[RICH_REVIEWS_SNIPPET category="all"]
 					</li>
 				</ul>
-			</div>
-
-			<div class="rr_admin_sidebar">
-				<div class="rr_admin_sidebar_title"><?php echo __('Support the developers!', 'rich-reviews'); ?> </div>
-				<?php echo $supportNM ?>
 			</div>
 			<p><?php echo __('Thank you for using Rich Reviews by Foxy Technology and ', 'rich-reviews'); ?> <a href="http://nuancedmedia.com">Nuanced Media</a>!
 			</p>
