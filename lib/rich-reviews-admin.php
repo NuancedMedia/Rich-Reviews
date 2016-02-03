@@ -142,7 +142,7 @@ class RichReviewsAdmin {
 		}
         NMRichReviewsAdminHelper::render_container_close();
         NMRichReviewsAdminHelper::render_container_open('sidebar-container');
-        $permission = $this->get_option('permission');
+        $permission = $this->parent->rr_options['credit_permission'];
         $this->update_credit_permission();
         if (!$permission == 'checked') {
             NMRichReviewsAdminHelper::render_postbox_open("Support the Staff");
@@ -277,30 +277,31 @@ class RichReviewsAdmin {
 	function insert_credit_permission_checkbox() {
 
 		$this->update_credit_permission();
-		$permission = $this->get_option('permission');
+		$permission = $this->parent->options->get_option('credit_permission');
+
 		$permission_val = '';
 		if ($permission == 'checked') {
 			$permission_val = ' checked';
 		}
 
+
 		ob_start();
         	include $this->parent->path . 'views/admin/credit-permission.php';
         $output = ob_get_clean();
         return $output;
-
 	}
 
 	function update_credit_permission() {
 
 		if (isset($_POST['update_permission']) && $_POST['update_permission'] == 'permissionupdate') {
-			$current_permission = $this->get_option('permission');
+			$current_permission = $this->parent->options->get_option('credit_permission');
 			if (!isset($_POST['credit_permission_option'])) {
 				$permission = '';
 			}
 			else {
 				$permission = 'checked';
 			}
-			$this->update_option('permission', $permission);
+			$this->parent->options->update_option('credit_permission', $permission);
 			$_POST['update_permission'] = NULL;
 		}
 	}
