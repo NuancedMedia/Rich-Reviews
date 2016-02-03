@@ -37,8 +37,6 @@
 	padding: 21px 5%;
 	text-align: center;
 	display: none;
-	background: darken(#fff, 20%);
-	border-radius: 13px;
 
 	&.active {
 		display: block;
@@ -52,6 +50,36 @@
 	input[type="text"] {
 		width: 80%;
 	}
-
-
 }
+
+.shop-app-init {
+	margin-bottom: 21px;
+}
+
+.options-section {
+	margin-bottom: 21px;
+	padding: 21px 5%;
+	background: darken(#fff, 40%);
+	border-radius: 13px;
+}
+
+.sa-short-info, .sa-long-info {
+	ul {
+		margin: 0 21px 34px 21px;
+		li {
+			&:before {
+				content: "\25C9";
+				font-size: 8px;
+				margin-right: 5px;
+			}
+		}
+	}
+}
+
+.sa-long-info {
+	display: none;
+	&.active {
+		display: block;
+	}
+}
+
