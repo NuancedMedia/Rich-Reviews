@@ -96,21 +96,21 @@ class NMRichReviewsAdminHelper {
 		global $richReviews;
 		if($richReviews->rr_options['add-shopper-approved']) {
 			$tabs = array(
-				'rich_reviews_settings_main' => 'Dashboard',
-	            'fp_admin_pending_reviews_page' => 'Pending Reviews',
-	            'fp_admin_approved_reviews_page' => 'Approved Reviews',
-				'fp_admin_options_page' => 'Options',
-				'fp_admin_shopper_approved_page' => 'Shopper Approved',
-				'fp_admin_add_edit' => 'Add Review',
+				'rich_reviews_settings_main' => __('Dashboard', 'rich-reviews'),
+	            'fp_admin_pending_reviews_page' => __('Pending Reviews', 'rich-reviews'),
+	            'fp_admin_approved_reviews_page' => __('Approved Reviews', 'rich-reviews'),
+				'fp_admin_options_page' => __('Options', 'rich-reviews'),
+				'fp_admin_shopper_approved_page' => __('Shopper Approved', 'rich-reviews'),
+				'fp_admin_add_edit' => __('Add Review', 'rich-reviews'),
 			);
 		} else {
 
 			$tabs = array(
-				'rich_reviews_settings_main' => 'Dashboard',
-	            'fp_admin_pending_reviews_page' => 'Pending Reviews',
-	            'fp_admin_approved_reviews_page' => 'Approved Reviews',
-				'fp_admin_options_page' => 'Options',
-				'fp_admin_add_edit' => 'Add Review',
+				'rich_reviews_settings_main' => __('Dashboard', 'rich-reviews'),
+	            'fp_admin_pending_reviews_page' => __('Pending Reviews', 'rich-reviews'),
+	            'fp_admin_approved_reviews_page' => __('Approved Reviews', 'rich-reviews'),
+				'fp_admin_options_page' => __('Options', 'rich-reviews'),
+				'fp_admin_add_edit' => __('Add Review', 'rich-reviews'),
 			);
 		}
 
