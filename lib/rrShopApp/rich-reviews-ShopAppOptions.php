@@ -61,31 +61,26 @@ class RRShopAppOptions {
 		// $this->set_to_defaults();
 		if(isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
 
-	      $current_settings = $this->get_option();
-        $clean_current_settings = array();
-        foreach ($current_settings as $k=>$val) {
-            if ($k != NULL) {
-                $clean_current_settings[$k] = $val;
-            }
-
-            $update = $this->parent->process_cache_update($update);
-            if (isset($update) && $update != NULL){
-                $data = array();
-                foreach ($update as $key=>$value) {
-                    if ($key != 'dinner' && $key != NULL) {
-                        $data[$key] = $value;
-                    }
-                }
-                // $data = $this->parent->update_site_keys($data);
-                // $data = $this->update_reviews_info($data);
-
-                $this->update_option($data);
-                $_POST['dinner'] = NULL;
-                $this->updated = 'wpm-update-options';
-                $this->parent->shopAppOptions = $this->get_option();
-            }
+        if(isset($_POST['api_url']) && $_POST['api_url'] != '') {
+            $update = $this->parent->process_cache_update($_POST);
         }
-            // dump('error contacting api/processing cache update');
+
+        if (isset($update) && $update != NULL){
+            $data = array();
+            foreach ($update as $key=>$value) {
+                if ($key != 'dinner' && $key != NULL) {
+                    $data[$key] = $value;
+                }
+            }
+            // $data = $this->parent->update_site_keys($data);
+            // $data = $this->update_reviews_info($data);
+
+            $this->update_option($data);
+            $_POST['dinner'] = NULL;
+            $this->updated = 'wpm-update-options';
+            $this->parent->shopAppOptions = $this->get_option();
+        }
+        // dump('error contacting api/processing cache update');
     }
 
     if (isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
