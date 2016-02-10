@@ -240,7 +240,7 @@
 						jQuery('.sa-long-info').addClass('active');
 						jQuery(e.target).remove();
 						target = jQuery('.sa-long-info').offset().top - 300;
-						jQuery('html, body').animate({scrollTop: target}, 400);
+						jQuery('html, body').animate({scrollTop: target}, 600);
 					});
 				});
 			</script>
