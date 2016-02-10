@@ -5,8 +5,9 @@
 			<span itemprop="name" style="display:none">
 				<?php echo $data['category']; ?>
 			</span>
-			<?php echo $data['url_markup']; ?>
-			Overall rating:
+			<?php echo $data['url_markup'];
+				_e('Overall rating:' , 'rich-reviews');
+			?>
 			<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
 				<span class="stars">
 					<?php echo $data['stars']; ?>
@@ -30,8 +31,9 @@
 			<span itemprop="name" style="display:none">
 				<?php echo $data['category']; ?>
 			</span>
-			<?php echo $data['url_markup']; ?>
-			Overall rating:
+			<?php echo $data['url_markup'];
+				_e('Overall rating:', 'rich-reviews');
+			?>
 			<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
 				<strong><span class="value" itemprop="ratingValue">
 					<?php echo $data['average']; ?>
