@@ -121,5 +121,4 @@ class RichReviewsDB extends NMDB {
 
 		return $return;
 	}
-
 }
