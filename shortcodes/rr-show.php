@@ -10,8 +10,6 @@
 		$output = '';
 
 		// Set up the SQL query
-
-
 		// Show the reviews
 		if (count($reviews)) {
 			$total_count = count($reviews);
