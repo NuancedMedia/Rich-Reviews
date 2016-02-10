@@ -319,12 +319,13 @@ class RichReviews {
 				'id' => ''
 			)
 		, $atts));
+
 		if ($id != '') {
 			$id = intval($id);
 			$passedPost = get_post($id);
 		}
 
-		if (!$passedPost) {
+		if (!isset($passedPost)) {
 			$passedPost = $post;
 		}
 
@@ -360,7 +361,7 @@ class RichReviews {
 			$passedPost = get_post($id);
 		}
 
-		if (!$passedPost) {
+		if (!isset($passedPost)) {
 			$passedPost = $post;
 		}
 
