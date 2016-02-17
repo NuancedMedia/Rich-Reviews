@@ -7,9 +7,11 @@ function handle_shopper_approved($switch, $options, $path) {
 		case 'trigger':
 			output_trigger_script($options);
 			break;
-		case 'link':
-			output_review_link($options);
+		case 'merchant-link':
+			output_merchant_review_link($options);
 			break;
+		case 'product-link':
+			output_product_review_link($options);
 		case 'schema':
 			output_review_structured_snippet($options);
 	}
