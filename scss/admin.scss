@@ -30,6 +30,11 @@
 	}
 }
 
+.sa-cta {
+	width: 100%;
+	margin-bottom: 21px;
+}
+
 .shop-app-init, .shop-app-info {
 	// width: 90%;
 	display:inline-block;
@@ -40,6 +45,7 @@
 
 	&.active {
 		display: block;
+		margin-top: 21px;
 	}
 	.label-container {
 		margin-bottom: 8px;
@@ -68,7 +74,7 @@
 
 .sa-short-info, .sa-long-info {
 	ul {
-		margin: 0 21px 34px 21px;
+		margin: 0 21px 21px 21px;
 		li {
 			&:before {
 				content: "\25C9";

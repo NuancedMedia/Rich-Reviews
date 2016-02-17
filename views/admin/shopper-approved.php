@@ -18,7 +18,93 @@
 
 ?>
 		<div class="rr_shortcode_container shop-app-tab">
+			<?php
+			if( !(isset($options['site_id']) && isset($options['site_token']) && $options['site_id'] != '' && $options['site_token'] != '')) {
+			?>
+				<h2>Shopper Approved</h2>
+
+				<div class="sa-short-info">
+					<p>
+						 <?php _e('Help potential customers learn about your products and company before even visiting your site. Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. By being a Shopper Approved member, you’ll be able to', 'rich-reviews'); ?>:
+					</p>
+					<ul>
+						<li><strong><?php _e('Team Up', 'rich-reviews'); ?></strong> <?php _e('with a  Google affiliate who has authority and will give your reviews maximum online exposure', 'rich-reviews'); ?>.</li>
+						<li><strong><?php _e('Rise', 'rich-reviews'); ?></strong> <?php _e('to the top of SERPs and outrank your competitors', 'rich-reviews'); ?>.</li>
+						<li><strong><?php _e('Improve', 'rich-reviews'); ?></strong> <?php _e('brand image through company transparency and honesty', 'rich-reviews'); ?>.</li>
+						<li><strong><?php _e('Increase', 'rich-reviews'); ?></strong> <?php _e('Click-Through-Rates', 'rich-reviews'); ?> / <strong><?php _e('Decrease', 'rich-reviews'); ?></strong> <?php _e('Cost-Per-Clicks and Bounce rates', 'rich-reviews'); ?>.</li>
+					</ul>
+				</div>
+				<a href="">
+					<img src="<?php echo $this->parent->plugin_url; ?>images/rr-sa-cta.jpg" class="sa-cta" />
+				</a>
+
+				<a class="sa-more button active" href="#"><?php _e('Read More', 'rich-reviews'); ?></a>
+				<br/>
+				<script>
+					jQuery(function() {
+						jQuery('.sa-more').click(function(e) {
+							e.preventDefault();
+							jQuery('.sa-long-info').addClass('active');
+							jQuery(e.target).remove();
+							target = jQuery('.sa-long-info').offset().top - 50;
+							jQuery('html, body').animate({scrollTop: target}, 600);
+						});
+					});
+				</script>
+
+
+				<div class="sa-long-info">
+					<p>
+						<?php _e('Increased CTR? Smaller bounce rates? Customer reviews visible? If you’re mumbling a “yes please!” to yourself, it may be the right time to become a Shopper Approved member. Having access to your Shopper Approved account through the Rich Reviews plugin will create ease in managing both accounts and also accelerate fulfilling your marketing KPIs.', 'rich-reviews'); ?>
+					</p>
+
+					<h3><?php _e('What is Shopper Approved?', 'rich-reviews'); ?></h3>
+					<p>
+						<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a href="http://nuancedmedia.com/shopper-approved-review/"><?php _e('here', 'rich-reviews'); ?></a>.
+					</p>
+
+					<h3><?php _e('Why choose Shopper Approved?', 'rich-reviews'); ?></h3>
+					<p>
+						<?php _e('Below is a list of benefits and features of Shopper Approved.', 'rich-reviews'); ?>
+						<ul>
+							<li><?php _e('Collects 70% more reviews and are visible on more search engines than their competitors.', 'rich-reviews'); ?></li>
+							<li><?php _e('Provides clients the ability to improve customer engagement.', 'rich-reviews'); ?></li>
+							<li><?php _e('Makes customer reviews visible to public on SERPs - 88% of consumers trust online reviews as much as personal recommendations.', 'rich-reviews'); ?></li>
+							<li><?php _e('Increased CTR - Google found that there was an average of a 17% rise in CTR for advertisers with seller rating extensions.', 'rich-reviews'); ?></li>
+							<li><?php _e('Companies can improve their brand image by displaying customer reviews on product, merchant and local listings.', 'rich-reviews'); ?></li>
+							<li><?php _e('Increased quality score of your PPC.', 'rich-reviews'); ?></li>
+							<li><?php _e('Reduction of CPC.', 'rich-reviews'); ?></li>
+							<li><?php _e('Increased conversion rates', 'rich-reviews'); ?></li>
+							<li><?php _e('Shows company transparency, which gains trust from customers', 'rich-reviews'); ?>.</li>
+							<li><?php _e('Easy to set up - learn how to set up your account here (link Gabe’s blog).', 'rich-reviews'); ?></li>
+							<li><?php _e('There are tools to create surveys, special offers, and promotional emails.', 'rich-reviews'); ?></li>
+							<li><?php _e('Offers a full and free 30-day trial with no strings attached.', 'rich-reviews'); ?></li>
+							<li><?php _e('Has less expensive monthly subscription compared to some competitors.', 'rich-reviews'); ?></li>
+						</ul>
+					</p>
+
+					<h3><?php _e('Try it out!', 'rich-reviews'); ?></h3>
+					<p>
+						<?php _e('It’s human nature to research and test things out before committing, especially when it’s dealing with important information such as customer opinions about your company and/or products. Doing a trial run takes a few easy steps', 'rich-reviews'); ?>:
+						<ol>
+							<li><?php _e('Sign up - Take advantage of the free 30-day trial by signing up under our Nuanced Media', 'rich-reviews'); ?> <a href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1"><?php _e('discount code', 'rich-reviews'); ?></a>, <?php _e('which will give you an extra 20% off a membership if you choose to continue.', 'rich-reviews'); ?></li>
+							<li><?php _e('Learn how to easily set up your account through our tutorial (link to Gabe’s blog).', 'rich-reviews'); ?></li>
+							<li><?php _e('Explore and test Shopper Approved for 30 days.', 'rich-reviews'); ?></li>
+						</ol>
+					</p>
+
+					<h3><?php _e('More Information', 'rich-reviews'); ?></h3>
+					<p>
+						<?php _e('For more information or help with Shopper Approved, read our company’s ', 'rich-reviews'); ?><a href="http://nuancedmedia.com/tag/shopper-approved/"><?php _e('thoughts and experiences', 'rich-reviews'); ?></a> <?php _e('with Shopper Approved or visit the', 'rich-reviews'); ?> <a href="http://www.shopperapproved.com/"><?php _e('Shopper Approved website', 'rich-reviews'); ?></a>.
+					</p>
+				</div>
+				<br/>
+				<hr>
+				<br/>
+
+			<?php } ?>
 			<!-- check if this is already set -->
+
 			<div class="shop-app-info <?php echo $info_active; ?> options-section">
 				<h3><?php _e('Already registered with Shopper Approved?', 'rich-reviews'); ?></h3>
 				<button class="button toggle-shop-app-config">
@@ -405,88 +491,13 @@
 			</div>
 
 			<div class="clear"></div>
-			<h2>Shopper Approved</h2>
-
-			<div class="sa-short-info">
-				<p>
-					 <?php _e('Help potential customers learn about your products and company before even visiting your site. Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. By being a Shopper Approved member, you’ll be able to', 'rich-reviews'); ?>:
-				</p>
-				<ul>
-					<li><strong><?php _e('Team Up', 'rich-reviews'); ?></strong> <?php _e('with a  Google affiliate who has authority and will give your reviews maximum online exposure', 'rich-reviews'); ?>.</li>
-					<li><strong><?php _e('Rise', 'rich-reviews'); ?></strong> <?php _e('to the top of SERPs and outrank your competitors', 'rich-reviews'); ?>.</li>
-					<li><strong><?php _e('Improve', 'rich-reviews'); ?></strong> <?php _e('brand image through company transparency and honesty', 'rich-reviews'); ?>.</li>
-					<li><strong><?php _e('Increase', 'rich-reviews'); ?></strong> <?php _e('Click-Through-Rates', 'rich-reviews'); ?> / <strong><?php _e('Decrease', 'rich-reviews'); ?></strong> <?php _e('Cost-Per-Clicks and Bounce rates', 'rich-reviews'); ?>.</li>
-				</ul>
-			</div>
-
-			<a class="sa-more button active" href="#"><?php _e('Read More', 'rich-reviews'); ?></a>
-			<script>
-				jQuery(function() {
-					jQuery('.sa-more').click(function(e) {
-						e.preventDefault();
-						jQuery('.sa-long-info').addClass('active');
-						jQuery(e.target).remove();
-						target = jQuery('.sa-long-info').offset().top - 300;
-						jQuery('html, body').animate({scrollTop: target}, 600);
-					});
-				});
-			</script>
+		</div>
+<?php	} ?>
 
 
-			<div class="sa-long-info">
-				<p>
-					<?php _e('Increased CTR? Smaller bounce rates? Customer reviews visible? If you’re mumbling a “yes please!” to yourself, it may be the right time to become a Shopper Approved member. Having access to your Shopper Approved account through the Rich Reviews plugin will create ease in managing both accounts and also accelerate fulfilling your marketing KPIs.', 'rich-reviews'); ?>
-				</p>
-
-				<h3><?php _e('What is Shopper Approved?', 'rich-reviews'); ?></h3>
-				<p>
-					<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a href="http://nuancedmedia.com/shopper-approved-review/"><?php _e('here', 'rich-reviews'); ?></a>.
-				</p>
-
-				<h3><?php _e('Why choose Shopper Approved?', 'rich-reviews'); ?></h3>
-				<p>
-					<?php _e('Below is a list of benefits and features of Shopper Approved.', 'rich-reviews'); ?>
-					<ul>
-						<li><?php _e('Collects 70% more reviews and are visible on more search engines than their competitors.', 'rich-reviews'); ?></li>
-						<li><?php _e('Provides clients the ability to improve customer engagement.', 'rich-reviews'); ?></li>
-						<li><?php _e('Makes customer reviews visible to public on SERPs - 88% of consumers trust online reviews as much as personal recommendations.', 'rich-reviews'); ?></li>
-						<li><?php _e('Increased CTR - Google found that there was an average of a 17% rise in CTR for advertisers with seller rating extensions.', 'rich-reviews'); ?></li>
-						<li><?php _e('Companies can improve their brand image by displaying customer reviews on product, merchant and local listings.', 'rich-reviews'); ?></li>
-						<li><?php _e('Increased quality score of your PPC.', 'rich-reviews'); ?></li>
-						<li><?php _e('Reduction of CPC.', 'rich-reviews'); ?></li>
-						<li><?php _e('Increased conversion rates', 'rich-reviews'); ?></li>
-						<li><?php _e('Shows company transparency, which gains trust from customers', 'rich-reviews'); ?>.</li>
-						<li><?php _e('Easy to set up - learn how to set up your account here (link Gabe’s blog).', 'rich-reviews'); ?></li>
-						<li><?php _e('There are tools to create surveys, special offers, and promotional emails.', 'rich-reviews'); ?></li>
-						<li><?php _e('Offers a full and free 30-day trial with no strings attached.', 'rich-reviews'); ?></li>
-						<li><?php _e('Has less expensive monthly subscription compared to some competitors.', 'rich-reviews'); ?></li>
-					</ul>
-				</p>
-
-				<h3><?php _e('Try it out!', 'rich-reviews'); ?></h3>
-				<p>
-					<?php _e('It’s human nature to research and test things out before committing, especially when it’s dealing with important information such as customer opinions about your company and/or products. Doing a trial run takes a few easy steps', 'rich-reviews'); ?>:
-					<ol>
-						<li><?php _e('Sign up - Take advantage of the free 30-day trial by signing up under our Nuanced Media', 'rich-reviews'); ?> <a href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1"><?php _e('discount code', 'rich-reviews'); ?></a>, <?php _e('which will give you an extra 20% off a membership if you choose to continue.', 'rich-reviews'); ?></li>
-						<li><?php _e('Learn how to easily set up your account through our tutorial (link to Gabe’s blog).', 'rich-reviews'); ?></li>
-						<li><?php _e('Explore and test Shopper Approved for 30 days.', 'rich-reviews'); ?></li>
-					</ol>
-				</p>
-
-				<h3><?php _e('More Information', 'rich-reviews'); ?></h3>
-				<p>
-					<?php _e('For more information or help with Shopper Approved, read our company’s ', 'rich-reviews'); ?><a href="http://nuancedmedia.com/tag/shopper-approved/"><?php _e('thoughts and experiences', 'rich-reviews'); ?></a> <?php _e('with Shopper Approved or visit the', 'rich-reviews'); ?> <a href="http://www.shopperapproved.com/"><?php _e('Shopper Approved website', 'rich-reviews'); ?></a>.
-				</p>
-			</div>
-
-			<?php } ?>
-					</div>
-
-
-
-						<style>
-							.postbox-container {
-								float: none;
-							}
-						</style>
+	<style>
+		.postbox-container {
+			float: none;
+		}
+	</style>
 
