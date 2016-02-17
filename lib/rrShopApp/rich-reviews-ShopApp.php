@@ -521,6 +521,7 @@ if (!function_exists('dump')) {
     }
 }
 
-$shopperApprovedCache = new RRShopApp();
+
+// $shopperApprovedCache = new RRShopApp();
 
 ?>
