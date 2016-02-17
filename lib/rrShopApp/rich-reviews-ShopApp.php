@@ -218,6 +218,127 @@ class RRShopApp {
 
     }
 
+    function display_edit_single_product_index() {
+        $options = $this->shopAppOptions;
+        $message_class = 'updated';
+
+        if (isset($_POST['toBeOrNotToBe']) && $_POST['toBeOrNotToBe'] == 'theQuestion') {
+            unset($_POST['toBeOrNotToBe']);
+            $data = $options['product_catalog_ids'][$_GET['id']];
+            $newData = $data;
+            $valid = true;
+            foreach($_POST as $key => $val) {
+                if ($val == '') {
+                    $valid = false;
+                } else if (isset($newData[$key])) {
+                    $newData[$key] = esc_textarea($val);
+                }
+            }
+            if (!$valid) {
+                $message_text = "Please enter a valid value for each field";
+                $message_class = 'error';
+                @include 'views/edit_single_index.php';
+                return;
+            }
+            $currentProductIndex = $options['product_catalog_ids'];
+            $updatedProductIndex = $currentProductIndex;
+            $updatedProductIndex[$_GET['id']] = $newData;
+            $this->options->update_option('product_catalog_ids', $updatedProductIndex);
+            $options = $this->options->get_option();
+            $this->create_update_product_csv();
+            $message_text = "Product listing updated and feed rewritten succesfully";
+        } else if (isset($_POST['toBeOrNotToBe']) && $_POST['toBeOrNotToBe'] == 'theQuestionaire') {
+            unset($_POST['toBeOrNotToBe']);
+            $newData = array();
+
+            $valid = true;
+            foreach($_POST as $key => $val) {
+                if($val == '') {
+                    $valid = false;
+                }
+                $newData[$key] = esc_textarea($val);
+            }
+            if (!$valid) {
+                $message_text = "Please enter a valid value for each field";
+                $message_class = 'error';
+                @include 'views/edit_single_index.php';
+                return;
+            }
+            if (isset($options['product_catalog_ids']) && is_array($options['product_catalog_ids'])) {
+                $currentProductIndex = $options['product_catalog_ids'];
+            } else {
+                $currentProductIndex = array();
+            }
+            $updatedProductIndex = $currentProductIndex;
+            $product_id = $newData['id'];
+            unset($newData['id']);
+            $updatedProductIndex[$product_id] = $newData;
+            $this->options->update_option('product_catalog_ids', $updatedProductIndex);
+            $options = $this->options->get_option();
+            $this->create_update_product_csv();
+            $message_text = "Product listing created and feed rewritten succesfully";
+            $headerString = 'Location: ' . admin_url() . 'admin.php?page=edit_single_product_index&id=' . $product_id;
+            dump($headerString);
+            header($headerString);
+        }
+        @include 'views/edit_single_index.php';
+    }
+
+    public function exportCsv($fields) {
+        if(isset($fields['review_text'])) {
+            $fields['review_text'] = stripslashes($fields['review_text']);
+        }
+        if(isset($fields['date_time'])) {
+            $fields['date_time'] = date('m/d/y', strtotime($fields['date_time']));
+        }
+        $wee = implode('|', $fields);
+        $wee .= "\r\n";
+        return $wee;
+    }
+
+    public function create_update_product_csv() {
+        if(!isset($this->shopAppOptions['product_catalog_ids']) || empty($this->shopAppOptions['product_catalog_ids'])) {
+            return;
+        } else {
+            // Look for file existence file will be located in root of rrShopApp folder.
+            // NVM fopen should do this automatically for me
+            $filePath = dirname(__FILE__) . "/rrShopAppProductFeed.csv";
+            if(file_exists($filePath)) {
+                unlink($filePath);
+            }
+            $newfile = fopen($filePath, "w");
+            $fileColumns = array(
+                'Product ID',
+                'Product Name',
+                'Description',
+                'Manufacturer',
+                'Product URL',
+                'Image URL',
+                'mpn'
+
+            );
+            fwrite($newfile, $this->exportCSV($fileColumns));
+            $catalogged_ids = $this->options->get_option('product_catalog_ids');
+            foreach($catalogged_ids as $id => $data) {
+                $formatted_fields = array(
+                    'Product ID'    => $id,
+                    'Product Name'  => $data['name'],
+                    'Description'   => $data['description'],
+                    'Manufacturer'  => $data['manufacturer'],
+                    'Product URL'   => $data['product_url'],
+                    'Image URL'     => $data['image_url'],
+                    'mpn'           => $data['mpn']
+                );
+
+                fwrite($newfile, $this->exportCSV($formatted_fields));
+            }
+
+            fclose($newfile);
+            $fileUrl = $this->parent->plugin_url . 'lib/rrShopApp/rrShopAppProductFeed.csv';
+            $this->options->update_option('product_feed_url', $fileUrl);
+        }
+    }
+
     public function insert_shop_app_review($review, $id) {
 
     	$options = $this->options->get_option();
