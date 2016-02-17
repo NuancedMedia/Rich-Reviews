@@ -29,7 +29,7 @@
 				<form id="shopAppAdmin"method="post" action="">
 					<input type="hidden" name="dinner" value="served" />
 					<div class="label-container one-fifth">
-						<label for="api_url">
+						<label for="api_url" style="font-size:21px;">
 							<?php _e('Enter API Url:', 'rich-reviews'); ?>
 						</label>
 					</div>
@@ -47,7 +47,7 @@
 					if((isset($options['site_id']) && isset($options['site_token'])) && ($options['site_id'] != '' && $options['site_token'] != '')) {
 						?>
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="api_url" style="float:right;font-size:13px;">
+							<label for="api_url" style="float:right;">
 								<?php _e('Extracted Site ID:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -57,7 +57,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="api_url" style="float:right;font-size:13px;">
+							<label for="api_url" style="float:right;">
 								<?php _e('Extracted Site Token:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -67,7 +67,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="total_review_count" class="one-third" style="float:right;font-size:13px;">
+							<label for="total_review_count" class="one-third" style="float:right;">
 								<?php _e('Total Shopper Approved Reviews:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -77,7 +77,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="average_score" class="one-third" style="float:right;font-size:13px;">
+							<label for="average_score" class="one-third" style="float:right;">
 								<?php _e('Average Score:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -94,7 +94,7 @@
 						<h2><?php _e('Aggregate Snippet Settings', 'rich-reviews'); ?></h2>
 						<hr>
 						<div class="label-container one-fifth" style="width:30%; float:left;">
-							<label for="html-markup" style="float:right;font-size:13px;">
+							<label for="html-markup" style="float:right;">
 								<?php _e('Shopper Approved Markup:', 'rich-reviews'); ?>
 								<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;"><?php _e('Use the shortcode', 'rich-reviews'); ?> <code style="font-style: normal; font-size: 11px;">[RR_SHOPPER_APPROVED get="schema"]</code> <?php _e('to output this markup', 'rich-reviews'); ?></div>
 							</label>
@@ -107,7 +107,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="last_update" class="one-third" style="float:right;font-size:13px;">
+							<label for="last_update" class="one-third" style="float:right;">
 								<?php _e('Last Updated:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -128,7 +128,7 @@
 						<form name="shopper-approved-shortcode-options" method="post">
 							<input type="hidden" name="napolean" value="complex" />
 							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="link_text" class="one-third" style="float:right;font-size:13px;">
+								<label for="link_text" class="one-third" style="float:right;">
 									<?php _e('Link Text:', 'rich-reviews'); ?>
 								</label>
 							</div>
@@ -139,7 +139,7 @@
 							<br />
 
 							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="link_element_class" class="one-third" style="float:right;font-size:13px;">
+								<label for="link_element_class" class="one-third" style="float:right;">
 									<?php _e('Link Element Class:', 'rich-reviews'); ?>
 								</label>
 							</div>
@@ -149,7 +149,7 @@
 							<div class="clear input-break"></div>
 							<br />
 							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="inline_review_form" class="one-third" style="float:right;text-align:right;font-size:13px;">
+								<label for="inline_review_form" class="one-third" style="float:right;text-align:right;">
 									<?php _e('Display Review Inline', 'rich-reviews'); ?>:<br/>
 									<span style="font-size:10px;">(<?php _e('default shows form in modal)', 'rich-reviews'); ?></span>
 								</label>
@@ -167,7 +167,7 @@
 						<h2><?php _e('Pull Reviews', 'rich-reviews'); ?></h2>
 						<hr>
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="reviews_last_pulled" class="one-third" style="float:right;font-size:13px;">
+							<label for="reviews_last_pulled" class="one-third" style="float:right;">
 								<?php _e('Last Pulled:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -180,7 +180,7 @@
 						if(isset($options['reviews_pulled_count']) && $options['reviews_last_pulled'] != 'not yet pulled') {
 							?>
 							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="unpulled_reviews" class="one-third" style="float:right;font-size:13px;">
+								<label for="unpulled_reviews" class="one-third" style="float:right;">
 									<?php _e('New Unpulled Reviews:', 'rich-reviews'); ?>
 								</label>
 							</div>
