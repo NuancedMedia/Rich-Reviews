@@ -41,5 +41,5 @@
 	<br />
 	<input type="checkbox" name="add-shopper-approved" value="checked" <?php echo $options['add-shopper-approved'] ?> />
 	<label for="add-shopper-approved">
-		<?php _e('Add integration for Shopper Approved. (We are currently only integrated for Merchant Reviews, however will be releasing an update for product reviews in the near future.)', 'rich-reviews'); ?>
+		<?php _e('Get Organic & PPC Stars via a Google Authorized 3rd Party Product Review Aggregator.', 'rich-reviews'); ?>
 	</label>
