@@ -208,8 +208,113 @@
 						<p>
 							<?php _e('Press the button below to download a csv file of all of the reviews currently in your Rich Reviews. This way you can send these reviews to Shopper Approved and have them imported to your Shopper Approved Merchant or Product rating. Further instruction on how to do this can be found', 'rich-reviews'); ?> <a href=""><?php _e('here', 'rich-reviews'); ?></a>.
 						</p>
-						<a href="/wp-content/plugins/RichReviewsGit/richreviews-download-script.php?download=csv" class="button left"><?php _e('Download Reviews', 'rich-reviews'); ?></a>
+						<a href="<?php echo $this->parent->plugin_url; ?>richreviews-download-script.php?download=csv" class="button left"><?php _e('Download Reviews', 'rich-reviews'); ?></a>
 						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+					<div class="options-section">
+						<h2><?php _e('Integrate Product Reviews', 'rich-reviews'); ?></h2>
+						<hr>
+						<form id="productReviewsIntegration" action="<?php echo $this->parent->plugin_url; ?>richreviews-update-product-index.php" method="post">
+							<input type="hidden" name="updating_product_catalog" value="updatingCatalog" />
+							<p>
+								<?php _e('Enter the slug for the post type under which your products are categorized, or select to use your Rich Reviews category structure (only one can be used for initialization). This will help to generate the needed xml file to communicate product listings and the associated review information to Shopper Approved. This file will be updated with new product listing once a day. (After initial configuration, you can force an update by pressing the button below)'); ?>
+							</p>
+							<div class="initialize-options">
+								<div class="label-container one-fifth" style="width:40%;float:left;padding-top:3px;">
+									<label for="product_pt_slug" class="one-third" style="float:right;margin-right:5px;">
+										<?php _e('Product post type slug:', 'rich-reviews'); ?>
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:60%;float:right;">
+									<input type="text" name="product_pt_slug" class="two-thirds" style="width:100%;float:left;" <?php if(isset($options['product_pt_slug']) && $options['product_pt_slug'] != '') { echo 'value="' . $options['product_pt_slug'] . '"';} ?>/>
+								</div>
+								<div class="clear"></div>
+								<br />
+								<h3 style="text-align:center;"><span class="line"></span>  OR  <span class="line"></span></h3>
+								<br/>
+								<div class="label-container one-fifth" style="width:40%;float:left;">
+									<label for="use_rr_categories" class="one-third" style="float:right;margin-right:5px;">
+										<?php _e('Use Rich Reviews Categories:', 'rich-reviews'); ?>
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:60%;float:right;">
+									<input type="checkbox" name="use_rr_categories" class="two-thirds" <?php if(isset($options['use_rr_categories']) && $options['use_rr_categories'] == 'checked') { echo 'checked';} ?>/>
+								</div>
+								<script type="text/javascript">
+									jQuery(function() {
+										jQuery('input[name="product_pt_slug"]').keyup(function() {
+											if (jQuery(this).val() != '') {
+												jQuery('input[name="use_rr_categories"]').prop("checked", false);
+											}
+										});
+										jQuery('input[name="use_rr_categories"]').change(function() {
+											if (jQuery(this).val() == 'on') {
+												jQuery('input[name="product_pt_slug"]').val('');
+											}
+										});
+									});
+								</script>
+								<div class="clear"></div>
+							</div>
+							<p>
+								<?php _e('Update and Download your Shopper Approved product record. Pleas double check that the file is output and formatted to the requirements described by Shopper Approved in the Product Reviews "Integration Options" tab. For more information on this process, refer to you Shopper Approved Dashboard ', 'rich-reviews'); ?> <a href=""><?php _e('here', 'rich-reviews'); ?></a>.
+							</p>
+							<input type="submit" class="button" value="<?php _e('Update Product Index', 'rich-reviews'); ?>" form="productReviewsIntegration" />
+							<a href="<?php echo $this->parent->plugin_url; ?>richreviews-download-product-index.php?type=csv" class="button left"><?php _e('Download Product Index', 'rich-reviews'); ?></a>
+							<div class="clear"></div>
+						</form>
+						<br/>
+						<div class="label-container one-fifth" style="width:25%;float:left;padding-top:5px;">
+							<label for="product_feed_url" class="one-third" >
+								<?php _e('Product Feed URL', 'rich-reviews'); ?>:
+							</label>
+						</div>
+						<div class="input-container two-thirds" style="width:75%;float:right;">
+							<input type="text" name="product_feed_url" class="one" value="<?php if(isset($options['product_feed_url'])) { echo $options['product_feed_url'];} ?>" disabled/>
+						</div>
+						<div class="clear"></div>
+						<br/>
+						<?php
+							if (isset($options['product_catalog_ids']) && !empty($options['product_catalog_ids'])) {
+								?>
+								<div class="one">
+									<h2><?php echo _e('Product Catalog Ids', 'rich-reviews'); ?></h2>
+									<hr>
+									<?php
+										$count = 0;
+										foreach($options['product_catalog_ids'] as $catalogged_id => $data) {
+											$count++;
+										?>
+											<div class="single-product-info">
+												<a href="<?php echo admin_url() . 'admin.php?page=edit_single_product_index&id=' . $catalogged_id; ?>"  class="product-edit-link right"><i class="dashicon-edit"></i> <?php _e('Edit', 'rich-reviews'); ?></a>
+												<summary>
+												<h3>
+													<?php _e('ID', 'rich-reviews'); ?>: <?php echo $catalogged_id; ?>
+												</h3>
+												<details>
+													<span class="single-product-detail"><?php _e('Name', 'rich-reviews'); ?>: <?php if ($data['name'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+													<span class="single-product-detail"><?php _e('Description', 'rich-reviews'); ?>: <?php if ($data['description'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+													<span class="single-product-detail"><?php _e('Manufacturer', 'rich-reviews'); ?>: <?php if ($data['manufacturer'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+													<span class="single-product-detail"><?php _e('Product Url', 'rich-reviews'); ?>: <?php if ($data['product_url'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+													<span class="single-product-detail"><?php _e('Image Url', 'rich-reviews'); ?>: <?php if ($data['image_url'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+													<span class="single-product-detail"><?php _e('Manufacturer Part Number', 'rich-reviews'); ?>: <?php if ($data['mpn'] != '') { echo '<span class="good">' . __('SET', 'rich-reviews') . '</span>';} else { echo '<span class="bad">' . __('UNSET', 'rich-reviews') . '</span>';} ?></span>
+												</details>
+												</summary>
+											</div>
+										<?php
+											if($count%3 == 0) {
+												echo '<div class="clear"></div>';
+											}
+										}
+									?>
+									<div class="clear"></div>
+									<br />
+									<a href="<?php echo admin_url() . 'admin.php?page=edit_single_product_index&new=true'; ?>" class="button"><?php _e('Add New Product Listing', 'rich-reviews'); ?></a>
+								</div>
+								<?php
+							}
+						?>
 					</div>
 					<div class="clear"></div>
 
