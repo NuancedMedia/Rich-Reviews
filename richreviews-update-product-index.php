@@ -17,9 +17,18 @@
                     'review_count'  => $result->reviewCount  //maybe we'll be removing this to be handled by SA
                 );
             }
-            // dump($rr_categories);
             return $rr_categories;
         }
+
+        // function update_category_review_count() {
+        //     global $richReviews, $wpdb;
+        //     $rr_categories = $richReviews->shopApp->shopAppOptions['product_catalog_ids'];
+        //     foreach($rr_categories as $id => $data) {
+        //         $query = "SELECT COUNT(review_category=$id) FROM $richReviews->sqltable";
+        //         $results = $wpdb->get_results($query);
+        //         dump($query);
+        //     }
+        // }
 
         function build_product_catalog_from_product_posts($posts) {
 
@@ -43,19 +52,9 @@
                 }
             }
             return $incoming_catalog_ids;
-
         }
 
-        // function update_category_review_count() {
-        //     global $richReviews, $wpdb;
 
-        //     $rr_categories = $richReviews->shopApp->shopAppOptions['product_catalog_ids'];
-        //     foreach($rr_categories as $id => $data) {
-        //         $query = "SELECT COUNT(review_category=$id) FROM $richReviews->sqltable";
-        //         $results = $wpdb->get_results($query);
-        //         dump($query);
-        //     }
-        // }
 		$path = realpath(null);
         $parts = explode('wp-content', $path);
         if (count($parts) == 2) {
@@ -78,16 +77,24 @@
         if (isset($_POST['updating_product_catalog']) && $_POST['updating_product_catalog'] == 'updatingCatalog') {
             if (isset($_POST['use_rr_categories']) && $_POST['use_rr_categories'] == 'on') {
 
+                // Simply eliminate the headache of both scripts running at once, might not be an issue...
                 $richReviews->shopApp->options->update_option('use_rr_categories', 'checked');
                 $richReviews->shopApp->options->update_option('product_pt_slug', '');
+
+                // Build product catalog from Rich Reviews catgories
                 $results = fetch_unique_from_rr_categories();
                 $options = $richReviews->shopApp->shopAppOptions;
-                // update_category_review_count();
 
                 if(!isset($options['product_catalog_ids']) || empty($options['product_catalog_ids'])) {
                     $richReviews->shopApp->options->update_option('product_catalog_ids', $results);
+                } else {
+                    $currentIndex = $options['product_catalog_ids'];
+                    $updatedIndex = array_merge($results, $currentIndex);
+                    $richReviews->shopApp->options->update_option('product_catalog_ids', $updatedIndex);
                 }
             } else if (isset($_POST['product_pt_slug']) && $_POST['product_pt_slug'] != '') {
+
+                // Simply eliminate the headache of both scripts running at once, might not be an issue...
                 $richReviews->shopApp->options->update_option('product_pt_slug', $_POST['product_pt_slug']);
                 $richReviews->shopApp->options->update_option('use_rr_categories', false);
 
@@ -96,13 +103,17 @@
                     'post_status' => 'publish',
                     'post_type' => $_POST['product_pt_slug']
                 ));
+
                 // Build product catalog from product posts
                 $results = build_product_catalog_from_product_posts($products);
                 $options = $richReviews->shopApp->shopAppOptions;
-                dump($results);
 
                 if(!isset($options['product_catalog_ids']) || empty($options['product_catalog_ids'])) {
                     $richReviews->shopApp->options->update_option('product_catalog_ids', $results);
+                } else {
+                    $currentIndex = $options['product_catalog_ids'];
+                    $updatedIndex = array_merge($results, $currentIndex);
+                    $richReviews->shopApp->options->update_option('product_catalog_ids', $updatedIndex);
                 }
             }
             $richReviews->shopApp->create_update_product_csv();
