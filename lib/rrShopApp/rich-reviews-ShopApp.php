@@ -26,6 +26,7 @@ class RRShopApp {
 
 		add_action('init', array(&$this, 'init'));
         add_action('admin_menu', array(&$this, 'add_edit_product_index'));
+        add_action('admin_menu', array(&$this, 'maybe_set_alert_cycle'));
 		add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
         add_shortcode('RR_SHOPPER_APPROVED', array(&$this, 'shortcode_shopper_approved_control'));
 		date_default_timezone_set('MST');
@@ -43,17 +44,50 @@ class RRShopApp {
 		$this->process_cron_update();
 	}
 
+    function maybe_set_alert_cycle() {
+        if(!isset($this->parent->rr_options['add-shopper-approved']) || $this->parent->rr_options['add-shopper-approved'] == false) {
+            return;
+        }
+        if(isset($this->shopAppOptions['api_url']) && isset($this->shopAppOptions['site_token']) && $this->shopAppOptions['api_url'] != '' && $this->shopAppOptions['site_token'] != '' ) {
+            return;
+        }
+        $curTime = time();
+        if(!isset($this->shopAppOptions['alert_queue_init'])) {
+            $this->options->update_option('alert_queue_init', $curTime);
+            add_action('admin_notices', array(&$this, 'trigger_sa_alert'));
+        } else {
+            if($curTime - $this->shopAppOptions['alert_queue_init'] > 604800) {
+                add_action('admin_notices', array(&$this, 'trigger_sa_alert'));
+            }
+        }
+    }
+
+    function trigger_sa_alert() {
+        ?>
+            <div class="update-nag notice is-dismissible">
+                <p>
+                    <span style="font-size:15px;">Rich Reviews Update</span>: <?php echo __('Introducing ', 'rich-reviews') . '<strong>' . __('Organic & PPC Stars', 'rich-reviews') . '</strong> ' . __('via a Google Authorized 3rd Party Product Review Aggregator', 'rich-reviews'); ?>.
+                <a href="<?php echo admin_url() . 'admin.php?page=fp_admin_shopper_approved_page'; ?>" style="margin-left:8px;">
+                    <?php _e('Read more', 'rich-reviews'); ?>
+                </a>
+                </p>
+            </div>
+        <?php
+        remove_action('admin_notices', array(&$this, 'trigger_sa_alert'));
+    }
+
     function shortcode_shopper_approved_control($atts) {
         global $wpdb, $post;
         extract(shortcode_atts(
             array(
-                'get' => ''
+                'get' => '',
+                'ids' => ''
             )
         ,$atts));
 
         ob_start();
             if ($get != '') {
-                handle_shopper_approved($get, $this->shopAppOptions, $this->parent->path);
+                handle_shopper_approved($get, $ids, $this->shopAppOptions, $this->parent->path);
             }
         return ob_get_clean();
     }
