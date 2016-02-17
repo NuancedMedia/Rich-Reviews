@@ -84,7 +84,7 @@ class RROptions {
           'send-email-notifications' => FALSE,
           'admin-email' => '',
           'login-url' => '',
-          'add-shopper-approved' => FALSE,
+          'add-shopper-approved' => 'checked',
           'require-login' => FALSE,
           // 'rrShopAppAPIUrl' => NULL,
           // 'rrShopAppMarkup' => '',
