@@ -12,8 +12,10 @@ function handle_shopper_approved($switch, $options, $path) {
 			break;
 		case 'product-link':
 			output_product_review_link($options);
+			break;
 		case 'schema':
 			output_review_structured_snippet($options);
+			break;
 	}
 
 }
@@ -57,17 +59,48 @@ function output_trigger_script($options) {
 	<?php
 }
 
-function output_review_link($options) {
+function output_merchant_review_link($options) {
 
 	$link_text = 'Review Us';
-	if (isset($options['link_text']) && $options['link_text'] != '') {
-		$link_text = $options['link_text'];
+	$link_class = '';
+	if (isset($options['merchant_link_text']) && $options['merchant_link_text'] != '') {
+		$link_text = $options['merchant_link_text'];
 	}
-	if(isset($options['site_id']) && $options['site_id'] != '' && isset($options['site_token']) && $options['site_token'] != '') {
-		$link_url = 'http://www.shopperapproved.com/surveys/sale.php?id=' . $options['site_id'] . '&token=' . $options['site_token'];
+	if (isset($options['merchant_link_class']) && $options['merchant_link_class'] != '') {
+		$link_class = $options['merchant_link_class'];
+	}
+	if(isset($options['site_id']) && $options['site_id'] != '' && isset($options['site_token']) && $options['site_code'] != '') {
+		$link_url = 'http://www.shopperapproved.com/surveys/full.php?id=' . $options['site_id'] . '&code=' . $options['site_code'];
 
 		?>
-			<a class="button" href="<?php echo $link_url; ?>" ><?php echo $link_text; ?></a>
+			<a class="button <?php echo $link_class; ?>" href="<?php echo $link_url; ?>" ><?php echo $link_text; ?></a>
+		<?php
+	}
+}
+
+function output_product_review_link($options) {
+
+	if(!isset($options['product_catalog_ids']) || empty($options['product_catalog_ids'])) {
+		return;
+	}
+	$product_id_string = '';
+
+	foreach($options['product_catalog_ids'] as $id => $data) {
+		$product_id_string .= 'products[]=' . $id . '&';
+	}
+	$link_text = 'Review Our Product';
+	$link_class = '';
+	if (isset($options['product_link_text']) && $options['product_link_text'] != '') {
+		$link_text = $options['product_link_text'];
+	}
+	if (isset($options['product_link_class']) && $options['product_link_class'] != '') {
+		$link_class = $options['product_link_class'];
+	}
+	if(isset($options['site_id']) && $options['site_id'] != '' && isset($options['site_code']) && $options['site_code'] != '') {
+		$link_url = 'http://www.shopperapproved.com/surveys/sale.php?' . $product_id_string . 'id=' . $options['site_id'] . '&code=' . $options['site_code'];
+
+		?>
+			<a class="button <?php echo $link_class; ?>" href="<?php echo $link_url; ?>" ><?php echo $link_text; ?></a>
 		<?php
 	}
 }
