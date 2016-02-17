@@ -33,7 +33,7 @@ class RichReviewsAdmin {
 			$required_role,
 			'rich_reviews_settings_main',
 			array(&$this, 'render_settings_main_page'),
-			$this->parent->logo_small_url,
+			'dashicons-star-half',
 			'25.11'
 		);
 		add_submenu_page(
@@ -101,7 +101,7 @@ class RichReviewsAdmin {
 	}
 
     function wrap_admin_page($page = null) {
-        echo '<div class="nm-admin-page wrap"><h2><img src="' . $this->parent->logo_url . '" /> Rich Reviews</h2></div>';
+        echo '<div class="nm-admin-page wrap" style="margin-bottom:13px;"><div style="display:inline;font-size:42px;display:flex;align-items:center;"><img src="' . $this->parent->logo_url . '" /><span style="margin-left:5px;">Rich Reviews</span></div></div>';
         NMRichReviewsAdminHelper::render_tabs();
         NMRichReviewsAdminHelper::render_container_open('content-container');
         if ($page == 'main') {
