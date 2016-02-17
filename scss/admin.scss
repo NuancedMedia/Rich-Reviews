@@ -85,8 +85,36 @@
 	}
 }
 
+.middle-padded {
+	padding-top: 34px;
+	text-align: center;
+}
+
 .input-beak {
 	margin-bottom: 8px;
+}
+
+#sa-more {
+	font-size: 28px;
+	padding: 13px;
+	border-radius: 5px;
+	height: auto !important;
+}
+
+
+
+.sa-more-replace {
+	display: none;
+	text-align: center;
+	margin-top: -13px;
+	&.active {
+		display: block
+	}
+	.stacked-header {
+		font-size: 55px;
+		line-height: 45px;
+		display: block;
+	}
 }
 
 .sa-long-info {
@@ -207,4 +235,7 @@
 
 .one {
 	width: 100%;
+}
+.one-half {
+	width: 50%;
 }
