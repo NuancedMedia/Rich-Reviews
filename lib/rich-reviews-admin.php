@@ -72,8 +72,8 @@ class RichReviewsAdmin {
 		if($this->parent->rr_options['add-shopper-approved']) {
 			add_submenu_page(
 				'rich_reviews_settings_main',
-				'Rich Reviews - '. __('Shopper Approved', 'rich-reviews'),
-				__('Shopper Approved', 'rich-reviews'),
+				'Rich Reviews - '. __('PPC & Organic Stars', 'rich-reviews'),
+				__('PPC & Organic Stars', 'rich-reviews'),
 				$required_role,
 				'fp_admin_shopper_approved_page',
 				array(&$this, 'render_shopper_approved_page')
@@ -101,7 +101,7 @@ class RichReviewsAdmin {
 	}
 
     function wrap_admin_page($page = null) {
-        echo '<div class="nm-admin-page wrap" style="margin-bottom:13px;"><div style="display:inline;font-size:42px;display:flex;align-items:center;"><img src="' . $this->parent->logo_url . '" /><span style="margin-left:5px;">Rich Reviews</span></div></div>';
+        echo '<div class="nm-admin-page wrap" style="margin-bottom:13px;"><div style="display:inline;font-size:42px;display:flex;align-items:center;"><img src="' . $this->parent->logo_url . '" height="64" width="64"/><span style="margin-left:5px;">Rich Reviews</span></div></div>';
         NMRichReviewsAdminHelper::render_tabs();
         NMRichReviewsAdminHelper::render_container_open('content-container');
         if ($page == 'main') {
@@ -131,7 +131,7 @@ class RichReviewsAdmin {
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
 		if ($page == 'shopper_approved') {
-			NMRichReviewsAdminHelper::render_postbox_open('Shopper Approved');
+			NMRichReviewsAdminHelper::render_postbox_open('PPC & Organic Stars');
 			echo $this->render_shopper_approved_page(TRUE);
 			NMRichReviewsAdminHelper::render_postbox_close();
 		}
