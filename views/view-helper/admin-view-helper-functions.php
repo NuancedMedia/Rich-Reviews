@@ -100,7 +100,7 @@ class NMRichReviewsAdminHelper {
 	            'fp_admin_pending_reviews_page' => __('Pending Reviews', 'rich-reviews'),
 	            'fp_admin_approved_reviews_page' => __('Approved Reviews', 'rich-reviews'),
 				'fp_admin_options_page' => __('Options', 'rich-reviews'),
-				'fp_admin_shopper_approved_page' => __('Shopper Approved', 'rich-reviews'),
+				'fp_admin_shopper_approved_page' => __('PPC & Organic Stars', 'rich-reviews'),
 				'fp_admin_add_edit' => __('Add Review', 'rich-reviews'),
 			);
 		} else {

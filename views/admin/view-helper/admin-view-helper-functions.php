@@ -112,7 +112,7 @@ class NMRichReviewsAdminHelper {
 	            'fp_admin_pending_reviews_page' => 'Pending Reviews',
 	            'fp_admin_approved_reviews_page' => 'Approved Reviews',
 				'fp_admin_options_page' => 'Options',
-				'fp_admin_shopper_approved_page' => 'Shopper Approved',
+				'fp_admin_shopper_approved_page' => 'PPC & Organic Stars',
 				'fp_admin_add_edit' => 'Add Review',
 			);
 		} else {
