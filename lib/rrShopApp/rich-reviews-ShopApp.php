@@ -278,7 +278,16 @@ class RRShopApp {
             $this->create_update_product_csv();
             $message_text = "Product listing created and feed rewritten succesfully";
             $headerString = 'Location: ' . admin_url() . 'admin.php?page=edit_single_product_index&id=' . $product_id;
-            dump($headerString);
+            header($headerString);
+        } else if (isset($_POST['deleting-listing']) && $_POST['deleting-listing'] == 'confirmed') {
+            $currentProductIndex = $options['product_catalog_ids'];
+            $updatedProductIndex = $currentProductIndex;
+            if (isset($updatedProductIndex[$_GET['id']]) && is_array($updatedProductIndex[$_GET['id']])) {
+                unset($updatedProductIndex[$_GET['id']]);
+            }
+            $this->options->update_option('product_catalog_ids', $updatedProductIndex);
+            $this->create_update_product_csv();
+            $headerString = 'Location: ' . admin_url() . 'admin.php?page=fp_admin_shopper_approved_page';
             header($headerString);
         }
         @include 'views/edit_single_index.php';
