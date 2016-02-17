@@ -22,11 +22,10 @@ class RRShopApp {
 		$this->shopAppOptions = $this->options->get_option();
 
 		add_action('init', array(&$this, 'init'));
+        add_action('admin_menu', array(&$this, 'add_edit_product_index'));
 		add_shortcode('clear_shop', array($this, 'dump_shop_app_reviews')); //Remove this, or build it into an admin action.
-         add_shortcode('RR_SHOPPER_APPROVED', array(&$this, 'shortcode_shopper_approved_control'));
+        add_shortcode('RR_SHOPPER_APPROVED', array(&$this, 'shortcode_shopper_approved_control'));
 		date_default_timezone_set('MST');
-
-
 	}
 
 	function init() {
@@ -56,6 +55,10 @@ class RRShopApp {
         return ob_get_clean();
     }
 
+    function add_edit_product_index() {
+        add_submenu_page( null, 'Edit Single Product Index', 'Edit Single Product Index', 'edit_posts', 'edit_single_product_index', array( &$this, 'display_edit_single_product_index' ));
+    }
+
 	function display_handle($atts = null) {
 		$stuff = $this->options->get_option();
 		if(isset($stuff['markup']) && $stuff['markup'] != '') {
@@ -70,6 +73,7 @@ class RRShopApp {
 		if($data == null) {
 			$data = $this->shopAppOptions;
 		}
+
 		// extract($data);
 		//make sure the api_url is actually pointing at a file file before trying to retreive content. If not everything will simply remain unchanged.
 		$pattern = '/https:\/\/www\.shopperapproved\.com\//';
