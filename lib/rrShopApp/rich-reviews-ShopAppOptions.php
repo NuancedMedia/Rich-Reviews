@@ -23,6 +23,7 @@ class RRShopAppOptions {
 			'last_update'	=> 	'',
       'site_id' => '',
       'site_token' => '',
+      'site_code' => '',
       'reviews_last_pulled' => 'not yet pulled',
       'total_review_count' => NULL,
       'reviews_pulled_count' => NULL,
@@ -92,6 +93,15 @@ class RRShopAppOptions {
         $this->parent->process_reviews_pull();
     }
 
+    if (isset($_POST['grabbing-site-code']) && $_POST['grabbing-site-code'] == 'roger') {
+      if (isset($_POST['full-link-drop']) && $_POST['full-link-drop'] != '' ) {
+        $code = $this->isolate_site_code($_POST['full-link-drop']);
+        if($code != null) {
+            $this->update_option('site_code', $code);
+        }
+      }
+    }
+
     if (isset($_POST['napolean']) && $_POST['napolean'] == 'complex') {
       if (isset($_POST['merchant_link_text']) && $_POST['merchant_link_text'] != '' ) {
         $this->update_option('merchant_link_text', $_POST['merchant_link_text']);
@@ -113,6 +123,20 @@ class RRShopAppOptions {
     }
 }
 
+public function isolate_site_code($link) {
+    $urlParts = explode('?', $link);
+
+    if(!is_array($urlParts) || !isset($urlParts[1]) || count($urlParts) !=  2) {
+      return null;
+    }
+    $urlParamString = $urlParts[1];
+    parse_str($urlParamString);
+    if(isset($code)) {
+        return($code);
+    } else {
+      return null;
+    }
+}
 
 
 	// From metabox v1.0.6
