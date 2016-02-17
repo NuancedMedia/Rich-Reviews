@@ -4,7 +4,6 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 	if (isset($options['product_catalog_ids']) && !empty($options['product_catalog_ids'])) {
 		if (isset($options['product_catalog_ids'][$_GET['id']])) {
 			$data = $options['product_catalog_ids'][$_GET['id']];
-			dump($data);
 
 			$name = '';
 			$description = '';
@@ -105,10 +104,31 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 							</div>
 						</fieldset>
 						<input type="submit" class="button left" value="Update Product Listing"/>
+						<button class="button delete-listing-button" id="delete-listing"><?php _e('Delete Product Listing', 'rich-reviews'); ?></button>
 						<div class="clear"></div>
 					</form>
 				</div>
+				<div class="confirm-deletion">
+					<h3><?php printf(__('Are you sure that you wish to delete the product listing for product with id "%s"?', 'rich-reviews'), $_GET['id']); ?></h3>
+					<form method="post" name="delete-listing-<?php echo $_GET['id'];?>">
+						<input type="hidden" name="deleting-listing" value="confirmed" />
+						<input type="submit" class="button confirm-deletion-button" value="<?php _e('Confirm Delete', 'rich-reviews'); ?>" />
+						<button class="button delete-listing-button" id="cancel-deletion"><?php _e('Cancel Delete'); ?></button>
+					</form>
+				</div>
 			</div>
+			<script type="text/javascript">
+				jQuery(function() {
+					jQuery('#delete-listing').click(function(e) {
+						e.preventDefault();
+						jQuery('.confirm-deletion').toggleClass('active');
+					});
+					jQuery('#cancel-deletion').click(function(e) {
+						e.preventDefault();
+						jQuery('.confirm-deletion').removeClass('active');
+					});
+				});
+			</script>
 			<?php
 		} else {
 			?>
