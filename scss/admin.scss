@@ -163,6 +163,18 @@
 				}
 			}
 		}
+		.delete-listing-button {
+			margin-left: 8px;
+		}
+	}
+	.confirm-deletion {
+		display: none;
+		background-color: rgba(0,0,0,0.2);
+		padding: 13px 21px;
+		border-radius: 8px;
+		&.active {
+			display: block;
+		}
 	}
 }
 .initialize-options {

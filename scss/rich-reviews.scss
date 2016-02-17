@@ -287,7 +287,7 @@ $icon-font-name: 'glyphicons-halflings-regular';
 // -----
 
 // Variables
-$input_width: 300px;
+$input_width: 100%;
 $star_color: blue;
 $star_empty_color: black;
 
@@ -474,9 +474,9 @@ $star_empty_color: black;
 	// font-size: 1.0rem;
 }
 .read_more, .show_less {
-				font-size: 12px;
-				font-style: itlaic;
-			}
+	font-size: 12px;
+	font-style: itlaic;
+}
 
 .review-head {
 	display: flex;
@@ -505,8 +505,10 @@ $star_empty_color: black;
 		.rr-avatar {
 			height: 44px;
 			width: 44px;
+			border-radius: 22px;
 			&.sa-avatar {
-				margin-bottom:8px;
+				margin-bottom: 8px;
+				border-radius: 0px;
 			}
 		}
 	}
