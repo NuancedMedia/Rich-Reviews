@@ -30,11 +30,14 @@ class RRShopAppOptions {
       'imported_review_ids' => array(),
       'inline_review_form' => false,
       'link_text' => 'Review Us',
-      'link_element_class' => ''
+      'link_element_class' => '',
+      'use_rr_categories' => false,
+      'product_pt_slug' => '',
+      'product_catalog_ids' => array(),
+      'product_feed_url' => '',
 		);
 
 		  if ($this->get_option() == FALSE) {
-        dump('whahahh');
           $this->set_to_defaults();
       }
       // add_action()
@@ -153,8 +156,7 @@ class RRShopAppOptions {
          foreach ($opt_name as $real_opt_name => $real_opt_value) {
              $this->update_option($real_opt_name, $real_opt_value);
          }
-     }
-     else {
+     } else {
          $current_options = $this->get_option(); // get all the stored options
 
          // ----- make sure we at least start with blank options
