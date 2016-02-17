@@ -44,11 +44,14 @@
 	.label-container {
 		margin-bottom: 8px;
 		label {
-			font-size: 21px;
+			font-size: 16px;
 		}
 	}
 	input[type="text"] {
 		width: 80%;
+	}
+	input[type="checkbox"] {
+		margin-top: 3px;
 	}
 }
 
@@ -59,7 +62,7 @@
 .options-section {
 	margin-bottom: 21px;
 	padding: 21px 5%;
-	background: darken(#fff, 40%);
+	background: darken(#fff, 20%);
 	border-radius: 13px;
 }
 
@@ -76,6 +79,10 @@
 	}
 }
 
+.input-beak {
+	margin-bottom: 8px;
+}
+
 .sa-long-info {
 	display: none;
 	&.active {
@@ -83,3 +90,103 @@
 	}
 }
 
+.options-section {
+	.button {
+		margin-right: 8px;
+	}
+	.single-product-info {
+		margin-right: 2%;
+		margin-bottom: 13px;
+		border-radius: 13px;
+		background-color: rgba(255,255,255,0.7);
+		padding: 8px 13px;
+		width: 32%;
+		&:nth-of-type(4n+3) {
+			margin-right: 0;
+		}
+		float: left;
+		.single-product-detail {
+			display: block;
+		}
+
+	}
+}
+
+.label-container {
+	// padding-top: 13px;
+
+	margin-bottom: 8px;
+	label {
+		font-size: 16px;
+	}
+}
+
+
+.edit-page-container {
+	padding: 55px 5%;
+	.index-edit-container {
+		padding: 34px 5%;
+		form {
+			background-color: rgba(0,0,0,0.2);
+			padding: 13px 21px;
+			border-radius: 8px;
+			fieldset {
+				clear: both;
+				margin-bottom: 8px;
+				vertical-align: bottom;
+				// display: flex;
+				.index-field-label {
+				 	display: inline-block;
+					width: 20%;
+					font-size: 21px;
+					float: left;
+					padding-top: 25px;
+					label {
+						// float: right;
+						text-align: right;
+					}
+				}
+				.index-field-input {
+					display: inline-block;
+					width: 70%;
+					float: left;
+					padding: 13px 3px;
+					input[type="text"], textarea {
+						width: 100%;
+						padding: 13px 8px;
+						border-radius: 5px;
+						font-size: 18px;
+					}
+					textarea {
+						height: 89px;
+					}
+				}
+			}
+		}
+	}
+}
+.initialize-options {
+	width: 60%;
+	margin: auto;
+	text-align: center;
+	.line {
+		border: solid 1px black;
+		width: 45%;
+		display: inline-block;
+		height: 0;
+		vertical-align: middle;
+	}
+}
+
+.single-product-detail {
+	.good {
+		color: green;
+	}
+	.bad {
+		color: red;
+	}
+}
+
+.one {
+	width: 100%;
+}
