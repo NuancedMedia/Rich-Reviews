@@ -72,7 +72,7 @@ class RichReviews {
 		$this->path = trailingslashit(plugin_dir_path(__FILE__));
 
 		$this->plugin_url = trailingslashit(plugins_url(basename(dirname(__FILE__))));
-		$this->logo_url = $this->plugin_url . 'images/RR-icon-64.png';
+		$this->logo_url = $this->plugin_url . 'images/RR-icon-full.jpg';
 		$this->icon_small_url = $this->plugin_url . 'images/RR-icon-16.png';
 		$this->options_name = 'rr_options';
 		$this->options= new RROptions($this);
