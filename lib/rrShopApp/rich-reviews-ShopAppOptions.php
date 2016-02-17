@@ -29,8 +29,10 @@ class RRShopAppOptions {
       'average_score' => NULL,
       'imported_review_ids' => array(),
       'inline_review_form' => false,
-      'link_text' => 'Review Us',
-      'link_element_class' => '',
+      'merchant_link_text' => 'Review Us',
+      'merchant_link_element_class' => '',
+      'product_link_text' => 'Review Our Product',
+      'product_link_element_class' => '',
       'use_rr_categories' => false,
       'product_pt_slug' => '',
       'product_catalog_ids' => array(),
@@ -91,11 +93,17 @@ class RRShopAppOptions {
     }
 
     if (isset($_POST['napolean']) && $_POST['napolean'] == 'complex') {
-      if (isset($_POST['link_text']) && $_POST['link_text'] != '' ) {
-        $this->update_option('link_text', $_POST['link_text']);
+      if (isset($_POST['merchant_link_text']) && $_POST['merchant_link_text'] != '' ) {
+        $this->update_option('merchant_link_text', $_POST['merchant_link_text']);
       }
-      if (isset($_POST['link_element_class'])) {
-        $this->update_option('link_element_class', $_POST['link_element_class']);
+      if (isset($_POST['merchant_link_element_class'])) {
+        $this->update_option('merchant_link_element_class', $_POST['merchant_link_element_class']);
+      }
+      if (isset($_POST['product_link_text']) && $_POST['product_link_text'] != '' ) {
+        $this->update_option('product_link_text', $_POST['product_link_text']);
+      }
+      if (isset($_POST['product_link_element_class'])) {
+        $this->update_option('product_link_element_class', $_POST['product_link_element_class']);
       }
       if (isset($_POST['inline_review_form']) && $_POST['inline_review_form'] != '') {
         $this->update_option('inline_review_form', true);
