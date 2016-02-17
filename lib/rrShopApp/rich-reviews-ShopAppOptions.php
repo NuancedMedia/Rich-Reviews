@@ -38,14 +38,16 @@ class RRShopAppOptions {
       'product_pt_slug' => '',
       'product_catalog_ids' => array(),
       'product_feed_url' => '',
+      'alert_queue_init' => null
 		);
 
 		  if ($this->get_option() == FALSE) {
           $this->set_to_defaults();
       }
-      // add_action()
+
       $this->update_options(true);
 	}
+
 
 	public function set_to_defaults() {
         delete_option($this->options_name);
