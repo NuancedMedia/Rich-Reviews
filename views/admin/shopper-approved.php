@@ -127,38 +127,103 @@
 
 						<form name="shopper-approved-shortcode-options" method="post">
 							<input type="hidden" name="napolean" value="complex" />
-							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="link_text" class="one-third" style="float:right;">
-									<?php _e('Link Text:', 'rich-reviews'); ?>
-								</label>
-							</div>
-							<div class="input-container two-thirds" style="width:66%;float:right;">
-								<input type="text" name="link_text" class="two-thirds" style="width:100%;float:left;" <?php if($options['link_text'] != null) { echo 'value="' . $options['link_text'] . '"';} ?>/>
-							</div>
-							<div class="clear input-break"></div>
-							<br />
+							<div class="merchant-options">
+								<h3>Merchant Review Link</h3>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="reviews-link-shortcode" class="one-third" style="float:right;">
+										<?php _e('Output Link to Full Review', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<span class="two-thirds" style="width:100%;float:left;">
+										[RR_SHOPPER_APPROVED get="merchant-link"]
+									</span>
+								</div>
+								<div class="clear input-break"></div>
+								<br/>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="merchant_link_text" class="one-third" style="float:right;">
+										<?php _e('Link Text', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<input type="text" name="merchant_link_text" class="two-thirds" style="width:100%;float:left;" <?php if($options['merchant_link_text'] != null) { echo 'value="' . $options['merchant_link_text'] . '"';} ?>/>
+								</div>
+								<div class="clear input-break"></div>
+								<br />
 
-							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="link_element_class" class="one-third" style="float:right;">
-									<?php _e('Link Element Class:', 'rich-reviews'); ?>
-								</label>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="merchant_link_element_class" class="one-third" style="float:right;">
+										<?php _e('Link Element Class', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<input type="text" name="merchant_link_element_class" class="two-thirds" style="width:100%;float:left;" <?php if($options['merchant_link_element_class'] != null) { echo 'value="' . $options['merchant_link_element_class'] . '"';} ?>/>
+								</div>
+								<div class="clear input-break"></div>
 							</div>
-							<div class="input-container two-thirds" style="width:66%;float:right;">
-								<input type="text" name="link_element_class" class="two-thirds" style="width:100%;float:left;" <?php if($options['link_element_class'] != null) { echo 'value="' . $options['link_element_class'] . '"';} ?>/>
+							<div class="product-options">
+								<h3>Product Review Link</h3>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="reviews-link-shortcode" class="one-third" style="float:right;">
+										<?php _e('Output Link to Full Review', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<span class="two-thirds" style="width:100%;float:left;">
+										[RR_SHOPPER_APPROVED get="product-link"]
+									</span>
+								</div>
+								<div class="clear input-break"></div>
+								<br/>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="product_link_text" class="one-third" style="float:right;">
+										<?php _e('Link Text', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<input type="text" name="product_link_text" class="two-thirds" style="width:100%;float:left;" <?php if($options['product_link_text'] != null) { echo 'value="' . $options['product_link_text'] . '"';} ?>/>
+								</div>
+								<div class="clear input-break"></div>
+								<br />
+
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="product_link_element_class" class="one-third" style="float:right;">
+										<?php _e('Link Element Class', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<input type="text" name="product_link_element_class" class="two-thirds" style="width:100%;float:left;" <?php if($options['product_link_element_class'] != null) { echo 'value="' . $options['product_link_element_class'] . '"';} ?>/>
+								</div>
+								<div class="clear input-break"></div>
 							</div>
-							<div class="clear input-break"></div>
 							<br />
-							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="inline_review_form" class="one-third" style="float:right;text-align:right;">
-									<?php _e('Display Review Inline', 'rich-reviews'); ?>:<br/>
-									<span style="font-size:10px;">(<?php _e('default shows form in modal)', 'rich-reviews'); ?></span>
-								</label>
+							<div class="trigger-options">
+								<h3>Review Trigger</h3>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="reviews-trigger-shortcode" class="one-third" style="float:right;">
+										<?php _e('Trigger Review Form', 'rich-reviews'); ?>:
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<span class="two-thirds" style="width:100%;float:left;">
+										[RR_SHOPPER_APPROVED get="trigger"]
+									</span>
+								</div>
+								<div class="clear input-break"></div>
+								<br/>
+								<div class="label-container one-fifth" style="width:30%;float:left;">
+									<label for="inline_review_form" class="one-third" style="float:right;text-align:right;">
+										<?php _e('Display Review Inline', 'rich-reviews'); ?>:<br/>
+										<span style="font-size:10px;">(<?php _e('default shows form in modal)', 'rich-reviews'); ?></span>
+									</label>
+								</div>
+								<div class="input-container two-thirds" style="width:66%;float:right;">
+									<input type="checkbox" name="inline_review_form" class="two-thirds" <?php if($options['inline_review_form']) { echo 'checked';} ?>/>
+								</div>
+								<br />
+								<div class="clear input-break"></div>
 							</div>
-							<div class="input-container two-thirds" style="width:66%;float:right;">
-								<input type="checkbox" name="inline_review_form" class="two-thirds" <?php if($options['inline_review_form']) { echo 'checked';} ?>/>
-							</div>
-							<br />
-							<div class="clear input-break"></div>
 							<br/>
 							<input type="submit" value="<?php _e('Update Shortcode Options', 'rich-reviews'); ?>" class="button" />
 						</form>
@@ -311,6 +376,11 @@
 									<div class="clear"></div>
 									<br />
 									<a href="<?php echo admin_url() . 'admin.php?page=edit_single_product_index&new=true'; ?>" class="button"><?php _e('Add New Product Listing', 'rich-reviews'); ?></a>
+								</div>
+								<div class="one">
+									<h2><?php echo _e('Product Reviews Shortcode Options', 'rich-reviews'); ?></h2>
+									<hr>
+
 								</div>
 								<?php
 							}
