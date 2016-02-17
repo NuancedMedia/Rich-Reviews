@@ -2,6 +2,9 @@
 
 require_once('rich-reviews-ShopAppOptions.php');
 require_once('rich-reviews-ShopAppShortcode.php');
+
+// require_once('views/edit_single_index.php');
+
 wp_cron();
 
 
