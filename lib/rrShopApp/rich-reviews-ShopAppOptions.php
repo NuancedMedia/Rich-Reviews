@@ -39,7 +39,8 @@ class RRShopAppOptions {
       'product_pt_slug' => '',
       'product_catalog_ids' => array(),
       'product_feed_url' => '',
-      'alert_queue_init' => null
+      'alert_queue_init' => null,
+      'init_time' => ''
 		);
 
 		  if ($this->get_option() == FALSE) {
