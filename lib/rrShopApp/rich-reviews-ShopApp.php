@@ -313,6 +313,7 @@ class RRShopApp {
             $message_text = "Product listing created and feed rewritten succesfully";
             $headerString = 'Location: ' . admin_url() . 'admin.php?page=edit_single_product_index&id=' . $product_id;
             header($headerString);
+            return;
         } else if (isset($_POST['deleting-listing']) && $_POST['deleting-listing'] == 'confirmed') {
             $currentProductIndex = $options['product_catalog_ids'];
             $updatedProductIndex = $currentProductIndex;
@@ -323,6 +324,7 @@ class RRShopApp {
             $this->create_update_product_csv();
             $headerString = 'Location: ' . admin_url() . 'admin.php?page=fp_admin_shopper_approved_page';
             header($headerString);
+            return;
         }
         @include 'views/edit_single_index.php';
     }
@@ -340,6 +342,7 @@ class RRShopApp {
     }
 
     public function create_update_product_csv() {
+        $this->shopAppOptions = $this->options->get_option();
         if(!isset($this->shopAppOptions['product_catalog_ids']) || empty($this->shopAppOptions['product_catalog_ids'])) {
             return;
         } else {
@@ -365,12 +368,12 @@ class RRShopApp {
             foreach($catalogged_ids as $id => $data) {
                 $formatted_fields = array(
                     'Product ID'    => $id,
-                    'Product Name'  => $data['name'],
-                    'Description'   => $data['description'],
-                    'Manufacturer'  => $data['manufacturer'],
-                    'Product URL'   => $data['product_url'],
-                    'Image URL'     => $data['image_url'],
-                    'mpn'           => $data['mpn']
+                    'Product Name'  => html_entity_decode(stripcslashes($data['name']), ENT_QUOTES),
+                    'Description'   => html_entity_decode(stripcslashes($data['description']), ENT_QUOTES),
+                    'Manufacturer'  => html_entity_decode(stripcslashes($data['manufacturer']), ENT_QUOTES),
+                    'Product URL'   => stripcslashes($data['product_url']),
+                    'Image URL'     => stripcslashes($data['image_url']),
+                    'mpn'           => html_entity_decode(stripcslashes($data['mpn']), ENT_QUOTES)
                 );
 
                 fwrite($newfile, $this->exportCSV($formatted_fields));
