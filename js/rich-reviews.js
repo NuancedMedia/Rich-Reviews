@@ -1,17 +1,4 @@
 jQuery(function(){
-	// if(jQuery('.successful').is(':visible')) {
-	// 	offset = jQuery('.successful').offset();
-	// 	jQuery('html, body').animate({
-	// 		scrollTop: (offset.top - 400)
-	// 	});
-	// } else {
-	// 	if(jQuery('.form-err').is(':visible')) {
-	// 		offset = jQuery('.form-err').offset();
-	// 		jQuery('html, body').animate({
-	// 			scrollTop: (offset.top - 200)
-	// 		});
-	// 	}
-	// }
 	jQuery('.rr_review_text').each(function(event){
 		var max_length = 150;
 		if(jQuery(this).html().length > max_length){
@@ -39,34 +26,16 @@ jQuery(function(){
 		}
 	});
 
-	// jQuery('.rr_star').hover(function() {
-	// 	renderStarRating(parseInt(jQuery(this).attr('id').charAt(8)));
-	// }, function() {
-	// 	renderStarRating(parseInt(jQuery('#rRating').val()));
-	// });
-
-	jQuery('.rr_star').click(function() {
-		jQuery('#rRating').val(jQuery(this).attr('id').charAt(8));
-	});
-
-	// jQuery('#submitReview').click(function() {
-	// 	window.setInterval(scrollToForm(), 3000);
-	// });
-	// jQuery('#submitReview').click(function() {
-	// 	formSubmit = true;
-	// 	console.log("formSubmit");
-	// });
 	jQuery('.toggle-shop-app-config').click(function(){
 		jQuery('.shop-app-init').toggleClass('active');
 		jQuery('.shop-app-info').toggleClass('active');
 
 	});
+
 	initStarEffects();
 });
 
 function initStarEffects() {
-	// console.log('runrunrunrunr');
-	// console.log(jQuery('.rr_star'));
 	jQuery('.rr_review_form').each(function() {
 
 		jQuery(this).find('.rr_star').hover(function() {
@@ -75,11 +44,10 @@ function initStarEffects() {
 			renderStarRating(parseInt(jQuery(this).parent().closest('form').find('#rRating').val()), jQuery(this).parent());
 		});
 
-		jQuery(this).find('.rr_star').click(function() {
-			console.log(jQuery(this).closest('form').find('#rRating').attr({type: 'text'}));
-			// console.log(jQuery(this).closest('form').children().css('background-color','red'));
-
-			jQuery(this).parent().closest('form').find('#rRating').val(jQuery(this).attr('id').charAt(8));
+		jQuery(this).find('.rr_star').click(function(e) {
+			thing = jQuery(this).closest('form').find('#rRating');
+			console.log(thing);
+			thing.val(jQuery(this).attr('id').charAt(8));
 		});
 	});
 }
@@ -96,7 +64,3 @@ function renderStarRating(rating, target) {
 	}
 }
 
-
-// function scrollToForm() {
-// 	console.log("kjndkjn");
-// }
