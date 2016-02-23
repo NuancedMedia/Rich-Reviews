@@ -1,8 +1,12 @@
 <?php
 	$options = $this->parent->shopApp->options->get_option();
-	if(isset($options['total_review_count']) && is_int($options['reviews_pulled_count'])) {
+	if (isset($options['total_review_count']) && is_int($options['reviews_pulled_count'])) {
 		$unpulled_reviews = intval($options['total_review_count']) - intval($options['reviews_pulled_count']);
-		$unpulled_reviews = (string)$unpulled_reviews;
+		if ($unpulled_reviews > 0) {
+			$unpulled_reviews = (string)$unpulled_reviews;
+		} else {
+			$unpulled_reviews = '0';
+		}
 	} else {
 		$unpulled_reviews = null;
 	}
@@ -10,7 +14,7 @@
 	$init_active = '';
 	$info_active = '';
 
-	if(isset($options['api_url']) && $options['api_url'] != '') {
+	if (isset($options['api_url']) && $options['api_url'] != '') {
 		$init_active = 'active';
 	} else {
 		$info_active = 'active';
