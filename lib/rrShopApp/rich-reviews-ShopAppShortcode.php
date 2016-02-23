@@ -1,11 +1,11 @@
 <?php
 
-function handle_shopper_approved($switch, $options, $path) {
+function handle_shopper_approved($switch, $ids, $options, $path) {
 	global $wpdb, $post;
 
 	switch($switch) {
 		case 'trigger':
-			output_trigger_script($options);
+			output_trigger_script($options, $ids);
 			break;
 		case 'merchant-link':
 			output_merchant_review_link($options);
@@ -20,15 +20,14 @@ function handle_shopper_approved($switch, $options, $path) {
 
 }
 
-function output_trigger_script($options) {
-
+function output_trigger_script($options, $ids) {
 	$option = false;
 	$sub = 'rate';
-	if(isset($options['inline_review_form']) && $options['inline_review_form']) {
+	if (isset($options['inline_review_form']) && $options['inline_review_form']) {
 		$option = true;
 	}
 
-	if($option) {
+	if ($option) {
 		$sub = 'inline';
 		?>
 			<div id="outer_shopper_approved"></div>
@@ -57,6 +56,21 @@ function output_trigger_script($options) {
 			</script>
 		<!-- </pre> -->
 	<?php
+	if (isset($options['product_catalog_ids']) && !empty($options['product_catalog_ids']) &&  $ids != '') {
+		$product_ids = explode(',', $ids);
+		$ids_object = '';
+		foreach($product_ids as $id) {
+			if(isset($options['product_catalog_ids'][$id]) && is_array($options['product_catalog_ids'][$id]) && isset($options['product_catalog_ids'][$id]['name'])) {
+				$ids_object .= '"' . $id . '":"' . $options['product_catalog_ids'][$id]['name']  . '", ';
+			}
+		}
+		?>
+		<script type="text/javascript">
+			/* Include all products in the object below 'product id':'Product Name' */
+			var sa_products = {<?php echo $ids_object; ?>};
+		</script>
+		<?php
+	}
 }
 
 function output_merchant_review_link($options) {
