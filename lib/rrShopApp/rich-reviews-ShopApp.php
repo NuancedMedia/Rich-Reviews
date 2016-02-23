@@ -85,11 +85,24 @@ class RRShopApp {
             )
         ,$atts));
 
+        if ($get == 'trigger') {
+            $this->maybe_initialize_setup_time();
+        }
+
         ob_start();
             if ($get != '') {
                 handle_shopper_approved($get, $ids, $this->shopAppOptions, $this->parent->path);
             }
         return ob_get_clean();
+    }
+
+    function maybe_initialize_setup_time() {
+        $setupTime = $this->options->get_option('init_time');
+
+        if($setupTime == '') {
+            $this->options->update_option('init_time', time()*1000);
+            dump('updated');
+        }
     }
 
     function add_edit_product_index() {
@@ -268,6 +281,7 @@ class RRShopApp {
     public function process_reviews_pull() {
 
 		$data = $this->shopAppOptions;
+
  		if(!isset($data['site_id']) || $data['site_id'] == '' || !isset($data['site_token']) || $data['site_token'] == '' ) {
             return $data;
         }
