@@ -50,7 +50,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<input type="text" name="name" value='<?php echo $name; ?>'/>
+								<input type="text" name="name" value='<?php echo stripcslashes($name); ?>'/>
 							</div>
 						</fieldset>
 						<fieldset for="description">
@@ -60,7 +60,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<textarea type="text" name="description"><?php echo $description; ?></textarea>
+								<textarea type="text" name="description"><?php echo stripcslashes($description); ?></textarea>
 							</div>
 						</fieldset>
 						<fieldset for="manufacturer">
@@ -70,7 +70,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<input type="text" name="manufacturer" value='<?php echo $manufacturer; ?>'/>
+								<input type="text" name="manufacturer" value='<?php echo stripcslashes($manufacturer); ?>'/>
 							</div>
 						</fieldset>
 						<fieldset for="product_url">
@@ -80,7 +80,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<input type="text" name="product_url" value='<?php echo $product_url; ?>'/>
+								<input type="text" name="product_url" value='<?php echo stripcslashes($product_url); ?>'/>
 							</div>
 						</fieldset>
 						<fieldset for="image_url">
@@ -90,7 +90,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<input type="text" name="image_url" value='<?php echo $image_url; ?>'/>
+								<input type="text" name="image_url" value='<?php echo stripcslashes($image_url); ?>'/>
 							</div>
 						</fieldset>
 						<fieldset for="mpn">
@@ -100,7 +100,7 @@ if (isset($_GET['id']) && $_GET['id'] != '') {
 								</label>
 							</div>
 							<div class="index-field-input">
-								<input type="text" name="mpn" value='<?php echo $mpn; ?>'/>
+								<input type="text" name="mpn" value='<?php echo stripcslashes($mpn); ?>'/>
 							</div>
 						</fieldset>
 						<input type="submit" class="button left" value="Update Product Listing"/>
