@@ -96,13 +96,30 @@ class RRShopApp {
         add_submenu_page( null, 'Edit Single Product Index', 'Edit Single Product Index', 'edit_posts', 'edit_single_product_index', array( &$this, 'display_edit_single_product_index' ));
     }
 
-	function display_handle($atts = null) {
+	function display_handle($type = null, $id = null) {
 		$stuff = $this->options->get_option();
-		if(isset($stuff['markup']) && $stuff['markup'] != '') {
-			$html = $stuff['markup'];
-			return $html;
-		}
-			return;
+
+        if ($type != null) {
+            $html = '';
+            switch($type) {
+                case 'product':
+                    if ($id != null && is_string($id)) {
+                        if(isset($stuff['product_markup']) && isset($stuff['product_markup'][$id]) && $stuff['product_markup'][$id] != '') {
+                            $html = $stuff['product_markup'][$id];
+                        }
+                    }
+                    break;
+                case 'merchant':
+                    if(isset($stuff['merchant_markup']) && $stuff['merchant_markup'] != '') {
+                        $html = $stuff['merchant_markup'];
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return $html;
+        }
+		return;
 	}
 
 	function process_cache_update($data = null) {
@@ -128,13 +145,14 @@ class RRShopApp {
 		$this->update_reviews_general_info($data);
 
         $data = $this->update_aggregate_snippet_markup($data);
+        $data = $this->update_product_snippet_markup($data);
 
 		// if(isset($markup) && $markup != null && $markup != '') {
 		$data['last_update'] = date("F j, Y, g:i a");
 
 			// $return = array(
 			// 	'api_url' 		=> 	$api_url,
-			// 	'markup'		=>	$markup,
+			// 	'merchant_markup'		=>	$markup,
 			// 	'last_update'	=>	$last_update
 			// );
 
@@ -179,7 +197,7 @@ class RRShopApp {
 
     	if(wp_remote_fopen($json_request) != false) {
 			$markup = file_get_contents($json_request);
-			$data['markup'] = $markup;
+			$data['merchant_markup'] = $markup;
 		} else {
 			// No file at url
 			return $data;
@@ -187,6 +205,33 @@ class RRShopApp {
 
 		return $data;
     }
+
+     public function update_product_snippet_markup($data) {
+
+        if(!isset($data['site_id']) || $data['site_id'] == '' || !isset($data['site_token']) || $data['site_token'] == '' || !isset($data['product_catalog_ids']) || empty($data['product_catalog_ids'])) {
+            return $data;
+        }
+
+        $product_markup_by_id = array();
+        foreach($data['product_catalog_ids'] as $id => $val) {
+            $json_request = "https://www.shopperapproved.com/feeds/schema-product.php?siteid=" . $data['site_id'] . "&token=" . $data['site_token'] . "&product=" . $id;
+             if(wp_remote_fopen($json_request) != false) {
+                $markup = file_get_contents($json_request);
+                $product_markup_by_id[$id] = $markup;
+            } else {
+                // No file at url
+                $product_markup_by_id[$id] = null;
+            }
+        }
+
+        if (isset($data['product_markup']) && is_array($data['product_markup'])) {
+            $current_product_markup = $data['product_markup'];
+            $product_markup_by_id = array_merge($current_product_markup, $product_markup_by_id);
+        }
+        $data['product_markup'] = $product_markup_by_id;
+        return $data;
+    }
+
 
     public function update_reviews_info() {
         $data = $this->options->get_option();

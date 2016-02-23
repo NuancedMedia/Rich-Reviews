@@ -13,8 +13,13 @@ function handle_shopper_approved($switch, $ids, $options, $path) {
 		case 'product-link':
 			output_product_review_link($options);
 			break;
-		case 'schema':
-			output_review_structured_snippet($options);
+		case 'merchant-schema':
+			output_merchant_review_structured_snippet($options);
+			break;
+		case 'product-schema':
+			if ($ids != '') {
+				output_product_review_structured_snippet($options, $ids);
+			}
 			break;
 	}
 
@@ -119,12 +124,30 @@ function output_product_review_link($options) {
 	}
 }
 
-function output_review_structured_snippet($options) {
+function output_merchant_review_structured_snippet($options) {
 	$tempRR = new RRShopApp();
 
-	if(isset($tempRR->shopAppOptions['markup']) && $tempRR->shopAppOptions['markup'] != '') {
-		echo $tempRR->display_handle();
+	if(isset($tempRR->shopAppOptions['merchant_markup']) && $tempRR->shopAppOptions['merchant_markup'] != '') {
+		echo $tempRR->display_handle('merchant');
 		return;
+	}
+	return;
+}
+
+function output_product_review_structured_snippet($options, $ids = null) {
+	$tempRR = new RRShopApp();
+
+	if ($ids != null && $ids != '') {
+		$id_array = explode(',', $ids);
+		if ( !is_array($id_array) ) {
+			return;
+		}
+	}
+
+	if (isset($tempRR->shopAppOptions['product_markup'])) {
+		foreach($id_array as $id) {
+			echo $tempRR->display_handle('product', $id);
+		}
 	}
 	return;
 }

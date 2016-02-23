@@ -193,21 +193,40 @@
 					<div class="clear"></div>
 
 					<div class="options-section">
-						<h2><?php _e('Aggregate Snippet Settings', 'rich-reviews'); ?></h2>
+						<h2><?php _e('Snippet Settings', 'rich-reviews'); ?></h2>
 						<hr>
 						<div class="label-container one-fifth" style="width:30%; float:left;">
 							<label for="html-markup" style="float:right;">
-								<?php _e('Shopper Approved Markup:', 'rich-reviews'); ?>
-								<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;"><?php _e('Use the shortcode', 'rich-reviews'); ?> <code style="font-style: normal; font-size: 11px;">[RR_SHOPPER_APPROVED get="schema"]</code> <?php _e('to output this markup', 'rich-reviews'); ?></div>
+								<?php _e('Shopper Approved Merchant Markup:', 'rich-reviews'); ?>
+								<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;"><?php _e('Use the shortcode', 'rich-reviews'); ?><br/><code style="font-style: normal; font-size: 11px;">[RR_SHOPPER_APPROVED get="merchant-schema"]</code> <?php _e('to output this markup', 'rich-reviews'); ?></div>
 							</label>
 						</div>
 						<div class="input-container two-thirds" style="width:66%;float:right;">
 							<code name="Shopper Approved" placeholder="API Key" rows="10" cols="100" style="overflow:scroll;width:100%;float:left;" >
-							<?php if($options['markup'] != null) { echo htmlspecialchars($options['markup']);} ?>
+							<?php if($options['merchant_markup'] != null) { echo htmlspecialchars($options['merchant_markup']);} ?>
 							</code>
 						</div>
 						<div class="clear input-break"></div>
 						<br />
+						<?php
+							if (isset($options['product_catalog_ids']) && !empty($options['product_catalog_ids'])) {
+								?>
+									<div class="label-container one-fifth" style="width:30%; float:left;">
+										<label for="html-markup" style="float:right;">
+											<?php _e('Shopper Approved Merchant Markup:', 'rich-reviews'); ?>
+											<div style="font-size: 11px; font-weight: 400; margin-top: 8px; font-style: italic;"><?php _e('Use the shortcode', 'rich-reviews'); ?> <br/><code style="font-style: normal; font-size: 11px;">[RR_SHOPPER_APPROVED get="product-schema" ids="productId"]</code> <?php echo __('to output this markup. Note: Replace productId with the catalog id of the product for which you would like to output the schema for. To output multiple product\'s schema use comma separated ids.', 'rich-reviews') . '<br/>' . __('(ex. ids="productId1,productId2,productId3")', 'rich-reviews'); ?></div>
+										</label>
+									</div>
+									<div class="input-container two-thirds" style="width:66%;float:right;">
+										<code name="Shopper Approved" placeholder="API Key" rows="10" cols="100" style="overflow:scroll;width:100%;float:left;" >
+										<?php if(isset($options['product_markup']) && !empty($options['product_markup'])) { echo htmlspecialchars(array_shift($options['product_markup']));} ?>
+										</code>
+									</div>
+									<div class="clear input-break"></div>
+									<br />
+								<?php
+							}
+						?>
 						<div class="label-container one-fifth" style="width:30%;float:left;">
 							<label for="last_update" style="float:right;">
 								<?php _e('Last Updated:', 'rich-reviews'); ?>

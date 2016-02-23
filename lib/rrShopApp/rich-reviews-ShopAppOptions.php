@@ -19,7 +19,8 @@ class RRShopAppOptions {
 		$this->options_name = $this->parent->option_name;
 		$this->defaults = array(
 			'api_url' 		=> 	'',
-			'markup'		=>	'',
+			'merchant_markup'		=>	'',
+      'product_markup' => array(),
 			'last_update'	=> 	'',
       'site_id' => '',
       'site_token' => '',
@@ -70,7 +71,11 @@ class RRShopAppOptions {
 		if(isset($_POST["dinner"]) && $_POST['dinner'] == "served") {
 
         if(isset($_POST['api_url']) && $_POST['api_url'] != '') {
-            $update = $this->parent->process_cache_update($_POST);
+            if(!isset($this->parent->shopAppOptions['api_url']) || $_POST['api_url'] != $this->parent->shopAppOptions['api_url']) {
+              $update = $this->parent->process_cache_update($_POST);
+            } else {
+              $update = $this->parent->process_cache_update($this->parent->shopAppOptions);
+            }
         }
 
         if (isset($update) && $update != NULL){
