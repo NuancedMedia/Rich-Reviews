@@ -169,7 +169,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="total_review_count" class="one-third" style="float:right;">
+							<label for="total_review_count" style="float:right;">
 								<?php _e('Total Shopper Approved Reviews:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -179,7 +179,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="average_score" class="one-third" style="float:right;">
+							<label for="average_score" style="float:right;">
 								<?php _e('Average Score:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -209,7 +209,7 @@
 						<div class="clear input-break"></div>
 						<br />
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="last_update" class="one-third" style="float:right;">
+							<label for="last_update" style="float:right;">
 								<?php _e('Last Updated:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -235,7 +235,7 @@
 										<div class="merchant-options">
 											<h3>Merchant Review Link</h3>
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="reviews-link-shortcode" class="one-third" style="float:right;">
+												<label for="reviews-link-shortcode" style="float:right;">
 													<?php _e('Output Link to Full Review', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -247,7 +247,7 @@
 											<div class="clear input-break"></div>
 											<br/>
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="merchant_link_text" class="one-third" style="float:right;">
+												<label for="merchant_link_text" style="float:right;">
 													<?php _e('Link Text', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -258,7 +258,7 @@
 											<br />
 
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="merchant_link_element_class" class="one-third" style="float:right;">
+												<label for="merchant_link_element_class" style="float:right;">
 													<?php _e('Link Element Class', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -270,7 +270,7 @@
 										<div class="product-options">
 											<h3>Product Review Link</h3>
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="reviews-link-shortcode" class="one-third" style="float:right;">
+												<label for="reviews-link-shortcode" style="float:right;">
 													<?php _e('Output Link to Full Review', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -282,7 +282,7 @@
 											<div class="clear input-break"></div>
 											<br/>
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="product_link_text" class="one-third" style="float:right;">
+												<label for="product_link_text" style="float:right;">
 													<?php _e('Link Text', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -293,7 +293,7 @@
 											<br />
 
 											<div class="label-container one-fifth" style="width:30%;float:left;">
-												<label for="product_link_element_class" class="one-third" style="float:right;">
+												<label for="product_link_element_class" style="float:right;">
 													<?php _e('Link Element Class', 'rich-reviews'); ?>:
 												</label>
 											</div>
@@ -320,7 +320,7 @@
 							<div class="trigger-options">
 								<h3>Review Trigger</h3>
 								<div class="label-container one-fifth" style="width:30%;float:left;">
-									<label for="reviews-trigger-shortcode" class="one-third" style="float:right;">
+									<label for="reviews-trigger-shortcode" style="float:right;">
 										<?php _e('Trigger Review Form', 'rich-reviews'); ?>:
 									</label>
 								</div>
@@ -332,7 +332,7 @@
 								<div class="clear input-break"></div>
 								<br/>
 								<div class="label-container one-fifth" style="width:30%;float:left;">
-									<label for="inline_review_form" class="one-third" style="float:right;text-align:right;">
+									<label for="inline_review_form" style="float:right;text-align:right;">
 										<?php _e('Display Review Inline', 'rich-reviews'); ?>:<br/>
 										<span style="font-size:10px;">(<?php _e('default shows form in modal)', 'rich-reviews'); ?></span>
 									</label>
@@ -351,7 +351,7 @@
 						<h2><?php _e('Pull Reviews', 'rich-reviews'); ?></h2>
 						<hr>
 						<div class="label-container one-fifth" style="width:30%;float:left;">
-							<label for="reviews_last_pulled" class="one-third" style="float:right;">
+							<label for="reviews_last_pulled" style="float:right;">
 								<?php _e('Last Pulled:', 'rich-reviews'); ?>
 							</label>
 						</div>
@@ -364,7 +364,7 @@
 						if(isset($options['reviews_pulled_count']) && $options['reviews_last_pulled'] != 'not yet pulled') {
 							?>
 							<div class="label-container one-fifth" style="width:30%;float:left;">
-								<label for="unpulled_reviews" class="one-third" style="float:right;">
+								<label for="unpulled_reviews" style="float:right;">
 									<?php _e('New Unpulled Reviews:', 'rich-reviews'); ?>
 								</label>
 							</div>
@@ -378,7 +378,7 @@
 						?>
 						<form name="pullReviewsButton" method="post" action="" >
 							<input type="hidden" name="Whoop" value="There it is" />
-							<div class="input-container one-third" style="width:33%;float:left;">
+							<div class="input-container " style="width:33%;float:left;">
 								<div style="width: 100%;float:left;">
 									<input type="submit" class="button left" value="<?php _e('Pull Reviews', 'rich-reviews'); ?>" />
 								</div>
@@ -406,7 +406,7 @@
 							</p>
 							<div class="initialize-options">
 								<div class="label-container one-fifth" style="width:40%;float:left;padding-top:3px;">
-									<label for="product_pt_slug" class="one-third" style="float:right;margin-right:5px;">
+									<label for="product_pt_slug" style="float:right;margin-right:5px;">
 										<?php _e('Product post type slug:', 'rich-reviews'); ?>
 									</label>
 								</div>
@@ -418,7 +418,7 @@
 								<h3 style="text-align:center;"><span class="line"></span>  OR  <span class="line"></span></h3>
 								<br/>
 								<div class="label-container one-fifth" style="width:40%;float:left;">
-									<label for="use_rr_categories" class="one-third" style="float:right;margin-right:5px;">
+									<label for="use_rr_categories" style="float:right;margin-right:5px;">
 										<?php _e('Use Rich Reviews Categories:', 'rich-reviews'); ?>
 									</label>
 								</div>
@@ -445,12 +445,17 @@
 								<?php _e('Update and Download your Shopper Approved product record. Pleas double check that the file is output and formatted to the requirements described by Shopper Approved in the Product Reviews "Integration Options" tab. For more information on this process, refer to you Shopper Approved Dashboard ', 'rich-reviews'); ?> <a href=""><?php _e('here', 'rich-reviews'); ?></a>.
 							</p>
 							<input type="submit" class="button" value="<?php _e('Update Product Index', 'rich-reviews'); ?>" form="productReviewsIntegration" />
-							<a href="<?php echo $this->parent->plugin_url; ?>richreviews-download-product-index.php?type=csv" class="button left"><?php _e('Download Product Index', 'rich-reviews'); ?></a>
+							<?php if (isset($options['product_feed_url']) && $options['product_feed_url'] != '') {
+								?>
+									<a href="<?php echo $this->parent->plugin_url; ?>lib/rrShopApp/rrShopAppProductFeed.csv" class="button left"><?php _e('Download Product Index', 'rich-reviews'); ?></a>
+								<?php
+							}
+							?>
 							<div class="clear"></div>
 						</form>
 						<br/>
 						<div class="label-container one-fifth" style="width:25%;float:left;padding-top:5px;">
-							<label for="product_feed_url" class="one-third" >
+							<label for="product_feed_url" >
 								<?php _e('Product Feed URL', 'rich-reviews'); ?>:
 							</label>
 						</div>
@@ -501,6 +506,7 @@
 						?>
 					</div>
 					<div class="clear"></div>
+				</div>
 
 			<?php	} else { ?>
 				</form>
@@ -511,9 +517,5 @@
 <?php	} ?>
 
 
-	<style>
-		.postbox-container {
-			float: none;
-		}
-	</style>
+
 
