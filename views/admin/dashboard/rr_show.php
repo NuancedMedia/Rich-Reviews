@@ -49,4 +49,10 @@
 			<?php echo __('This will show all of the approved reviews from your website regardless of category. Any review that is approved will be retured by this shortcode.', 'rich-reviews'); ?>
 		</div>
 	</div>
+	<div class="rr_shortcode_option_container">
+		<div class="rr_shortcode_option_name">[RICH_REVIEWS_SHOW category="foo" num="12" id="213"]</div>
+		<div class="rr_shortcode_option_text">
+			<?php echo __('This will show 12 of the approved reviews from your website from category "foo" that was submitted from the page or post who\'s id is 213. The id parameter is a new addition that can be used alongside any of the other parameters.', 'rich-reviews'); ?>
+		</div>
+	</div>
 </div>
