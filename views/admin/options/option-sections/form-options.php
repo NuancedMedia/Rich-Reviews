@@ -3,6 +3,12 @@
 ?>
 	<h3><strong><?php _e('Form Options', 'rich-reviews'); ?></strong></h3>
 	<div style="border: solid 2px black"></div>
+	<input type="checkbox" name="return-to-form" value="checked" <?php echo $options['return-to-form'] ?> />
+	<label for="return-form">
+		<?php _e('Upon submission of the review form, the page will automatically scroll back to the location of the form.', 'rich-reviews'); ?>
+	</label>
+	<br />
+	<h3>Field Options</h3>
 	<h4>
 		<?php _e('Name Field', 'rich-reviews'); ?>
 	</h4>

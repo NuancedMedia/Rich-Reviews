@@ -44,12 +44,6 @@
 </label>
 <br />
 
-<input type="checkbox" name="return-to-form" value="checked" <?php echo $options['return-to-form'] ?> />
-<label for="return-form">
-	<?php _e('Upon submission of the review form, the page will automatically scroll back to the location of the form.', 'rich-reviews'); ?>
-</label>
-<br />
-
 <label for="reviews_order"><strong><?php _e('Review Display Order: ', 'rich-reviews'); ?></strong></label>
 <select name="reviews_order" value="<?php echo $options['reviews_order'] ?>">
 	<?php
