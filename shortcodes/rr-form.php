@@ -10,6 +10,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 		)
 	,$atts));
 
+	$options['unique_key'] = $unique_key;
+
 	//initialize all data vars
 	$rName  = '';
 	$rEmail = '';
@@ -44,6 +46,8 @@ function handle_form($atts, $options, $sqltable, $path) {
 
 	if (isset($_POST['submitted'])) {
 		if ($_POST['submitted'] == $unique_key) {
+
+
 
 			$posted = true;
 
@@ -415,23 +419,22 @@ function rr_output_scroll_script() {
 			jQuery(function(){
 				if (jQuery(".successful").is(":visible")) {
 					console.log('success visible');
-					offset = jQuery(".successful").offset();
+					offsetOne = jQuery(".successful").offset();
 					jQuery("html, body").animate({
-						scrollTop: (offset.top - 400)
+						scrollTop: (offsetOne.top - 400)
 					});
 				} else {
 					errorPresent = false;
 					jQuery(".form-err").each(function () {
 						if (this.innerHTML != ''){
-							console.log("errororororor");
 							errorPresent = true;
 						}
 					});
 					if (errorPresent) {
 						console.log('error visible');
-						offset = jQuery(".form-err").offset();
+						offsetTwo = jQuery(".form-err.shown").offset();
 						jQuery("html, body").animate({
-							scrollTop: (offset.top + 200)
+							scrollTop: (offsetTwo.top + 200)
 						});
 					}
 				}
