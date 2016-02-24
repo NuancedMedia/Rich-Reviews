@@ -80,7 +80,7 @@
 
 				<div class="sa-long-info">
 					<p>
-						<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a target=_blank href="http://hubs.ly/H029MqQ0"><?php _e('here', 'rich-reviews'); ?></a>.
+						<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a target=_blank href="http://hubs.ly/H029LS40"><?php _e('here', 'rich-reviews'); ?></a>.
 					</p>
 
 					<h3><?php _e('Why choose Shopper Approved?', 'rich-reviews'); ?></h3>
@@ -136,7 +136,7 @@
 					<input type="hidden" name="dinner" value="served" />
 					<div class="label-container one-fifth">
 						<label for="api_url" style="font-size:21px;">
-							<?php _e('Enter API Url:', 'rich-reviews'); ?>
+							<?php _e('Enter API Url (json):', 'rich-reviews'); ?>
 						</label>
 					</div>
 					<br />
@@ -351,13 +351,16 @@
 									<span class="two-thirds" style="width:100%;float:left;">
 										[RR_SHOPPER_APPROVED get="trigger"]
 									</span>
+									<br />
+									<br />
+									<span style="font-size:10px;"><?php echo __('This shortcode should be placed on the Thank You page of your checkout process. If you opt to collect product reviews, the product ids involved in the order will need to be populated, comma separated if more than one, to the ids parameter of the shortcode. This will require specific integration with your chosen e-commerce platform. E-commerce automation support will be added an update in the near future to simplifiy this process.', 'rich-reviews') . '<br /><br />' . __('(ex. [RR_SHOPPER_APPROVED get="trigger" ids="productId1,productId2,productId3"])', 'rich-reviews'); ?></span>
 								</div>
 								<div class="clear input-break"></div>
 								<br/>
 								<div class="label-container one-fifth" style="width:30%;float:left;">
 									<label for="inline_review_form" style="float:right;text-align:right;">
 										<?php _e('Display Review Inline', 'rich-reviews'); ?>:<br/>
-										<span style="font-size:10px;">(<?php _e('default shows form in modal)', 'rich-reviews'); ?></span>
+										<span style="font-size:10px;">(<?php _e('default shows form in modal, note this option overrides the option set on Shopper Approved)', 'rich-reviews'); ?></span>
 									</label>
 								</div>
 								<div class="input-container two-thirds" style="width:66%;float:right;">
@@ -413,7 +416,7 @@
 						<h2><?php _e('Export Current Reviews', 'rich-reviews'); ?></h2>
 						<hr>
 						<p>
-							<?php _e('Press the button below to download a csv file of all of the reviews currently in your Rich Reviews. This way you can send these reviews to Shopper Approved and have them imported to your Shopper Approved Merchant or Product rating. Further instruction on how to do this can be found', 'rich-reviews'); ?> <a href="http://hubs.ly/H029MF00" target=_blank><?php _e('here', 'rich-reviews'); ?></a>.
+							<?php echo __('Press the button below to download a csv file of all of the reviews currently in your Rich Reviews. This way you can send these reviews to Shopper Approved and have them imported to your Shopper Approved Merchant or Product rating. Further instruction on how to do this can be found', 'rich-reviews') . ' <a href="http://hubs.ly/H029MF00" target=_blank> ' . __('here', 'rich-reviews') . '</a>. ' . __('(note: CSV file uses pipe, " | ", as a delimeter.)'); ?>
 						</p>
 						<a href="<?php echo $this->parent->plugin_url; ?>richreviews-download-script.php?download=csv" class="button left"><?php _e('Download Reviews', 'rich-reviews'); ?></a>
 						<div class="clear"></div>
@@ -425,7 +428,7 @@
 						<form id="productReviewsIntegration" action="<?php echo $this->parent->plugin_url; ?>richreviews-update-product-index.php" method="post">
 							<input type="hidden" name="updating_product_catalog" value="updatingCatalog" />
 							<p>
-								<?php _e('Enter the slug for the post type under which your products are categorized, or select to use your Rich Reviews category structure (only one can be used for initialization). This will help to generate the needed xml file to communicate product listings and the associated review information to Shopper Approved. This file will be updated with new product listing once a day. (After initial configuration, you can force an update by pressing the button below)'); ?>
+								<?php _e('Enter the slug for the post type under which your products are categorized, or select to use your Rich Reviews category structure (only one can be used for initialization). This will help to generate the needed xml file to communicate product listings and the associated review information to Shopper Approved (note: CSV file uses pipe, " | ", as a delimeter). After initial configuration, you can force an update by pressing the button below.'); ?>
 							</p>
 							<div class="initialize-options">
 								<div class="label-container one-fifth" style="width:40%;float:left;padding-top:3px;">
