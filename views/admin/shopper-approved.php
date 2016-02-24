@@ -44,7 +44,7 @@
 				<p>
 					<?php echo __('Shopper Approved is a ', 'rich-reviews') . '<a target=_blank href="http://hubs.ly/H029MpJ0">' . __('Google approved review website for Seller Ratings', 'rich-reviews') . '</a>.' . __(' Basically, Google wants to make sure you are collecting reviews ethically and Shopper Approved, a Google Authorized 3rd Party Product Review Aggregator, facilitates this. Reviews collected via Shopper Approved will show up in your organic and PPC search results in Google, Yahoo & Bing.', 'rich-reviews'); ?>
 				</p>
-				<a target=_blank href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1">
+				<a target=_blank href="http://hubs.ly/H029LSh0">
 					<img src="<?php echo $this->parent->plugin_url; ?>images/RR-sa-cta.jpg" class="sa-cta" />
 				</a>
 				<div class="one-half right">
@@ -107,7 +107,7 @@
 					<p>
 						<?php _e('It’s human nature to research and test things out before committing, especially when it’s dealing with important information such as customer opinions about your company and/or products. Doing a trial run takes a few easy steps', 'rich-reviews'); ?>:
 						<ol>
-							<li><?php _e('Sign up - Take advantage of the free 30-day trial by signing up under our Nuanced Media', 'rich-reviews'); ?> <a target=_blank href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1"><?php _e('discount code', 'rich-reviews'); ?></a>, <?php _e('which will give you an extra 20% off a membership if you choose to continue.', 'rich-reviews'); ?></li>
+							<li><?php _e('Sign up - Take advantage of the free 30-day trial by signing up under our Nuanced Media', 'rich-reviews'); ?> <a target=_blank href="http://hubs.ly/H029LSh0"><?php _e('discount code', 'rich-reviews'); ?></a>, <?php _e('which will give you an extra 20% off a membership if you choose to continue.', 'rich-reviews'); ?></li>
 							<li><?php echo __('Learn how to easily set up your account through our ', 'rich-reviews') . '<a target=_blank href="http://hubs.ly/H029Mql0" >' . __('tutorial.', 'rich-reviews') . '</a>'; ?></li>
 							<li><?php _e('Explore and test Shopper Approved for 30 days.', 'rich-reviews'); ?></li>
 						</ol>
