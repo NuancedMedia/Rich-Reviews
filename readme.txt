@@ -1,35 +1,61 @@
 === Rich Reviews ===
 Contributors: foxytechnology, Nuanced Media
 Donate link: http://nuancedmedia.com/
-Tags: reviews, review, testimonials, testimonial, hreview, rating, ratings, google, rich snippets, review widget, seo, shortcode, plugin, snippet, snippets
+Tags: reviews, review, testimonials, testimonial, hreview, rating, ratings, google, rich snippets, review widget, seo, shortcode, plugin, snippet, snippets, google rating, product review, star rating, wp rating
 Requires at least: 3.4
-Tested up to: 4.2.2
-Stable tag: 1.6.5
+Tested up to: 4.4.2
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Embed user reviews and Google Rich Snippet ratings anywhere on your site.
+Manage and display your user reviews anywhere on your site to quickly and organically jump to the top of SERP rankings.
 
 == Description ==
 
-Rich Reviews empowers you to easily capture user reviews for your business, website, or individual products/pages and display them on your Wordpress page or post.
+Did you know that 63% of customers are more likely to make an online purchase from a site that displays user reviews? The Rich Reviews plugin empowers you to easily gather user reviews for your business, website, or individual products/pages and display them anywhere on your WordPress site. These rating reviews, called rich snippets, have become a main focus to Google in ranking individual pages in SERPs, and Rich Reviews makes sure they are readable visible.
 
-With Google Places, Google Plus and Google Local emphasizing the importance of Testimonials.  Reviews are becoming integral for the success of any product or service online.
-
-<h4>Rich Reviews Features:</h4>
-
-* Three types of reviews: per-page/per-post, category, or global reviews allow you to customize to your needs. Whether you want users to review products, categories, or your entire website - Rich Reviews gives you the control.
-* Moderated submissions, allowing you to choose which reviews are added to your site.
-* Built completely around shortcodes, allowing you to include any of the three key features on any page, post, sidebar, footer, or widget on your site.
-* Simple design allows compatibility across themes.
-* Includes external stylesheet for ease of customization.
-* Shows aggregate reviews microformat (hReview-aggregate) so that site ratings are viewed in Google results with Google Rich Snippets.
-* Minimalist, lightweight, and efficient code means that your users won’t notice any hiccups.
+= Rich Reviews in a nutshell: =
+* **Share** your company’s value through positive customer reviews.
+* **Attain** the top rankings in SERPs by overshadowing your competition with rich snippets.
+* **Attract** the most qualified customers to your site, and gain their trust.
 
 
-<h4>More Information</h4>
 
-Visit <a href="http://plugins.nuancedmedia.com/wordpress-reviews-plugin/">Rich Reviews</a> for more information about Rich Reviews.
+= What’s the big deal about rich snippets? =
+The Rich Reviews plugin does the work for you to make it possible for your ratings/reviews to be showcased as rich snippets in SERPs. In case you were wondering what rich snippets look like, look at the example in the screenshots tab.
+
+Here are some benefits of using Rich Reviews to show off your rich snippets:
+
+*	They are a visual way to show your business’ value and worth by displaying products, prices, reviews/rankings, contact information, and important links.
+*	Current businesses with rich snippets have seen a 10%-30% CTR increase.
+*	Users have correct expectations before browsing your site, which also means a decrease in bounce rates.
+*	You will stand out amongst your competition.
+*	Higher rankings in SERPs.
+*	An increase in website traffic, as well as more qualified traffic.
+
+Rich Reviews Plugin Features:
+
+*	Gives you the control to use and customize three types of reviews: per-page/per-post, category, or global reviews - whether you want users to review products, categories, or your entire website.
+*	Moderated submissions - allows you to choose which reviews are added to your site.
+*	Built completely around shortcodes, allowing you to include any of the three key features on any page, post, sidebar, footer, or widget on your site.
+*	Simple design means compatibility across themes and flexible CSS
+*	Endless color options for star and numerical rating systems.
+*	Includes external stylesheet for ease of customization.
+*	Minimalist, lightweight, and efficient code so your users won’t notice any hiccups.
+*	Integrates with user accounts and gravatar images.
+*	Displayed in microdata format following Schema.org (Google Rich Snippets) protocol so that site ratings are shown in SERPs with Google Rich Snippets (which increases overall rankings).
+*	Plugin doesn’t slow down website.
+*	Available for translation.
+*	Support for any questions.
+
+= Bonus Feature: =
+Rich Reviews has teamed up with Shopper Approved a Google Affiliate. If you become a Shopper Approved user as well, the combination of this platform being an approved Google partner and having the largest syndication network online, will give your reviews maximum exposure. This means reviews in both organic search as well as PPC. Rich Reviews gives you easy access to manage your Shopper Approved account. Here is an <a href="http://hubs.ly/H02bqnn0" target=_blank>exclusive free trial offer</a> from Nuanced Media which also saves you 20%!
+
+More Information:
+Learn more information about Rich Reviews <a target=_blank href="http://plugins.nuancedmedia.com/wordpress-reviews-plugin/">here</a>.
+
+Connect with us:
+If you’re feeling good about this plugin (or just want to say hello), let us know! Connect with us on <a target=_blank href="https://www.facebook.com/NuancedMedia">Facebook</a>, <a target=_blank href="https://twitter.com/nuancedmedia">Twitter</a>, <a target=_blank href="https://www.linkedin.com/company/nuanced-media">LinkedIn</a>, or visit our <a target=_blank href="http://nuancedmedia.com/">site</a>.
 
 == Installation ==
 
@@ -40,14 +66,25 @@ Visit <a href="http://plugins.nuancedmedia.com/wordpress-reviews-plugin/">Rich R
 
 == Screenshots ==
 
-1. Show any number of reviews for your whole site, for a specific page or post, or for any custom category. Display these reviews in any post, page, sidebar, or widget!
-2. A simple shortcode allows you to post an aggregate review score on any page.
-3. A simple and clean review submission form can be placed anywhere on your site, and will not bog down your site.
-4. Admin menus allow you to approve the submitted reviews, so YOU control what reviews are real, and which reviews are unwarranted (or even spam). You can also view every review you have already approved, and choose to push it back to a "pending" status, or even delete it.
-5. Added options allow for you to customize the star color to match our site.
-6. One user shows the versatility of Rich Reviews by placing our shortcodes into various tabs on one of his pages.
+1. This is an example of what a rich snippet returned in both organically and by paid advertising will look like in an SERP.
+2. Show any number of reviews for your whole site, for a specific page or post, or for any custom category. Display these reviews in any post, page, sidebar, or widget!
+3. A simple shortcode allows you to post an aggregate review score on any page.
+4. A simple and clean review submission form can be placed anywhere on your site, and will not bog down your site.
+5. Admin menus allow you to approve the submitted reviews, so YOU control what reviews are real, and which reviews are unwarranted (or even spam). You can also view every review you have already approved, and choose to push it back to a "pending" status, or even delete it.
+6. Added options allow for you to customize the star color to match your site.
+7. One user shows the versatility of Rich Reviews by placing our shortcodes into various tabs on one of his pages.
 
 == Changelog ==
+
+= 1.7.0 =
+* Further Refactor of i18n formatting for translation
+* Added support for displaying reviews by parent page id
+* Added option to scroll automatically back to form
+* Fixed bug issues when multiple forms are displayed one the same page, by adding unique_key param to form shortcode
+* Added basic user integrations
+* Added avatar support, and alternatively user image upload to form
+* Added login gate option
+* Added optional Shopper Approved integration and support.
 
 = 1.6.5 =
 * hotfix: removed obsolete support for 1.0 - 1.2 version updates
