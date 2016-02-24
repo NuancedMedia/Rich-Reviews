@@ -101,7 +101,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 			// if ($options['form-reviewed-image-display']) {
 			// 	$imageId = media_handle_upload('rImage',0);
 			// 	$rImage = $imageId;
-			// 	dump($rImage);
+
 			// }
 			if ($options['form-content-display']) {
 				$rText     = fp_sanitize($_POST['rText']);
@@ -144,7 +144,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 			$newData = apply_filters('rr_check_required', $newData);
 			if ($newData['isValid']) {
 				$newData = apply_filters('rr_misc_validation', $newData);
-				// dump($newData);
+
 			}
 			if ($newData['isValid']) {
 
@@ -182,7 +182,7 @@ function handle_form($atts, $options, $sqltable, $path) {
 
 			$errors = $newData['errors'];
 			$errors = generate_error_text($errors, $options);
-			// dump($errors);
+
 		?>
 		<form action="" method="post" enctype="multipart/form-data" class="rr_review_form" id="<? echo $unique_key; ?>">
 			<input type="hidden" name="submitted" value="<?php echo $unique_key; ?>" />
@@ -239,7 +239,7 @@ function rr_do_form_gate($options) {
 }
 function generate_error_text($errors, $options) {
 
-	// dump($errors);
+
 	$processed = array();
 	foreach($errors as $key => $val) {
 		$option_key = 'form-' . $key . '-label';
@@ -394,7 +394,7 @@ function rr_output_response_message($data, $options) {
 		<center>
 			<strong>
 				<?php
-					// dump($options);
+
 					if ($options['form-name-display'] && $options['form-name-require']) {
 						echo $data['reviewer_name'] . ', your review has been recorded';
 					} else {
@@ -418,7 +418,7 @@ function rr_output_scroll_script() {
 		<script>
 			jQuery(function(){
 				if (jQuery(".successful").is(":visible")) {
-					console.log('success visible');
+
 					offsetOne = jQuery(".successful").offset();
 					jQuery("html, body").animate({
 						scrollTop: (offsetOne.top - 400)
@@ -431,7 +431,7 @@ function rr_output_scroll_script() {
 						}
 					});
 					if (errorPresent) {
-						console.log('error visible');
+
 						offsetTwo = jQuery(".form-err.shown").offset();
 						jQuery("html, body").animate({
 							scrollTop: (offsetTwo.top + 200)
