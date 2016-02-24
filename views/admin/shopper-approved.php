@@ -28,7 +28,7 @@
 				<div class="sa-short-info">
 					<h2><?php _e('Are you interested in Increased CTR? Decreased bounce rates? Star ratings in both PPC and Organic search results?', 'rich-reviews'); ?></h2>
 					<p>
-						 <?php echo __('If you’re mumbling a “yes please!” to yourself, it may be the right time to become a ', 'rich-reviews') . '<a target=_blank href="http://www.shopperapproved.com/22298">Shopper Approved member</a>. ' . __('Having access to your Shopper Approved account through the Rich Reviews plugin will create ease in managing both accounts and also accelerate fulfilling your marketing and revenue goals.', 'rich-reviews'); ?>
+						 <?php echo __('If you’re mumbling a “yes please!” to yourself, it may be the right time to become a ', 'rich-reviews') . '<a target=_blank href="http://hubs.ly/H029MF00">Shopper Approved member</a>. ' . __('Having access to your Shopper Approved account through the Rich Reviews plugin will create ease in managing both accounts and also accelerate fulfilling your marketing and revenue goals.', 'rich-reviews'); ?>
 					</p>
 					<p>
 						 <?php _e('By being a Shopper Approved member, you’ll be able to', 'rich-reviews'); ?>:
@@ -42,7 +42,7 @@
 				</div>
 				<h2><?php _e('Why do I need Shopper Approved?', 'rich-reviews'); ?></h2>
 				<p>
-					<?php echo __('Shopper Approved is a ', 'rich-reviews') . '<a target=_blank href="https://support.google.com/adwords/answer/2375474?hl=en">' . __('Google approved review website for Seller Ratings', 'rich-reviews') . '</a>.' . __(' Basically, Google wants to make sure you are collecting reviews ethically and Shopper Approved, a Google Authorized 3rd Party Product Review Aggregator, facilitates this. Reviews collected via Shopper Approved will show up in your organic and PPC search results in Google, Yahoo & Bing.', 'rich-reviews'); ?>
+					<?php echo __('Shopper Approved is a ', 'rich-reviews') . '<a target=_blank href="http://hubs.ly/H029MpJ0">' . __('Google approved review website for Seller Ratings', 'rich-reviews') . '</a>.' . __(' Basically, Google wants to make sure you are collecting reviews ethically and Shopper Approved, a Google Authorized 3rd Party Product Review Aggregator, facilitates this. Reviews collected via Shopper Approved will show up in your organic and PPC search results in Google, Yahoo & Bing.', 'rich-reviews'); ?>
 				</p>
 				<a target=_blank href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1">
 					<img src="<?php echo $this->parent->plugin_url; ?>images/RR-sa-cta.jpg" class="sa-cta" />
@@ -51,9 +51,9 @@
 					<h3><?php _e('Quick Links', 'rich-reviews'); ?></h3>
 					<div style="padding:0 5%;">
 						<ul>
-							<li><a target=_blank href="http://nuancedmedia.com/seller-ratings-extensions/"><?php _e('Seller Rating What are they?', 'rich-reviews'); ?></a></li>
-							<li><a target=_blank href="http://nuancedmedia.com/shopper-approved-tutorial/"><?php _e('Shopper Approved Setup Tutorial', 'rich-reviews'); ?></a></li>
-							<li><a target=_blank href="http://nuancedmedia.com/seller-ratings-extensions-review/"><?php _e('Which Seller Rating company should I use?', 'rich-reviews'); ?></a></li>
+							<li><a target=_blank href="http://hubs.ly/H029Mp-0"><?php _e('Seller Rating What are they?', 'rich-reviews'); ?></a></li>
+							<li><a target=_blank href="http://hubs.ly/H029Mql0"><?php _e('Shopper Approved Setup Tutorial', 'rich-reviews'); ?></a></li>
+							<li><a target=_blank href="http://hubs.ly/H029MqQ0"><?php _e('Which Seller Rating company should I use?', 'rich-reviews'); ?></a></li>
 						</ul>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 
 				<div class="sa-long-info">
 					<p>
-						<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a target=_blank href="http://nuancedmedia.com/shopper-approved-review/"><?php _e('here', 'rich-reviews'); ?></a>.
+						<?php _e('Shopper Approved is a seller rating extension that allows you to collect, manage and promote your customer reviews online for your business. Showcasing reviews creates an overall positive image for companies to current and potential customers. Since Shopper Approved is a certified Google partner, your reviews will get maximum exposure in the online world. Read more about the importance of Shopper Approved', 'rich-reviews'); ?> <a target=_blank href="http://hubs.ly/H029MqQ0"><?php _e('here', 'rich-reviews'); ?></a>.
 					</p>
 
 					<h3><?php _e('Why choose Shopper Approved?', 'rich-reviews'); ?></h3>
@@ -94,7 +94,7 @@
 							<li><?php _e('Companies can improve their brand image by displaying customer reviews on product, merchant and local listings.', 'rich-reviews'); ?></li>
 							<li><?php _e('Increased quality score of your PPC.', 'rich-reviews'); ?></li>
 							<li><?php _e('Reduction of CPC.', 'rich-reviews'); ?></li>
-							<li><?php _e('Increased conversion rates', 'rich-reviews'); ?></li>
+							<li><?php _e('Increased conversion rates.', 'rich-reviews'); ?></li>
 							<li><?php _e('Shows company transparency, which gains trust from customers', 'rich-reviews'); ?>.</li>
 							<li><?php _e('Easy to set up - learn how to set up your account here (link Gabe’s blog).', 'rich-reviews'); ?></li>
 							<li><?php _e('There are tools to create surveys, special offers, and promotional emails.', 'rich-reviews'); ?></li>
@@ -108,14 +108,14 @@
 						<?php _e('It’s human nature to research and test things out before committing, especially when it’s dealing with important information such as customer opinions about your company and/or products. Doing a trial run takes a few easy steps', 'rich-reviews'); ?>:
 						<ol>
 							<li><?php _e('Sign up - Take advantage of the free 30-day trial by signing up under our Nuanced Media', 'rich-reviews'); ?> <a target=_blank href="http://shopperapproved.nuancedmedia.com/?__hssc=113690392.4.1454003621287&__hstc=113690392.f77e147f4173519da9419b7de9791d0a.1448152135690.1453936006034.1454003621287.10&__hsfp=&hsCtaTracking=8e404912-43d5-4ec0-bef0-7d0b038885d1%7C9af74388-d961-427d-9105-1af25a0ef8e1"><?php _e('discount code', 'rich-reviews'); ?></a>, <?php _e('which will give you an extra 20% off a membership if you choose to continue.', 'rich-reviews'); ?></li>
-							<li><?php echo __('Learn how to easily set up your account through our ', 'rich-reviews') . '<a target=_blank href="http://nuancedmedia.com/shopper-approved-tutorial/" >' . __('tutorial.', 'rich-reviews') . '</a>'; ?></li>
+							<li><?php echo __('Learn how to easily set up your account through our ', 'rich-reviews') . '<a target=_blank href="http://hubs.ly/H029Mql0" >' . __('tutorial.', 'rich-reviews') . '</a>'; ?></li>
 							<li><?php _e('Explore and test Shopper Approved for 30 days.', 'rich-reviews'); ?></li>
 						</ol>
 					</p>
 
 					<h3><?php _e('More Information', 'rich-reviews'); ?></h3>
 					<p>
-						<?php _e('For more information or help with Shopper Approved, read our company’s ', 'rich-reviews'); ?><a target=_blank href="http://nuancedmedia.com/tag/shopper-approved/"><?php _e('thoughts and experiences', 'rich-reviews'); ?></a> <?php _e('with Shopper Approved or visit the', 'rich-reviews'); ?> <a target=_blank href="http://www.shopperapproved.com/22298"><?php _e('Shopper Approved website', 'rich-reviews'); ?></a>.
+						<?php _e('For more information or help with Shopper Approved, read our company’s ', 'rich-reviews'); ?><a target=_blank href="http://hubs.ly/H029MrL0"><?php _e('thoughts and experiences', 'rich-reviews'); ?></a> <?php _e('with Shopper Approved or visit the', 'rich-reviews'); ?> <a target=_blank href="http://hubs.ly/H029MF00"><?php _e('Shopper Approved website', 'rich-reviews'); ?></a>.
 					</p>
 				</div>
 				<br/>
@@ -413,7 +413,7 @@
 						<h2><?php _e('Export Current Reviews', 'rich-reviews'); ?></h2>
 						<hr>
 						<p>
-							<?php _e('Press the button below to download a csv file of all of the reviews currently in your Rich Reviews. This way you can send these reviews to Shopper Approved and have them imported to your Shopper Approved Merchant or Product rating. Further instruction on how to do this can be found', 'rich-reviews'); ?> <a href=""><?php _e('here', 'rich-reviews'); ?></a>.
+							<?php _e('Press the button below to download a csv file of all of the reviews currently in your Rich Reviews. This way you can send these reviews to Shopper Approved and have them imported to your Shopper Approved Merchant or Product rating. Further instruction on how to do this can be found', 'rich-reviews'); ?> <a href="http://hubs.ly/H029MF00" target=_blank><?php _e('here', 'rich-reviews'); ?></a>.
 						</p>
 						<a href="<?php echo $this->parent->plugin_url; ?>richreviews-download-script.php?download=csv" class="button left"><?php _e('Download Reviews', 'rich-reviews'); ?></a>
 						<div class="clear"></div>
@@ -465,7 +465,7 @@
 								<div class="clear"></div>
 							</div>
 							<p>
-								<?php _e('Update and Download your Shopper Approved product record. Pleas double check that the file is output and formatted to the requirements described by Shopper Approved in the Product Reviews "Integration Options" tab. For more information on this process, refer to you Shopper Approved Dashboard ', 'rich-reviews'); ?> <a href=""><?php _e('here', 'rich-reviews'); ?></a>.
+								<?php _e('Update and Download your Shopper Approved product record. Pleas double check that the file is output and formatted to the requirements described by Shopper Approved in the Product Reviews "Integration Options" tab. For more information on this process, refer to you Shopper Approved Dashboard ', 'rich-reviews'); ?> <a href="http://shopperapproved.com/" target=_blank><?php _e('here', 'rich-reviews'); ?></a>.
 							</p>
 							<input type="submit" class="button" value="<?php _e('Update Product Index', 'rich-reviews'); ?>" form="productReviewsIntegration" />
 							<?php if (isset($options['product_feed_url']) && $options['product_feed_url'] != '') {

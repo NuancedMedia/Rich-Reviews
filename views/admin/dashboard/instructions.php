@@ -53,10 +53,10 @@
 					</li>
 				</ul>
 			</div>
-			<p><?php printf(__('Thank you for using Rich Reviews by %s and ', 'rich-reviews'), 'Foxy Technologies'); ?> <a href="http://nuancedmedia.com">Nuanced Media</a>!
+			<p><?php printf(__('Thank you for using Rich Reviews by %s and ', 'rich-reviews'), 'Foxy Technologies'); ?> <a href="http://nuancedmedia.com" target="_blank">Nuanced Media</a>!
 			</p>
 			<p>
-			<?php _e('This plugin, based around shortcodes, gives YOU the control on where you want to show your reviews and ratings - pages, posts, widgets... wherever! Don’t be shy on showcasing the results of all your hard work.', 'rich-reviews');
+			<?php _e('This plugin, based around shortcodes, gives YOU the control on where you want to show your reviews and ratings - pages, posts, widgets... wherever! Don\'t be shy to showcase the results of all your hard work.', 'rich-reviews');
 			?> </p>
 			 <p><?php
 			_e('Some terminology so that we are all on the same page:', 'rich-reviews');?>
@@ -68,6 +68,6 @@
 				</ul>
 			</p>
 			<p>
-			<?php _e('When you get a chance, please take a moment to <a href="http://wordpress.org/extend/plugins/rich-reviews/">rate and/or review</a> this plugin, and tell people about it - we love hearing feedback, and depend on you to spread the word!', 'rich-reviews');
+			<?php echo __('When you get a chance, please take a moment to', 'rich-reviews') . ' <a href="http://wordpress.org/extend/plugins/rich-reviews/" target="_blank" >rate and/or review</a> ' . __('this plugin. We love hearing the feedback - whether you love it or how we can improve.', 'rich-reviews');
 			 ?> </p>
 			<div class="clear"></div>
