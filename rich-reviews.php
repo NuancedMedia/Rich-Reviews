@@ -110,8 +110,6 @@ class RichReviews {
 			require_once 'lib/rrShopApp/rich-reviews-ShopAppOptions.php';
 			$this->shopApp = new RRShopApp($this);
 		}
-
-		// dump($this->rr_options);
 	}
 
 	function load_text_domain() {
@@ -121,23 +119,6 @@ class RichReviews {
 
 	function shortcode_db_update() {
 		$this->db->create_update_database();
-	}
-
-	function shortcode_avatar_markup() {
-		$user = wp_get_current_user();
-		ob_start();
-		echo get_avatar($user->ID);
-		$markup = ob_get_clean();
-		dump(esc_html($markup));
-		dump($user->ID);
-		$pattern = "/src='(.*?)'/i";
-		$alterUrl = 'http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg';
-		$maybe = preg_replace($pattern, $alterUrl, $markup);
-		dump($maybe);
-
-		$build = '<img alt="" src="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" srcset="http://d1oi7t5trwfj5d.cloudfront.net/91/a9/5a2c1503496da25094b88e9eda5f/avatar.jpeg" class="avatar avatar-96 photo" height="96" width="96" />';
-
-		return $build;
 	}
 
 	function process_plugin_updates() {
