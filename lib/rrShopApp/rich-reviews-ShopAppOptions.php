@@ -94,7 +94,6 @@ class RRShopAppOptions {
             $this->updated = 'wpm-update-options';
             $this->parent->shopAppOptions = $this->get_option();
         }
-        // dump('error contacting api/processing cache update');
     }
 
     if (isset($_POST['Whoop']) && $_POST['Whoop'] == 'There it is') {
