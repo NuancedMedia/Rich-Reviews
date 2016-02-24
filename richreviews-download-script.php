@@ -7,7 +7,7 @@
 			if(isset($fields['date_time'])) {
 				$fields['date_time'] = date('m/d/y', strtotime($fields['date_time']));
 			}
-		    $wee = implode(',', $fields);
+		    $wee = implode('|', $fields);
 		    $wee .= "\r\n";
 		    return $wee;
 		}
@@ -38,11 +38,13 @@
 
 
 		$sql = "SELECT
-				    reviewer_name, date_time, review_rating, review_text
+				    reviewer_name, date_time, review_rating, review_text, review_category
 				FROM
 				    $richReviews->sqltable
 				WHERE
-				    review_status = 1";
+				    review_status = 1
+				AND
+					review_category != 'shopperApproved'";
 
 		$results = $wpdb->get_results($sql);
 
@@ -74,12 +76,12 @@
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         // header("Content-Type: application/force-download");
         // header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
+        header("Content-Type: text/csv; charset=utf-8");
         header('Content-Disposition: attachment; filename="' . $date . '-rr-export.csv"');
         header("Content-Transfer-Encoding: binary ");
         header('Content-Length: '. $size);
 
-        var_dump($file);
+        echo $file;
 
         die();
 
