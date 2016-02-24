@@ -14,7 +14,7 @@ jQuery(function(){
 				jQuery(this).parents('.rr_review_text').find('span.ellipses').hide();
 				jQuery(this).parents('.rr_review_text').find('.more_text').show();
 				jQuery(this).parents('.rr_review_text').find('a.show_less').show();
-				console.log("culprit");
+
 			});
 			jQuery(this).find('a.show_less').click(function(event){
 				event.preventDefault();
@@ -46,7 +46,7 @@ function initStarEffects() {
 
 		jQuery(this).find('.rr_star').click(function(e) {
 			thing = jQuery(this).closest('form').find('#rRating');
-			console.log(thing);
+
 			thing.val(jQuery(this).attr('id').charAt(8));
 		});
 	});
