@@ -1,10 +1,10 @@
 === Rich Reviews ===
-Contributors: foxytechnology, Nuanced Media
+Contributors: Nuanced Media
 Donate link: http://nuancedmedia.com/
 Tags: reviews, review, testimonials, testimonial, hreview, rating, ratings, google, rich snippets, review widget, seo, shortcode, plugin, snippet, snippets, google rating, product review, star rating, wp rating
 Requires at least: 3.4
 Tested up to: 4.4.2
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,10 @@ If you’re feeling good about this plugin (or just want to say hello), let us k
 7. One user shows the versatility of Rich Reviews by placing our shortcodes into various tabs on one of his pages.
 
 == Changelog ==
+
+= 1.7.1 =
+* HOTFIX: db update for new field
+* Updates .pot file
 
 = 1.7.0 =
 * Further Refactor of i18n formatting for translation
