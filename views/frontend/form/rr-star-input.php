@@ -15,3 +15,5 @@
 	</td>
 </tr>
 
+<?php render_custom_styles($options);
+
