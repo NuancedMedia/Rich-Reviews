@@ -38,7 +38,7 @@ require_once 'shortcodes/rr-form.php';
 require_once 'shortcodes/rr-show.php';
 require_once 'shortcodes/rr-snippet.php';
 
-load_plugin_textdomain('rich-reviews', false, basename(dirname(__FILE__)) . '/lang');
+
 
 
 
@@ -99,7 +99,6 @@ class RichReviews {
 	}
 
 	function init() {
-		$this->load_text_domain();
 		$this->process_plugin_updates();
 		$this->options->update_options();
 		$this->rr_options = $this->options->get_option();
@@ -112,10 +111,6 @@ class RichReviews {
 		}
 	}
 
-	function load_text_domain() {
-	  	$locale = apply_filters( 'plugin_locale', get_locale(), 'rich-reviews' );
-		load_plugin_textdomain( 'rich-reviews', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
-	}
 
 	function shortcode_db_update() {
 		$this->db->create_update_database();
@@ -499,8 +494,8 @@ class RichReviews {
 	}
 
 	function on_load() {
-		$plugin_dir = basename(dirname(__FILE__));
-		load_plugin_textdomain( 'rich-reviews', false, $plugin_dir );
+		$locale = apply_filters( 'plugin_locale', get_locale(), 'rich-reviews' );
+		load_plugin_textdomain( 'rich-reviews', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 	}
 
 	function register_rr_widget() {
