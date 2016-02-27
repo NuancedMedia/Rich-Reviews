@@ -89,15 +89,15 @@ class RichReviewsAdmin {
 		);
 	}
 
-	function load_admin_scripts_styles() {
-        wp_register_script('rich-reviews', trailingslashit($this->parent->plugin_url) . 'js/rich-reviews.js', array('jquery'));
-		wp_enqueue_script('rich-reviews');
+	function load_admin_scripts_styles($hook) {
+
+  		if ($hook != 'toplevel_page_rich_reviews_settings_main' && !preg_match('/rich-reviews/', $hook)) {
+  			return;
+  		}
         wp_register_script('rich-reviews-dashboard', trailingslashit($this->parent->plugin_url) . 'views/view-helper/js/nm-dashboard-script.js', array('jquery'));
 		wp_enqueue_script('rich-reviews-dashboard');
-		wp_register_style('rich-reviews', trailingslashit($this->parent->plugin_url) . 'css/rich-reviews.css');
-		wp_enqueue_style('rich-reviews');
-		//wp_register_style('rich-reviews2', trailingslashit($this->parent->plugin_url) . 'css/rr-old.css');
-		//wp_enqueue_style('rich-reviews2');
+		wp_register_style('rich-reviews-dashboard-styles', trailingslashit($this->parent->plugin_url) . 'css/rich-reviews.css', false, '1.0.0');
+		wp_enqueue_style('rich-reviews-dashboard-styles');
 	}
 
     function wrap_admin_page($page = null) {
